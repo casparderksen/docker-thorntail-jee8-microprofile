@@ -10,11 +10,8 @@ Integrated frameworks:
 - JAX-RS with RestAssured integration tests
 - MicroProfile Health endpoint with checks for heap memory and system load (via MXBeans)
 - MicroProfile Config
-- Java 8 app in Docker:
-    - respect CPU and memory limits (`-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap`)
-    - use all available heap in Docker (`-XX:MaxRAMFraction=1`)
-    - ensure sufficient entropy (`-Djava.security.egd=file:/dev/./urandom`)
-    - exec-style entrypoint (single process reacting to Unix signals)
+- Docker container build via Fabric8 Docker Maven Plugin
+    
 - Remote debugging in Docker container
 
 # Maven targets
@@ -27,6 +24,16 @@ As Docker container:
 - mvn docker:run -Pdocker
 - mvn docker:stop -Pdocker
 
+# Java 8 in Docker
+
+When running Java 8 in a container, the following JVM options should be specified:
+- respect CPU and memory limits: `-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap`
+- use all available heap in Docker: `-XX:MaxRAMFraction=1`
+- ensure sufficient entropy: `-Djava.security.egd=file:/dev/./urandom`
+
+When building the container, an exec-style entrypoint should be specified, in order to launch a single process
+that can receive Unix signals.
+ 
 # Unit-integration testing from the IDE
 
 To run Arquillian integration tests from IntelliJ:
