@@ -48,7 +48,7 @@ To run Arquillian integration tests from IntelliJ:
 
 To enable remote debugging in a Docker container, start the application with the following environment variable:
 
-    `JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005`)
+    JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
 
 The  `docker:run` Maven target has been configured for this (see `pom.xml`).
 
