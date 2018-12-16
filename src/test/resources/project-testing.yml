@@ -1,0 +1,5 @@
+swarm:
+  logging:
+    loggers:
+      nl.casparderksen:
+        level: DEBUG

@@ -1,0 +1,1 @@
+Application ${project.groupId}:${project.artifactId}:${project.version} is now ready on port ${thorntail.http.port}
