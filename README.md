@@ -15,7 +15,7 @@ Integrated frameworks:
     - use all available heap in Docker (`-XX:MaxRAMFraction=1`)
     - ensure sufficient entropy (`-Djava.security.egd=file:/dev/./urandom`)
     - exec-style entrypoint (single process reacting to Unix signals)
-- Remote debugging in Docker container via Maven run (`JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005`)
+- Remote debugging in Docker container
 
 # Maven targets
 
@@ -38,7 +38,10 @@ To run Arquillian integration tests from IntelliJ:
  - Add dependency, select Existing library: "Maven: io.thorntail:arquillian-adapter:2.2.1-Final"
 
 # Remote debugging
- 
- 
 
+To enable remote debugging in a Docker container, start the application with the following environment variable:
+
+    `JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005`)
+
+The  `docker:run` Maven target has been configured for this (see `pom.xml`).
 
