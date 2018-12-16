@@ -2,8 +2,8 @@
 
 This is a microservices chassis for building applications with JEE8/MicroProfile/Docker, based on Thorntail.
 
-Integrated frameworks:
-- 
+# Integrated frameworks:
+
 - Lombok (add plugin to your IDE)
 - Integration testing in an Arquillian container
 - SLF4J logging and Thorntail logging configuration
