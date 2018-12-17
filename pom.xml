@@ -168,15 +168,15 @@
             <artifactId>microprofile-openapi</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>io.thorntail</groupId>
+            <artifactId>microprofile-metrics</artifactId>
+        </dependency>
+
         <!--
         <dependency>
             <groupId>io.thorntail</groupId>
             <artifactId>microprofile-jwt</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>microprofile-metrics</artifactId>
         </dependency>
 
         <dependency>

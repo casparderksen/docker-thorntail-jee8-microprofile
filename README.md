@@ -4,13 +4,14 @@ This is a microservices chassis for building applications with JEE8/MicroProfile
 
 # Integrated frameworks:
 
+- Thorntail 2.2.1
 - Lombok (add plugin to your IDE)
 - Integration testing in an Arquillian container
 - SLF4J logging and Thorntail logging configuration
 - JAX-RS with RestAssured integration tests
 - MicroProfile Health endpoint with checks for heap memory and system load (via MXBeans)
-- MicroProfile Config
-- Docker container build via Fabric8 Docker Maven Plugin
+- MicroProfile Config configuration
+- Docker container built via Fabric8 Docker Maven Plugin
     
 - Remote debugging in Docker container
 
