@@ -11,6 +11,7 @@ This is a microservices chassis for building applications with JEE8/MicroProfile
 - JAX-RS with RestAssured integration tests
 - MicroProfile Health endpoint with checks for heap memory and system load (via MXBeans)
 - MicroProfile Config configuration
+- MicroProfile Metrics endpoint with example Counter
 - Docker container built via Fabric8 Docker Maven Plugin
     
 - Remote debugging in Docker container
