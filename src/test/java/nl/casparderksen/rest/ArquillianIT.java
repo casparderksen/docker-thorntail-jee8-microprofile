@@ -5,7 +5,7 @@ import org.jboss.arquillian.test.api.ArquillianResource;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public abstract class ArquillianIT {
+abstract class ArquillianIT {
 
     @ArquillianResource
     private URL deploymentURL;

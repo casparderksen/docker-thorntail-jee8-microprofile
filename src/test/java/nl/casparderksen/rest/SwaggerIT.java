@@ -1,7 +1,5 @@
 package nl.casparderksen.rest;
 
-import lombok.extern.slf4j.Slf4j;
-import nl.casparderksen.rest.ArquillianIT;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.junit.Arquillian;
@@ -18,6 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class SwaggerIT extends ArquillianIT {
 
     @Drone
+    private
     WebDriver driver;
 
     @Test
