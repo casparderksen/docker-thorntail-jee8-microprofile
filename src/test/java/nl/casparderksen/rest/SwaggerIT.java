@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(Arquillian.class)
 @DefaultDeployment
 @RunAsClient
-public class SwaggerIT extends ArquillianIT {
+public class SwaggerIT extends AbstractArquillianIT {
 
     @Drone
     private

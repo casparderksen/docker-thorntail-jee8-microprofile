@@ -12,7 +12,7 @@ import static io.restassured.RestAssured.given;
 @RunWith(Arquillian.class)
 @DefaultDeployment
 @RunAsClient
-public class MetricsIT extends ArquillianIT {
+public class MetricsIT extends AbstractArquillianIT {
 
     @Test
     public void shouldGetMetrics() {

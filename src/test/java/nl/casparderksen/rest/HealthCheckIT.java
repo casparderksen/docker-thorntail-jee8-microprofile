@@ -12,7 +12,7 @@ import static org.hamcrest.Matchers.equalTo;
 @RunWith(Arquillian.class)
 @RunAsClient
 @DefaultDeployment
-public class HealthCheckIT extends ArquillianIT {
+public class HealthCheckIT extends AbstractArquillianIT {
 
     @Test
     public void outcomeShouldBeUp() {
