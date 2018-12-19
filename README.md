@@ -83,5 +83,5 @@ MicroProfile:
 - [MicroProfile Rest Client](https://github.com/eclipse/microprofile-rest-client)
 - [MicroProfile OpenAPI](https://github.com/eclipse/microprofile-open-api/blob/master/spec/src/main/asciidoc/microprofile-openapi-spec.adoc)
 - [MicroProfile Extensions](https://www.microprofile-ext.org)
-- [Swagger UI](https://www.phillip-kruger.com/post/microprofile_openapi_swaggerui/)
+- [Swagger UI on MicroProfile OpenAPI](https://www.phillip-kruger.com/post/microprofile_openapi_swaggerui/)
 - [Thorntail examples](https://github.com/thorntail/thorntail-examples)
