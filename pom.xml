@@ -10,11 +10,20 @@
     <packaging>war</packaging>
 
     <properties>
-        <thorntail.version>2.2.1.Final</thorntail.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <failOnMissingWebXml>false</failOnMissingWebXml>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <docker-maven-plugin.version>0.27.2</docker-maven-plugin.version>
+        <maven-failsafe-plugin.version>.0.0-M2</maven-failsafe-plugin.version>
+        <thorntail.version>2.2.1.Final</thorntail.version>
+        <slf4j.version>1.7.25</slf4j.version>
+        <lombok.version>1.18.4</lombok.version>
+        <swagger-ui.version>1.0.1</swagger-ui.version>
+        <arquillian-bom.version>1.1.12.Final</arquillian-bom.version>
+        <assertj-core.version>3.11.1</assertj-core.version>
+        <mockito-core.version>2.23.4</mockito-core.version>
+        <rest-assured.version>3.2.0</rest-assured.version>
     </properties>
 
     <build>
@@ -32,7 +41,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-failsafe-plugin</artifactId>
-                    <version>3.0.0-M2</version>
+                    <version>3${maven-failsafe-plugin.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -92,25 +101,31 @@
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
-                <version>1.18.4</version>
+                <version>${lombok.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
-                <version>1.7.25</version>
+                <version>${slf4j.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-simple</artifactId>
+                <version>${slf4j.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.microprofile-ext.openapi-ext</groupId>
                 <artifactId>swagger-ui</artifactId>
-                <version>1.0.1</version>
+                <version>${swagger-ui.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.jboss.arquillian</groupId>
                 <artifactId>arquillian-bom</artifactId>
-                <version>1.1.12.Final</version>
+                <version>${arquillian-bom.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -118,19 +133,19 @@
             <dependency>
                 <groupId>org.assertj</groupId>
                 <artifactId>assertj-core</artifactId>
-                <version>3.11.1</version>
+                <version>${assertj-core.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-core</artifactId>
-                <version>2.23.4</version>
+                <version>${mockito-core.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>io.rest-assured</groupId>
                 <artifactId>rest-assured</artifactId>
-                <version>3.2.0</version>
+                <version>${rest-assured.version}</version>
             </dependency>
 
         </dependencies>
@@ -221,6 +236,12 @@
         <!-- Test dependencies -->
 
         <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
             <groupId>io.thorntail</groupId>
             <artifactId>arquillian</artifactId>
             <scope>test</scope>
@@ -255,7 +276,7 @@
                         <plugin>
                             <groupId>io.fabric8</groupId>
                             <artifactId>docker-maven-plugin</artifactId>
-                            <version>0.27.2</version>
+                            <version>${docker-maven-plugin.version}</version>
                         </plugin>
                     </plugins>
                 </pluginManagement>
