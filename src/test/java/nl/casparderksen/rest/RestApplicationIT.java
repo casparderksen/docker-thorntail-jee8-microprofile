@@ -14,7 +14,7 @@ import static org.hamcrest.Matchers.hasXPath;
 @RunWith(Arquillian.class)
 @DefaultDeployment
 @RunAsClient
-public class RestApplicationIT extends ArquillianRestIT {
+public class RestApplicationIT extends ArquillianIT {
 
     @Test
     public void shouldPingJson() {

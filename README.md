@@ -18,6 +18,8 @@ This is a microservices chassis for building applications with JEE8/MicroProfile
 
 - Arquillian integration testing
 - RestAssured integration tests for JAX-RS endpoints
+- Selenium browser tests via Drone and Graphene
+- AssertJ
 
 # Endpoints
 
@@ -75,6 +77,10 @@ The  `docker:run` Maven target has been configured for this (see `pom.xml`).
 
 # References
 
+Thorntail:
+- [Thorntail 2.2.1 documentation](https://docs.thorntail.io/2.2.1.Final/)
+- [Thorntail examples](https://github.com/thorntail/thorntail-examples/tree/2.2.1.Final)
+
 MicroProfile:
 - [MicroProfile Config](https://github.com/eclipse/microprofile-config)
 - [MicroProfile Health](https://github.com/eclipse/microprofile-health)
@@ -85,3 +91,6 @@ MicroProfile:
 - [MicroProfile Extensions](https://www.microprofile-ext.org)
 - [Swagger UI on MicroProfile OpenAPI](https://www.phillip-kruger.com/post/microprofile_openapi_swaggerui/)
 - [Thorntail examples](https://github.com/thorntail/thorntail-examples)
+
+Testing:
+- [Function testing using Drone and Graphene](http://arquillian.org/guides/functional_testing_using_graphene/)

@@ -12,7 +12,7 @@ import static io.restassured.RestAssured.given;
 @RunWith(Arquillian.class)
 @DefaultDeployment
 @RunAsClient
-public class MetricsIT extends ArquillianRestIT {
+public class MetricsIT extends ArquillianIT {
 
     @Test
     public void shouldGetMetrics() {
@@ -23,7 +23,7 @@ public class MetricsIT extends ArquillianRestIT {
 
     @Test
     @InSequence(1)
-    public void shouldPing() {
+    public void shouldRegisterPingCounter() {
         given()
                 .when().get(ping())
                 .then().statusCode(200);

@@ -10,23 +10,32 @@
     <packaging>war</packaging>
 
     <properties>
+        <browser>phantomjs</browser>
+
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <failOnMissingWebXml>false</failOnMissingWebXml>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
         <docker-maven-plugin.version>0.27.2</docker-maven-plugin.version>
         <maven-failsafe-plugin.version>.0.0-M2</maven-failsafe-plugin.version>
+
         <thorntail.version>2.2.1.Final</thorntail.version>
-        <slf4j.version>1.7.25</slf4j.version>
         <lombok.version>1.18.4</lombok.version>
-        <swagger-ui.version>1.0.1</swagger-ui.version>
-        <arquillian-bom.version>1.1.12.Final</arquillian-bom.version>
+        <slf4j.version>1.7.25</slf4j.version>
+
+        <arquillian-bom.version>1.1.13.Final</arquillian-bom.version>
+        <arquillian-drone-bom.version>2.4.3</arquillian-drone-bom.version>
+        <graphene-webdriver.version>2.3.2</graphene-webdriver.version>
+
         <assertj-core.version>3.11.1</assertj-core.version>
         <mockito-core.version>2.23.4</mockito-core.version>
         <rest-assured.version>3.2.0</rest-assured.version>
+
         <healthprobe-system.version>1.0.5</healthprobe-system.version>
         <healthprobe-jvm.version>1.0.5</healthprobe-jvm.version>
         <health-ui.version>1.0.5</health-ui.version>
+        <swagger-ui.version>1.0.1</swagger-ui.version>
     </properties>
 
     <build>
@@ -149,6 +158,21 @@
                 <version>${arquillian-bom.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jboss.arquillian.extension</groupId>
+                <artifactId>arquillian-drone-bom</artifactId>
+                <version>${arquillian-drone-bom.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jboss.arquillian.graphene</groupId>
+                <artifactId>graphene-webdriver</artifactId>
+                <version>${graphene-webdriver.version}</version>
+                <type>pom</type>
             </dependency>
 
             <dependency>
@@ -282,6 +306,13 @@
         <dependency>
             <groupId>io.thorntail</groupId>
             <artifactId>arquillian</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.arquillian.graphene</groupId>
+            <artifactId>graphene-webdriver</artifactId>
+            <type>pom</type>
             <scope>test</scope>
         </dependency>
 

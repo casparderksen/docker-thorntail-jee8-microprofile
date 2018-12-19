@@ -5,7 +5,7 @@ import org.jboss.arquillian.test.api.ArquillianResource;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public abstract class ArquillianRestIT {
+public abstract class ArquillianIT {
 
     @ArquillianResource
     private URL deploymentURL;
@@ -36,5 +36,9 @@ public abstract class ArquillianRestIT {
 
     protected URL metric(String name) {
         return url("metrics/application/" + name);
+    }
+
+    protected URL swaggerUI() {
+        return url("api/openapi-ui");
     }
 }

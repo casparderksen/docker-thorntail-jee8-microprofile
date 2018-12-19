@@ -1,6 +1,5 @@
 package nl.casparderksen.rest;
 
-import nl.casparderksen.rest.ArquillianRestIT;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Test;
@@ -13,7 +12,7 @@ import static org.hamcrest.Matchers.equalTo;
 @RunWith(Arquillian.class)
 @RunAsClient
 @DefaultDeployment
-public class HealthCheckIT extends ArquillianRestIT {
+public class HealthCheckIT extends ArquillianIT {
 
     @Test
     public void outcomeShouldBeUp() {
