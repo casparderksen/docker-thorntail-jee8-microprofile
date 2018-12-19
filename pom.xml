@@ -24,6 +24,9 @@
         <assertj-core.version>3.11.1</assertj-core.version>
         <mockito-core.version>2.23.4</mockito-core.version>
         <rest-assured.version>3.2.0</rest-assured.version>
+        <healthprobe-system.version>1.0.5</healthprobe-system.version>
+        <healthprobe-jvm.version>1.0.5</healthprobe-jvm.version>
+        <health-ui.version>1.0.5</health-ui.version>
     </properties>
 
     <build>
@@ -117,6 +120,24 @@
             </dependency>
 
             <dependency>
+                <groupId>org.microprofile-ext.health-ext</groupId>
+                <artifactId>healthprobe-system</artifactId>
+                <version>${healthprobe-system.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.microprofile-ext.health-ext</groupId>
+                <artifactId>healthprobe-jvm</artifactId>
+                <version>${healthprobe-jvm.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.microprofile-ext.health-ext</groupId>
+                <artifactId>health-ui</artifactId>
+                <version>${health-ui.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>org.microprofile-ext.openapi-ext</groupId>
                 <artifactId>swagger-ui</artifactId>
                 <version>${swagger-ui.version}</version>
@@ -197,6 +218,23 @@
         <dependency>
             <groupId>io.thorntail</groupId>
             <artifactId>microprofile-restclient</artifactId>
+        </dependency>
+
+        <!-- MicroProfile extensions -->
+
+        <dependency>
+            <groupId>org.microprofile-ext.health-ext</groupId>
+            <artifactId>healthprobe-jvm</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.microprofile-ext.health-ext</groupId>
+            <artifactId>healthprobe-system</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.microprofile-ext.health-ext</groupId>
+            <artifactId>health-ui</artifactId>
         </dependency>
 
         <dependency>
