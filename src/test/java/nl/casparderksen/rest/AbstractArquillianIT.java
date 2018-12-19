@@ -18,27 +18,27 @@ abstract class AbstractArquillianIT {
         }
     }
 
-    protected URL ping() {
+    URL ping() {
         return url("api/ping");
     }
 
-    protected URL config(String key) {
+    URL config(String key) {
         return url("api/config/" + key);
     }
 
-    protected URL health() {
+    URL health() {
         return url("health");
     }
 
-    protected URL metrics() {
+    URL metrics() {
         return url("metrics");
     }
 
-    protected URL metric(String name) {
+    URL metric(String name) {
         return url("metrics/application/" + name);
     }
 
-    protected URL swaggerUI() {
+    URL swaggerUI() {
         return url("api/openapi-ui");
     }
 }
