@@ -102,6 +102,12 @@
             </dependency>
 
             <dependency>
+                <groupId>org.microprofile-ext.openapi-ext</groupId>
+                <artifactId>swagger-ui</artifactId>
+                <version>1.0.1</version>
+            </dependency>
+
+            <dependency>
                 <groupId>org.jboss.arquillian</groupId>
                 <artifactId>arquillian-bom</artifactId>
                 <version>1.1.12.Final</version>
@@ -151,7 +157,7 @@
         </dependency>
         -->
 
-        <!-- Microprofile -->
+        <!-- MicroProfile -->
 
         <dependency>
             <groupId>io.thorntail</groupId>
@@ -173,6 +179,16 @@
             <artifactId>microprofile-metrics</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>io.thorntail</groupId>
+            <artifactId>microprofile-restclient</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.microprofile-ext.openapi-ext</groupId>
+            <artifactId>swagger-ui</artifactId>
+        </dependency>
+
         <!--
         <dependency>
             <groupId>io.thorntail</groupId>
@@ -182,11 +198,6 @@
         <dependency>
             <groupId>io.thorntail</groupId>
             <artifactId>microprofile-opentracing</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>microprofile-restclient</artifactId>
         </dependency>
 
         <dependency>
