@@ -38,7 +38,7 @@ public class PingEndpoint {
             @APIResponse(responseCode = "200", description = "Success, API is reachable"),
     })
     @Counted(
-            name = "pingCounter",
+            name = "PingCounter",
             absolute = true,
             monotonic = true,
             displayName = "Number of pings",

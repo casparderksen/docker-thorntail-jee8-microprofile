@@ -29,7 +29,7 @@ Microprofile and extensions:
 
 Custom:
 - Ping [http://localhost:8080/api/ping](http://localhost:8080/api/ping)
-- Ping counter: [http://localhost:8080/metrics/application/pingCounter](http://localhost:8080/metrics/application/pingCounter)
+- Ping counter: [http://localhost:8080/metrics/application/pingCounter](http://localhost:8080/metrics/application/PingCounter)
 - Config: [http://localhost:8080/api/config/{key}](http://localhost:8080/api/config/{key})
     
 # Maven targets

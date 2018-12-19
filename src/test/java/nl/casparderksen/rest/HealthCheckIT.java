@@ -1,9 +1,8 @@
-package nl.casparderksen.rest.health;
+package nl.casparderksen.rest;
 
-import io.restassured.RestAssured;
+import nl.casparderksen.rest.ArquillianRestIT;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.wildfly.swarm.arquillian.DefaultDeployment;
@@ -14,33 +13,26 @@ import static org.hamcrest.Matchers.equalTo;
 @RunWith(Arquillian.class)
 @RunAsClient
 @DefaultDeployment
-public class HealthCheckIT {
-
-    @BeforeClass
-    public static void setUp() {
-        RestAssured.baseURI = "http://localhost";
-        RestAssured.basePath = "health";
-        RestAssured.port = 8080;
-    }
+public class HealthCheckIT extends ArquillianRestIT {
 
     @Test
     public void outcomeShouldBeUp() {
         given()
-                .when().get()
+                .when().get(health())
                 .then().body("outcome", equalTo("UP"));
     }
 
     @Test
     public void memoryShouldBeUp() {
         given()
-                .when().get()
+                .when().get(health())
                 .then().body("checks.find{it.name='memory'}.state", equalTo("UP"));
     }
 
     @Test
     public void loadShouldBeUp() {
         given()
-                .when().get()
+                .when().get(health())
                 .then().body("checks.find{it.name='load'}.state", equalTo("UP"));
     }
 }
