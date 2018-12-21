@@ -8,6 +8,8 @@ This is a microservices chassis for building applications with JEE8/MicroProfile
 - Docker container built via Fabric8 Docker Maven Plugin
 - Remote debugging in Docker container
 - Lombok (add plugin to your IDE)
+- Datasource with health check
+- Flyway database migration
 - SLF4J logging and Thorntail logging configuration
 - MicroProfile Health endpoint with JVM and system health (via MicroProfile Extensions)
 - MicroProfile Metrics endpoint (with example Counter)
@@ -19,7 +21,7 @@ This is a microservices chassis for building applications with JEE8/MicroProfile
 - Arquillian integration testing
 - RestAssured integration tests for JAX-RS endpoints
 - Selenium browser tests via Drone and Graphene
-- AssertJ
+- AssertJ and AssertJ-DB
 
 # Endpoints
 
