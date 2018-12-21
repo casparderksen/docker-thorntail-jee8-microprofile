@@ -16,8 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class SwaggerIT extends AbstractArquillianIT {
 
     @Drone
-    private
-    WebDriver driver;
+    private WebDriver driver;
 
     @Test
     public void testIt() {

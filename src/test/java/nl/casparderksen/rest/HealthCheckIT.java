@@ -63,4 +63,11 @@ public class HealthCheckIT extends AbstractArquillianIT {
                 .when().get(health())
                 .then().body("checks.find{it.name='load'}.state", equalTo("UP"));
     }
+
+    @Test
+    public void databaseShouldBeUp() {
+        given()
+                .when().get(health())
+                .then().body("checks.find{it.name='database'}.state", equalTo("UP"));
+    }
 }

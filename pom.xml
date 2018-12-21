@@ -23,12 +23,14 @@
         <thorntail.version>2.2.1.Final</thorntail.version>
         <lombok.version>1.18.4</lombok.version>
         <slf4j.version>1.7.25</slf4j.version>
+        <h2.version>1.4.197</h2.version>
 
         <arquillian-bom.version>1.1.13.Final</arquillian-bom.version>
         <arquillian-drone-bom.version>2.4.3</arquillian-drone-bom.version>
         <graphene-webdriver.version>2.3.2</graphene-webdriver.version>
 
         <assertj-core.version>3.11.1</assertj-core.version>
+        <assertj-db.version>1.2.0</assertj-db.version>
         <mockito-core.version>2.23.4</mockito-core.version>
         <rest-assured.version>3.2.0</rest-assured.version>
 
@@ -182,6 +184,12 @@
             </dependency>
 
             <dependency>
+                <groupId>org.assertj</groupId>
+                <artifactId>assertj-db</artifactId>
+                <version>${assertj-db.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-core</artifactId>
                 <version>${mockito-core.version}</version>
@@ -198,11 +206,26 @@
 
     <dependencies>
 
-        <!-- JEE -->
+        <!-- Thorntail / JEE -->
 
         <dependency>
             <groupId>io.thorntail</groupId>
             <artifactId>jaxrs</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.thorntail</groupId>
+            <artifactId>datasources</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.thorntail</groupId>
+            <artifactId>flyway</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.thorntail</groupId>
+            <artifactId>jpa</artifactId>
         </dependency>
 
         <!--
@@ -283,6 +306,13 @@
         </dependency>
         -->
 
+        <!-- Database -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${h2.version}</version>
+        </dependency>
+
         <!-- Utilities-->
 
         <dependency>
@@ -310,6 +340,18 @@
         </dependency>
 
         <dependency>
+            <groupId>org.jboss.arquillian.junit</groupId>
+            <artifactId>arquillian-junit-container</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.shrinkwrap.resolver</groupId>
+            <artifactId>shrinkwrap-resolver-impl-maven</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
             <groupId>org.jboss.arquillian.graphene</groupId>
             <artifactId>graphene-webdriver</artifactId>
             <type>pom</type>
@@ -319,6 +361,12 @@
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-db</artifactId>
             <scope>test</scope>
         </dependency>
 
