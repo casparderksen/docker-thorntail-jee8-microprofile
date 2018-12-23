@@ -41,11 +41,11 @@ public class DatabaseHealthCheck implements HealthCheck {
                     .withData("schema", connection.getSchema())
                     .state(connection.isValid(timeout))
                     .build();
-
         } catch (SQLException exception) {
             log.error("Database connection error", exception);
             return responseBuilder
-                    .withData("exceptionMessage", exception.getMessage())
+                    .withData("errorCode", exception.getErrorCode())
+                    .withData("errorMessage", exception.getMessage())
                     .down()
                     .build();
         }
