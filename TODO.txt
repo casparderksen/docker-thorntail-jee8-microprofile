@@ -1,0 +1,31 @@
+parent POM
+
+Monitoring with Prometheus stack
+Logging with FLK stack
+OpenTracing and Jaeger
+
+TLS
+JWT
+
+JPA + Transactions
+IT voor database obv AssertJ
+Flyway
+DB health
+
+Mockito
+
+Cloud events - Kafka
+
+K8S / Istio
+
+Akka -> distributed counter? with persistence? / Runtime config
+
+@password/@secret -> MP extension
+
+bootstrap:
+https://github.com/phillip-kruger/microprofile-demo/blob/master/profiling/src/main/java/com/github/phillipkruger/profiling/startup/BootstrapService.java
+
+Prometheus stack:
+https://github.com/vegasbrianc/prometheus
+https://finestructure.co/blog/2016/5/16/monitoring-with-prometheus-grafana-docker-part-1
+https://developers.redhat.com/blog/2017/10/25/monitor-eclipse-microprofile-1-2-server-prometheus/
