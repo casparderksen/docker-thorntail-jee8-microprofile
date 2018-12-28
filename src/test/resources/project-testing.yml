@@ -1,11 +1,10 @@
 ---
-swarm:
+thorntail:
   logging:
     loggers:
       nl.casparderksen:
         level: DEBUG
 
-thorntail:
   datasources:
     data-sources:
       MyDS:
