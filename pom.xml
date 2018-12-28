@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
@@ -25,9 +25,9 @@
         <slf4j.version>1.7.25</slf4j.version>
         <h2.version>1.4.197</h2.version>
 
-        <arquillian-bom.version>1.1.13.Final</arquillian-bom.version>
-        <arquillian-drone-bom.version>2.4.3</arquillian-drone-bom.version>
-        <graphene-webdriver.version>2.3.2</graphene-webdriver.version>
+        <arquillian-bom.version>1.1.12.Final</arquillian-bom.version>
+        <arquillian-drone-bom.version>2.0.1.Final</arquillian-drone-bom.version>
+        <graphene-webdriver.version>2.1.0.Final</graphene-webdriver.version>
 
         <assertj-core.version>3.11.1</assertj-core.version>
         <assertj-db.version>1.2.0</assertj-db.version>
@@ -228,17 +228,10 @@
             <artifactId>jpa</artifactId>
         </dependency>
 
-        <!--
-        <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>jpa</artifactId>
-        </dependency>
-
         <dependency>
             <groupId>io.thorntail</groupId>
             <artifactId>transactions</artifactId>
         </dependency>
-        -->
 
         <!-- MicroProfile -->
 
@@ -336,12 +329,6 @@
         <dependency>
             <groupId>io.thorntail</groupId>
             <artifactId>arquillian</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jboss.arquillian.junit</groupId>
-            <artifactId>arquillian-junit-container</artifactId>
             <scope>test</scope>
         </dependency>
 

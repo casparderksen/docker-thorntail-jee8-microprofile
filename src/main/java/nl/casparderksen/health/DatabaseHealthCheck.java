@@ -15,9 +15,8 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
 
-
-@Health
 @ApplicationScoped
+@Health
 @Slf4j
 public class DatabaseHealthCheck implements HealthCheck {
 

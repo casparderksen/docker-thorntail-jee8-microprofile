@@ -5,16 +5,14 @@ import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.wildfly.swarm.arquillian.DefaultDeployment;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasXPath;
 
 @RunWith(Arquillian.class)
-@DefaultDeployment
 @RunAsClient
-public class RestApplicationIT extends AbstractArquillianIT {
+public class RestApplicationIT extends AbstractRestIT {
 
     @Test
     public void shouldPingJson() {

@@ -1,4 +1,6 @@
-create table EVENT (
-    ID int not null,
-    NAME varchar(100) not null
+CREATE TABLE event (
+    id BIGINT NOT NULL,
+    name VARCHAR2(100) NOT NULL
 );
+
+CREATE SEQUENCE id_seq;

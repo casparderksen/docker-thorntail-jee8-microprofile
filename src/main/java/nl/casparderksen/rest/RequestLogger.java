@@ -15,7 +15,7 @@ public class RequestLogger implements ContainerRequestFilter, ContainerResponseF
     @Override
     public void filter(ContainerRequestContext requestContext) {
         if (log.isDebugEnabled()) {
-            log.debug("{} {} - {}", requestContext.getMethod(),
+            log.debug("{} {} {}", requestContext.getMethod(),
                     requestContext.getUriInfo().getPath(), requestContext.getHeaders());
         }
     }
@@ -23,7 +23,7 @@ public class RequestLogger implements ContainerRequestFilter, ContainerResponseF
     @Override
     public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext) {
         if (log.isDebugEnabled()) {
-            log.debug("{} {} - {} - {}", requestContext.getMethod(),
+            log.debug("{} {} <{}> {}", requestContext.getMethod(),
                     requestContext.getUriInfo().getPath(), responseContext.getStatus(), responseContext.getHeaders());
         }
     }

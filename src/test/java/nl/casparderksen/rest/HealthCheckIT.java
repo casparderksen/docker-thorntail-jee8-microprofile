@@ -4,15 +4,13 @@ import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.wildfly.swarm.arquillian.DefaultDeployment;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 
 @RunWith(Arquillian.class)
 @RunAsClient
-@DefaultDeployment
-public class HealthCheckIT extends AbstractArquillianIT {
+public class HealthCheckIT extends AbstractRestIT {
 
     @Test
     public void outcomeShouldBeUp() {

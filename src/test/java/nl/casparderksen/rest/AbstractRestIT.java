@@ -1,11 +1,12 @@
 package nl.casparderksen.rest;
 
+import nl.casparderksen.arquillian.AbstractArquillianIT;
 import org.jboss.arquillian.test.api.ArquillianResource;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
-abstract class AbstractArquillianIT {
+abstract class AbstractRestIT extends AbstractArquillianIT {
 
     @ArquillianResource
     private URL deploymentURL;
@@ -16,6 +17,18 @@ abstract class AbstractArquillianIT {
         } catch (MalformedURLException exception) {
             throw new RuntimeException(exception);
         }
+    }
+
+    URL events() {
+        return url("api/events");
+    }
+
+    URL events(long id) {
+        return url("api/events/" + id);
+    }
+
+    String relation(URL url, String name) {
+        return "<" + url + ">; rel=\"" + name + "\"";
     }
 
     URL ping() {

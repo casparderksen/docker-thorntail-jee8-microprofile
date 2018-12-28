@@ -9,7 +9,9 @@ This is a microservices chassis for building applications with JEE8/MicroProfile
 - Remote debugging in Docker container
 - Lombok (add plugin to your IDE)
 - Datasource with health check
+- JAX-RS resource
 - Flyway database migration
+- JPA and transactions
 - SLF4J logging and Thorntail logging configuration
 - MicroProfile Health endpoint with JVM and system health (via MicroProfile Extensions)
 - MicroProfile Metrics endpoint (with example Counter)
@@ -21,7 +23,7 @@ This is a microservices chassis for building applications with JEE8/MicroProfile
 - Arquillian integration testing
 - RestAssured integration tests for JAX-RS endpoints
 - Selenium browser tests via Drone and Graphene
-- AssertJ and AssertJ-DB
+- AssertJ and AssertJ-DB fluent tests
 
 # Endpoints
 
@@ -38,6 +40,7 @@ Demo:
 - Ping [http://localhost:8080/api/ping](http://localhost:8080/api/ping)
 - Ping counter: [http://localhost:8080/metrics/application/PingCounter](http://localhost:8080/metrics/application/PingCounter)
 - Config: [http://localhost:8080/api/config/{key}](http://localhost:8080/api/config/{key})
+- CRUD resource example: [http://localhost:8080/api/events](http://localhost:8080/api/events)
     
 # Maven targets
 
@@ -68,6 +71,12 @@ To run Arquillian integration tests from IntelliJ:
 - Add Manual container configuration
 - Set name: "Thorntail 2.2.1"
 - Add dependency, select Existing library: "Maven: io.thorntail:arquillian-adapter:2.2.1-Final"
+
+# Arquillian
+
+The `@DefaultDeployment` annotation does not bundle tests libraries and dependencies from other packages.
+Therefore, a custom shrinkwrap deployment is created 
+(see [AbstractArquillianIT.java](src/test/java/nl/casparderksen/arquillian/AbstractArquillianIT.java))
 
 # Remote debugging
 
