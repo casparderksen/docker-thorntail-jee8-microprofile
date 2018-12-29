@@ -104,4 +104,4 @@ MicroProfile:
 - [Thorntail examples](https://github.com/thorntail/thorntail-examples)
 
 Testing:
-- [Function testing using Drone and Graphene](http://arquillian.org/guides/functional_testing_using_graphene/)
+- [Functional testing using Drone and Graphene](http://arquillian.org/guides/functional_testing_using_graphene/)
