@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>nl.casparderksen</groupId>
+        <artifactId>thorntail-parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../thorntail-parent</relativePath>
+    </parent>
+
+    <name>Thorntail JEE8/MicroProfile Docker App</name>
+    <artifactId>myapp</artifactId>
+    <packaging>war</packaging>
+
+    <build>
+        <finalName>${project.artifactId}</finalName>
+    </build>
+
+    <dependencies>
+
+        <!-- Thorntail / JEE -->
+
+        <dependency>
+            <groupId>io.thorntail</groupId>
+            <artifactId>jaxrs</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.thorntail</groupId>
+            <artifactId>datasources</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.thorntail</groupId>
+            <artifactId>flyway</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.thorntail</groupId>
+            <artifactId>jpa</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.thorntail</groupId>
+            <artifactId>transactions</artifactId>
+        </dependency>
+
+        <!--
+        <dependency>
+            <groupId>io.thorntail</groupId>
+            <artifactId>microprofile-restclient</artifactId>
+        </dependency>
+        -->
+
+        <!-- MicroProfile extensions -->
+
+        <dependency>
+            <groupId>org.microprofile-ext.openapi-ext</groupId>
+            <artifactId>swagger-ui</artifactId>
+        </dependency>
+
+        <!--
+        <dependency>
+            <groupId>io.thorntail</groupId>
+            <artifactId>microprofile-jwt</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.thorntail</groupId>
+            <artifactId>microprofile-opentracing</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.thorntail</groupId>
+            <artifactId>microprofile-fault-tolerance</artifactId>
+        </dependency>
+        -->
+
+        <!-- Database -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${h2.version}</version>
+        </dependency>
+
+    </dependencies>
+
+</project>

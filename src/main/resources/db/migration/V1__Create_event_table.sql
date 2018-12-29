@@ -1,6 +1,0 @@
-CREATE TABLE event (
-    id BIGINT NOT NULL,
-    name VARCHAR2(100) NOT NULL
-);
-
-CREATE SEQUENCE id_seq;

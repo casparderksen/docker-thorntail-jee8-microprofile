@@ -76,7 +76,7 @@ To run Arquillian integration tests from IntelliJ:
 
 The `@DefaultDeployment` annotation does not bundle tests libraries and dependencies from other packages.
 Therefore, a custom shrinkwrap deployment is created 
-(see [AbstractArquillianIT.java](src/test/java/nl/casparderksen/arquillian/AbstractArquillianIT.java))
+(see [AbstractArquillianIT.java](myapp/src/test/java/nl/casparderksen/arquillian/AbstractArquillianIT.java))
 
 # Remote debugging
 
