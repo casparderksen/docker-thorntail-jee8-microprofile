@@ -19,6 +19,7 @@
         <docker-maven-plugin.version>0.27.2</docker-maven-plugin.version>
         <maven-failsafe-plugin.version>3.0.0-M3</maven-failsafe-plugin.version>
 
+        <javaee-api.version>8.0</javaee-api.version>
         <thorntail.version>2.2.1.Final</thorntail.version>
         <lombok.version>1.18.4</lombok.version>
         <slf4j.version>1.7.25</slf4j.version>
@@ -104,6 +105,16 @@
     <dependencyManagement>
         <dependencies>
 
+            <!-- JEE -->
+
+            <dependency>
+                <groupId>javax</groupId>
+                <artifactId>javaee-api</artifactId>
+                <version>${javaee-api.version}</version>
+            </dependency>
+
+            <!-- Thorntail -->
+
             <dependency>
                 <groupId>io.thorntail</groupId>
                 <artifactId>bom-stable</artifactId>
@@ -118,23 +129,7 @@
                 <version>${thorntail.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>${lombok.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-api</artifactId>
-                <version>${slf4j.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-simple</artifactId>
-                <version>${slf4j.version}</version>
-            </dependency>
+            <!-- Microprofile Extensions -->
 
             <dependency>
                 <groupId>org.microprofile-ext.health-ext</groupId>
@@ -159,6 +154,28 @@
                 <artifactId>swagger-ui</artifactId>
                 <version>${swagger-ui.version}</version>
             </dependency>
+
+            <!-- Generic libraries -->
+
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-simple</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+
+            <!-- Test dependencies -->
 
             <dependency>
                 <groupId>org.jboss.arquillian</groupId>
@@ -211,6 +228,14 @@
     </dependencyManagement>
 
     <dependencies>
+
+        <!-- JEE -->
+
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
         <!-- Thorntail runner for IDE -->
 

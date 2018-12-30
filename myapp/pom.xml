@@ -10,7 +10,7 @@
         <relativePath>../thorntail-parent</relativePath>
     </parent>
 
-    <name>Thorntail JEE8/MicroProfile Docker App</name>
+    <name>Thorntail JEE8/MicroProfile App</name>
     <artifactId>myapp</artifactId>
     <packaging>war</packaging>
 
@@ -20,40 +20,6 @@
 
     <dependencies>
 
-        <!-- Thorntail / JEE -->
-
-        <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>jaxrs</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>datasources</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>flyway</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>jpa</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>transactions</artifactId>
-        </dependency>
-
-        <!--
-        <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>microprofile-restclient</artifactId>
-        </dependency>
-        -->
-
         <!-- MicroProfile extensions -->
 
         <dependency>
@@ -61,24 +27,13 @@
             <artifactId>swagger-ui</artifactId>
         </dependency>
 
-        <!--
-        <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>microprofile-jwt</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>microprofile-opentracing</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>microprofile-fault-tolerance</artifactId>
-        </dependency>
-        -->
-
         <!-- Database -->
+
+        <dependency>
+            <groupId>io.thorntail</groupId>
+            <artifactId>flyway</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
