@@ -21,6 +21,7 @@ This is a microservices chassis for building applications with JEE8/MicroProfile
 # Test frameworks
 
 - Arquillian integration testing
+- Arquillian extension for adding test dependencies (AssertJ) to in-container test
 - RestAssured integration tests for JAX-RS endpoints
 - Selenium browser tests via Drone and Graphene
 - AssertJ and AssertJ-DB fluent tests
@@ -40,7 +41,7 @@ Demo:
 - Ping [http://localhost:8080/api/ping](http://localhost:8080/api/ping)
 - Ping counter: [http://localhost:8080/metrics/application/PingCounter](http://localhost:8080/metrics/application/PingCounter)
 - Config: [http://localhost:8080/api/config/{key}](http://localhost:8080/api/config/{key})
-- CRUD resource example: [http://localhost:8080/api/events](http://localhost:8080/api/events)
+- CRUD resource example: [http://localhost:8080/api/documents](http://localhost:8080/api/documents)
     
 # Maven targets
 
@@ -74,9 +75,11 @@ To run Arquillian integration tests from IntelliJ:
 
 # Arquillian
 
-The `@DefaultDeployment` annotation does not bundle tests libraries and dependencies from other packages.
-Therefore, a custom shrinkwrap deployment is created 
-(see [AbstractArquillianIT.java](myapp/src/test/java/nl/casparderksen/arquillian/AbstractArquillianIT.java))
+The `@DefaultDeployment` annotation does not bundle tests dependencies for in-container tests.
+Therefore, a loadable extensions is added via the SPI mechanism in Java for adding test
+libraries to the deployment.
+
+Note that `@DefaultDeployment` only adds classes in the current package.
 
 # Remote debugging
 
