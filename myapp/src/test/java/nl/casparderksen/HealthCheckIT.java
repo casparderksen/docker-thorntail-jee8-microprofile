@@ -1,14 +1,17 @@
-package nl.casparderksen.rest;
+package nl.casparderksen;
 
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.wildfly.swarm.arquillian.DefaultDeployment;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 
+@SuppressWarnings("ArquillianDeploymentAbsent")
 @RunWith(Arquillian.class)
+@DefaultDeployment
 @RunAsClient
 public class HealthCheckIT extends AbstractRestIT {
 

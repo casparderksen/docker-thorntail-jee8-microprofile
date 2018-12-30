@@ -1,16 +1,19 @@
-package nl.casparderksen.rest;
+package nl.casparderksen;
 
 import io.restassured.http.ContentType;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.wildfly.swarm.arquillian.DefaultDeployment;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasXPath;
 
+@SuppressWarnings("ArquillianDeploymentAbsent")
 @RunWith(Arquillian.class)
+@DefaultDeployment
 @RunAsClient
 public class RestApplicationIT extends AbstractRestIT {
 

@@ -1,4 +1,4 @@
-package nl.casparderksen.rest;
+package nl.casparderksen;
 
 import io.restassured.http.ContentType;
 import nl.casparderksen.model.Document;
@@ -7,12 +7,15 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.junit.InSequence;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.wildfly.swarm.arquillian.DefaultDeployment;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.equalTo;
 
+@SuppressWarnings("ArquillianDeploymentAbsent")
 @RunWith(Arquillian.class)
+@DefaultDeployment
 @RunAsClient
 public class DocumentsResourceIT extends AbstractRestIT {
 

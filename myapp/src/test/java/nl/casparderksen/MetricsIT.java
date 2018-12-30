@@ -1,14 +1,17 @@
-package nl.casparderksen.rest;
+package nl.casparderksen;
 
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.junit.InSequence;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.wildfly.swarm.arquillian.DefaultDeployment;
 
 import static io.restassured.RestAssured.given;
 
+@SuppressWarnings("ArquillianDeploymentAbsent")
 @RunWith(Arquillian.class)
+@DefaultDeployment
 @RunAsClient
 public class MetricsIT extends AbstractRestIT {
 

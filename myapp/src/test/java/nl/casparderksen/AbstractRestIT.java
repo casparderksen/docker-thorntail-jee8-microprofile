@@ -1,12 +1,11 @@
-package nl.casparderksen.rest;
+package nl.casparderksen;
 
-import nl.casparderksen.arquillian.AbstractArquillianIT;
 import org.jboss.arquillian.test.api.ArquillianResource;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
-abstract class AbstractRestIT extends AbstractArquillianIT {
+abstract class AbstractRestIT {
 
     @ArquillianResource
     private URL deploymentURL;

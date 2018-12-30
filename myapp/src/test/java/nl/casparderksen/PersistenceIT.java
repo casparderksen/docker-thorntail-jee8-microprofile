@@ -1,6 +1,6 @@
-package nl.casparderksen.persistence;
+package nl.casparderksen;
 
-import nl.casparderksen.arquillian.AbstractArquillianIT;
+import lombok.extern.slf4j.Slf4j;
 import nl.casparderksen.model.Document;
 import nl.casparderksen.service.DocumentRepository;
 import org.assertj.db.type.Table;
@@ -9,6 +9,7 @@ import org.jboss.arquillian.test.api.ArquillianResource;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.wildfly.swarm.arquillian.DefaultDeployment;
 
 import javax.inject.Inject;
 import javax.naming.InitialContext;
@@ -20,8 +21,11 @@ import javax.transaction.UserTransaction;
 
 import static org.assertj.db.api.Assertions.assertThat;
 
+@SuppressWarnings("ArquillianDeploymentAbsent")
 @RunWith(Arquillian.class)
-public class PersistenceIT extends AbstractArquillianIT {
+@DefaultDeployment
+@Slf4j
+public class PersistenceIT {
 
     @ArquillianResource()
     private InitialContext context;
