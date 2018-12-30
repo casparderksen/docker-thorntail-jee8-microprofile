@@ -14,7 +14,7 @@ import static org.hamcrest.Matchers.equalTo;
 
 @RunWith(Arquillian.class)
 @RunAsClient
-public class DocumentsIT extends AbstractRestIT {
+public class DocumentsResourceIT extends AbstractRestIT {
 
     @Test
     @InSequence(1)

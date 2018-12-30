@@ -14,8 +14,8 @@ import java.util.NoSuchElementException;
 
 @ApplicationScoped
 @Path("/config")
-@Tag(name = "Config service", description = "Exposes application configuration parameters.")
-public class ConfigEndpoint {
+@Tag(name = "Config resource", description = "Exposes application configuration parameters.")
+public class ConfigResource {
 
     @Inject
     private Config config;

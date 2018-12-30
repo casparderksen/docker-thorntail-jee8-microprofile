@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @ApplicationScoped
 @Path("/ping")
 @Tag(name = "Ping service", description = "Tests if the API is reachable.")
-public class PingEndpoint {
+public class PingResource {
 
     @Inject
     @ConfigProperty(name = "application.name")

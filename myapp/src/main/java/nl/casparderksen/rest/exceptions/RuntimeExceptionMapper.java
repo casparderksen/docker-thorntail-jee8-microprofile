@@ -1,4 +1,4 @@
-package nl.casparderksen.rest;
+package nl.casparderksen.rest.exceptions;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -15,6 +15,7 @@ public class RuntimeExceptionMapper implements ExceptionMapper<RuntimeException>
     /**
      * Maps uncaught runtime exceptions to internal server errors, in order to avoid returning stack traces.
      * If the exception is a {@link WebApplicationException}, its response is returned.
+     * If the exception is a (@link ConstraintViolationException} a bad request status code is returned.
      * Otherwise, an internal server error response is returned and the exception is logged.
      *
      * @param exception the exception

@@ -2,6 +2,9 @@ package nl.casparderksen.rest;
 
 import nl.casparderksen.model.Document;
 import nl.casparderksen.service.DocumentRepository;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -21,12 +24,17 @@ import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 @ApplicationScoped
 @Transactional
 @Path("/documents")
-@Tag(name = "Document service", description = "CRUD service for Document entities.")
-public class DocumentEndpoint {
+@Tag(name = "Documents resource", description = "CRUD service for Document entities.")
+public class DocumentsResource {
 
     @Inject
     private DocumentRepository documentRepository;
 
+    @Operation(description = "Gets the collection of document (paginated).")
+    @APIResponses({
+            @APIResponse(responseCode = "200", description = "Success, returns the collection."),
+            @APIResponse(responseCode = "400", description = "Bad request, invalid range."),
+    })
     @GET
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getDocuments(
@@ -38,14 +46,23 @@ public class DocumentEndpoint {
         return Response.ok(getGenericEntity(list)).links(paginationLinks).build();
     }
 
+    @Operation(description = "Gets a document by id.")
+    @APIResponses({
+            @APIResponse(responseCode = "200", description = "Success, returns the value"),
+            @APIResponse(responseCode = "404", description = "Value not found")
+    })
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getDocument(@PathParam("id") long id, @Context UriInfo uriInfo) {
-        Optional<Document> optionalEvent = documentRepository.get(id);
-        return getOkOrNotFoundResponse(optionalEvent.orElse(null), uriInfo);
+        Optional<Document> optionalDocument = documentRepository.get(id);
+        return getOptionalEntityResponse(optionalDocument.orElse(null), uriInfo);
     }
 
+    @Operation(description = "Creates a new document.")
+    @APIResponses({
+            @APIResponse(responseCode = "201", description = "Success, returns the value"),
+    })
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
@@ -55,15 +72,25 @@ public class DocumentEndpoint {
         return Response.created(location).entity(document).build();
     }
 
+    @Operation(description = "Updates the document with the specified id.")
+    @APIResponses({
+            @APIResponse(responseCode = "200", description = "Success, returns the value"),
+            @APIResponse(responseCode = "404", description = "Value not found")
+    })
     @PUT
     @Path("{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response updateDocument(@PathParam("id") long id, Document documentDTO, @Context UriInfo uriInfo) {
-        Optional<Document> optionalEvent = documentRepository.update(id, documentDTO);
-        return getOkOrNotFoundResponse(optionalEvent.orElse(null), uriInfo);
+        Optional<Document> optionalDocument = documentRepository.update(id, documentDTO);
+        return getOptionalEntityResponse(optionalDocument.orElse(null), uriInfo);
     }
 
+    @Operation(description = "Deletes the document with the specified id.")
+    @APIResponses({
+            @APIResponse(responseCode = "205", description = "Success, no content"),
+            @APIResponse(responseCode = "404", description = "Value not found")
+    })
     @DELETE
     @Path("{id}")
     public Response deleteDocument(@PathParam("id") long id, @Context UriInfo uriInfo) {
@@ -73,6 +100,10 @@ public class DocumentEndpoint {
         return Response.status(NOT_FOUND).build();
     }
 
+    @Operation(description = "Counts the number of documents.")
+    @APIResponses({
+            @APIResponse(responseCode = "205", description = "Success, return number of values")
+    })
     @HEAD
     public Response getCount(@Context UriInfo uriInfo) {
         final long count = documentRepository.getCount();
@@ -99,7 +130,7 @@ public class DocumentEndpoint {
         return Link.fromUri(uri).rel(Relation.SELF).build();
     }
 
-    private Response getOkOrNotFoundResponse(Object entity, @Context UriInfo uriInfo) {
+    private Response getOptionalEntityResponse(Object entity, @Context UriInfo uriInfo) {
         if (entity != null) {
             final Link self = self(uriInfo);
             return Response.ok(entity).links(self).build();
