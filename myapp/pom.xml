@@ -34,11 +34,6 @@
 
         <dependency>
             <groupId>io.thorntail</groupId>
-            <artifactId>flyway</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.thorntail</groupId>
             <artifactId>jpa</artifactId>
         </dependency>
 
