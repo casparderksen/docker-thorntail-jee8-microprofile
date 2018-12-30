@@ -206,6 +206,14 @@
 
     <dependencies>
 
+        <!-- Thorntail runner for IDE -->
+
+        <dependency>
+            <groupId>io.thorntail</groupId>
+            <artifactId>thorntail-runner</artifactId>
+            <version>${thorntail.version}</version>
+        </dependency>
+
         <!-- MicroProfile -->
 
         <dependency>
