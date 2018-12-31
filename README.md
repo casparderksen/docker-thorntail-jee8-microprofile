@@ -46,13 +46,20 @@ Resources:
     
 # Maven targets
 
-Starting and stopping the application:
-- mvn thorntail:run
-- mvn thorntail:stop
+Go to directory `myapp`.
 
-As Docker container:
-- mvn docker:run -Pdocker
-- mvn docker:stop -Pdocker
+Running, starting and stopping the application from Maven:
+- `mvn thorntail:run`
+- `mvn thorntail:start`
+- `mvn thorntail:stop`
+
+Build docker container:
+- `mvn package -Pdocker`
+
+Run Docker container:
+- `mvn docker:run -Pdocker`
+- `mvn docker:start -Pdocker`
+- `mvn docker:stop -Pdocker`
 
 # Java 8 in Docker
 
@@ -64,17 +71,24 @@ When running Java 8 in a container, the following JVM options should be specifie
 When building the container, an exec-style entrypoint should be specified, in order to launch a single process
 that can receive Unix signals.
 
+To access the container image:
+
+    docker run --rm -it --entrypoint bash myapp
+
 # HTTPS
 
 Enable https by running:
 
-    `$ cd myapp; java -jar target/myapp-thorntail.jar -Shttps`
+    $ cd myapp; java -jar target/myapp-thorntail.jar -Shttps
     
 See [project-https.yml](myapp/src/main/resources/project-https.yml) for an example https configuration
 (adapt to your needs). Https is not configured by default, because storing passwords and certificates
 in archives/containers is insecure and not portable across environments. 
 
 Generate a self-signed certificate by running `gen_keystore.sh` in [myapp/security](myapp/security).
+
+To run the Docker container with https enabled mount a host volume containing `keystore.jsk` at
+ `/opt/security` and specify `-Shttps` as command-line argument.
  
 # Unit-integration testing from the IDE
 

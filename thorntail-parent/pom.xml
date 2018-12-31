@@ -379,7 +379,7 @@
                                     <name>${project.artifactId}</name>
                                     <run>
                                         <ports>
-                                            <port>8080:8080</port>
+                                            <port>8443:8443</port>
                                             <port>5005:5005</port>
                                         </ports>
                                         <env>
@@ -388,6 +388,12 @@
                                             </JAVA_TOOL_OPTIONS>
                                         </env>
                                         <memory>1000000000</memory>
+                                        <volumes>
+                                            <bind>
+                                                <volume>./security:/opt/security</volume>
+                                            </bind>
+                                        </volumes>
+                                        <cmd>-Shttps</cmd>
                                     </run>
                                     <build>
                                         <from>openjdk:8-jre</from>
@@ -401,6 +407,8 @@
                                         <ports>
                                             <port>8080</port>
                                         </ports>
+                                        <user>nobody</user>
+                                        <workdir>/opt</workdir>
                                         <assembly>
                                             <basedir>/</basedir>
                                             <inline>
@@ -422,7 +430,7 @@
                                                 <arg>-XX:+UnlockExperimentalVMOptions</arg>
                                                 <arg>-XX:+UseCGroupMemoryLimitForHeap</arg>
                                                 <arg>-XX:MaxRAMFraction=1</arg>
-                                                <arg>-jar", "/opt/${project.artifactId}-thorntail.jar</arg>
+                                                <arg>-jar", "${project.build.finalName}-thorntail.jar</arg>
                                             </exec>
                                         </entryPoint>
                                     </build>
