@@ -10,6 +10,7 @@ This is a microservices chassis for building applications with JEE8/MicroProfile
 - Lombok (add plugin to your IDE)
 - Datasource with health check
 - JAX-RS resource
+- TLS (https)
 - Flyway database migration
 - JPA and transactions
 - SLF4J logging and Thorntail logging configuration
@@ -37,7 +38,7 @@ Microprofile extensions:
 - Health UI: [http://localhost:8080/health-ui/](http://localhost:8080/health-ui/)
 - Swagger UI: [http://localhost:8080/api/openapi-ui](http://localhost:8080/api/openapi-ui)
 
-Demo:
+Resources:
 - Ping [http://localhost:8080/api/ping](http://localhost:8080/api/ping)
 - Ping counter: [http://localhost:8080/metrics/application/PingCounter](http://localhost:8080/metrics/application/PingCounter)
 - Config: [http://localhost:8080/api/config/{key}](http://localhost:8080/api/config/{key})
@@ -62,6 +63,18 @@ When running Java 8 in a container, the following JVM options should be specifie
 
 When building the container, an exec-style entrypoint should be specified, in order to launch a single process
 that can receive Unix signals.
+
+# HTTPS
+
+Enable https by running:
+
+    `$ cd myapp; java -jar target/myapp-thorntail.jar -Shttps`
+    
+See [project-https.yml](myapp/src/main/resources/project-https.yml) for an example https configuration
+(adapt to your needs). Https is not configured by default, because storing passwords and certificates
+in archives/containers is insecure and not portable across environments. 
+
+Generate a self-signed certificate by running `gen_keystore.sh` in [myapp/security](myapp/security).
  
 # Unit-integration testing from the IDE
 
