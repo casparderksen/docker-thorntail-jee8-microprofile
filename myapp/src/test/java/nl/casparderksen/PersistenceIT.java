@@ -30,10 +30,6 @@ public class PersistenceIT {
     @ArquillianResource()
     private InitialContext context;
 
-    private DataSource getDatasource() throws NamingException {
-        return (DataSource) context.lookup("java:jboss/datasources/MyDS");
-    }
-
     @PersistenceContext(unitName = "MyPU")
     private EntityManager entityManager;
 
@@ -58,5 +54,9 @@ public class PersistenceIT {
         assertThat(table).row(0)
                 .value("id").isEqualTo(1)
                 .value("name").isEqualTo("foo");
+    }
+
+    private DataSource getDatasource() throws NamingException {
+        return (DataSource) context.lookup("java:jboss/datasources/MyDS");
     }
 }

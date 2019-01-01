@@ -71,6 +71,7 @@
                 </configuration>
                 <executions>
                     <execution>
+                        <id>package</id>
                         <goals>
                             <goal>package</goal>
                         </goals>
@@ -380,6 +381,7 @@
                                     <run>
                                         <ports>
                                             <port>8443:8443</port>
+                                            <port>8080:8080</port>
                                             <port>5005:5005</port>
                                         </ports>
                                         <env>
@@ -393,7 +395,7 @@
                                                 <volume>./security:/opt/security</volume>
                                             </bind>
                                         </volumes>
-                                        <cmd>-Shttps</cmd>
+                                        <cmd>-Shttps -Sh2</cmd>
                                     </run>
                                     <build>
                                         <from>openjdk:8-jre</from>

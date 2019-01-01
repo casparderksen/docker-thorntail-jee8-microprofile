@@ -2,4 +2,4 @@ thorntail:
   logging:
     loggers:
       nl.casparderksen:
-        level: INFO
+        level: DEBUG

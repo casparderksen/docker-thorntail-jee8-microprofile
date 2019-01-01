@@ -43,15 +43,16 @@ Resources:
 - Ping counter: [http://localhost:8080/metrics/application/PingCounter](http://localhost:8080/metrics/application/PingCounter)
 - Config: [http://localhost:8080/api/config/{key}](http://localhost:8080/api/config/{key})
 - CRUD resource example: [http://localhost:8080/api/documents](http://localhost:8080/api/documents)
+ 
+# Running the application
+
+Go to directory [`myapp`](myapp).
     
-# Maven targets
+## Running from Maven
 
-Go to directory `myapp`.
-
-Running, starting and stopping the application from Maven:
+Running the application from Maven:
 - `mvn thorntail:run`
 - `mvn thorntail:start`
-- `mvn thorntail:stop`
 
 Build docker container:
 - `mvn package -Pdocker`
@@ -61,36 +62,40 @@ Run Docker container:
 - `mvn docker:start -Pdocker`
 - `mvn docker:stop -Pdocker`
 
-# Java 8 in Docker
+## Running from the command line
 
-When running Java 8 in a container, the following JVM options should be specified:
-- respect CPU and memory limits: `-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap`
-- use all available heap in Docker: `-XX:MaxRAMFraction=1`
-- ensure sufficient entropy: `-Djava.security.egd=file:/dev/./urandom`
+To run the application from the command line:
 
-When building the container, an exec-style entrypoint should be specified, in order to launch a single process
-that can receive Unix signals.
+    $ java -jar target/myapp-thorntail.jar -Sh2
 
-To access the container image:
+A profile with datasource configuration must be supplied.
 
-    docker run --rm -it --entrypoint bash myapp
+## Running from Docker
 
-# HTTPS
-
-Enable https by running:
-
-    $ cd myapp; java -jar target/myapp-thorntail.jar -Shttps
-    
-See [project-https.yml](myapp/src/main/resources/project-https.yml) for an example https configuration
-(adapt to your needs). Https is not configured by default, because storing passwords and certificates
-in archives/containers is insecure and not portable across environments. 
-
-Generate a self-signed certificate by running `gen_keystore.sh` in [myapp/security](myapp/security).
-
-To run the Docker container with https enabled mount a host volume containing `keystore.jsk` at
- `/opt/security` and specify `-Shttps` as command-line argument.
+    $ mvn package -Pdocker
+    $ docker run --rm -it -v $(pwd)/security:/opt/security myapp -Sh2 -Shttps
  
-# Unit-integration testing from the IDE
+## Running from the IDE
+
+To run the application from IntelliJ:
+- Edit Run/Debug Configurations
+- Add Application configuration
+- Set Program arguments: `-Sh2 -Stesting`
+- Set Working directory: `$MODULE_WORKING_DIR$`
+- Set Use classpath of module: "myapp"
+
+## Running Arquillian unit-integration tests
+
+The `@DefaultDeployment` annotation does not bundle tests dependencies for in-container tests.
+Therefore, a loadable extensions is added via the Java SPI mechanism for adding test
+libraries to the deployment. Note that `@DefaultDeployment` only adds classes in the current package.
+
+The file [`project-stages.yml`](myapp/src/test/resources/project-stages.yml) contains configuration
+required for testing, in particular a datasource. In Thorntail 4, this file could be replaced
+with profiles that are activated through the `thorntail.profiles` property.
+
+
+## Running Arquillian tests from the IDE
 
 To run Arquillian integration tests from IntelliJ:
 - Edit Run/Debug Configurations
@@ -100,21 +105,62 @@ To run Arquillian integration tests from IntelliJ:
 - Set name: "Thorntail 2.2.1"
 - Add dependency, select Existing library: "Maven: io.thorntail:arquillian-adapter:2.2.1-Final"
 
-# Arquillian
+# Configuring the application
 
-The `@DefaultDeployment` annotation does not bundle tests dependencies for in-container tests.
-Therefore, a loadable extensions is added via the SPI mechanism in Java for adding test
-libraries to the deployment.
+## HTTPS
 
-Note that `@DefaultDeployment` only adds classes in the current package.
+Enable https by running:
 
-# Remote debugging
+    $ cd myapp; java -jar target/myapp-thorntail.jar -Shttps -Sh2
+    
+See [project-https.yml](myapp/src/main/resources/project-https.yml) for an example https configuration
+(adapt to your needs). Https is not configured by default, because storing passwords and certificates
+in archives/containers is insecure and not portable across environments. Furthermore, https could be 
+offloaded by Nginx or Istio.
 
-To enable remote debugging in a Docker container, start the application with the following environment variable:
+To generate a self-signed certificate, run `gen_keystore.sh` in [myapp/security](myapp/security).
+
+To run the Docker container with https enabled, mount a host volume containing `keystore.jsk` at
+ `/opt/security` and specify `-Shttps` as command-line argument. The `mvn docker:run -Pdocker`
+target is configured for running with https enabled.
+
+## Datasource configuration
+
+Datasource configuration is stored in `profile-*.yml` files, and not enabled by default. In this way,
+it is possible to run a standalone application with an H2 in-memory database, or connect to a network database.
+A datasource configuration must be supplied in order to run the application, either via a profile or
+external configuration file. Available profiles are: `h2`, `postgres`.
+
+## Debugging
+
+The `testing` profile enables debug logging.
+
+# Docker
+
+## Java 8 in Docker
+
+When running Java 8 in a container, the following JVM options should be specified:
+- respect CPU and memory limits: `-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap`
+- use all available heap in Docker: `-XX:MaxRAMFraction=1`
+- ensure sufficient entropy: `-Djava.security.egd=file:/dev/./urandom`
+
+When building the container, an exec-style entrypoint should be specified, in order to launch a single process
+that can receive Unix signals. In this way, command line arguments for profiles can be specified when starting
+the container.
+
+To run the image with another entrypoint:
+
+    docker run --rm -it --entrypoint bash myapp
+
+## Remote debugging in Docker
+
+The `JAVA_TOOL_OPTIONS` environment variable can be specified to set Java command line options without
+altering the container image. To enable remote debugging in a Docker container, 
+start the container with the following environment variable:
 
     JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
 
-The  `docker:run` Maven target has been configured for this (see `pom.xml`).
+The `mvn docker:run -Pdocker` target has been configured for this (see [`pom.xml`](pom.xml)).
 
 # References
 

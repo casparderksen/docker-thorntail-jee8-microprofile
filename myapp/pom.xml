@@ -16,6 +16,19 @@
 
     <build>
         <finalName>${project.artifactId}</finalName>
+        <plugins>
+
+            <plugin>
+                <groupId>io.thorntail</groupId>
+                <artifactId>thorntail-maven-plugin</artifactId>
+                <configuration>
+                    <arguments>
+                        <argument>-Sh2</argument>
+                        <argument>-Stesting</argument>
+                    </arguments>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 
     <dependencies>
@@ -30,6 +43,11 @@
         <dependency>
             <groupId>io.thorntail</groupId>
             <artifactId>datasources</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.thorntail</groupId>
+            <artifactId>flyway</artifactId>
         </dependency>
 
         <dependency>
@@ -50,11 +68,6 @@
         </dependency>
 
         <!-- Database -->
-
-        <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>flyway</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>com.h2database</groupId>

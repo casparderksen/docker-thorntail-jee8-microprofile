@@ -13,10 +13,10 @@ public class ArquillianExtension implements LoadableExtension {
 
     @Override
     public void register(ExtensionBuilder builder) {
-        builder.service(AuxiliaryArchiveAppender.class, AssertjAuxiliaryArchiveAppender.class);
+        builder.service(AuxiliaryArchiveAppender.class, MyAuxiliaryArchiveAppender.class);
     }
 
-    public static class AssertjAuxiliaryArchiveAppender implements AuxiliaryArchiveAppender {
+    public static class MyAuxiliaryArchiveAppender implements AuxiliaryArchiveAppender {
         @Override
         public JavaArchive createAuxiliaryArchive() {
             return ShrinkWrap.create(JavaArchive.class)

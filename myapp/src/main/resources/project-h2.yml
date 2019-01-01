@@ -1,10 +1,4 @@
----
 thorntail:
-  logging:
-    loggers:
-      nl.casparderksen:
-        level: DEBUG
-
   datasources:
     data-sources:
       MyDS:
