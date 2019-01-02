@@ -185,13 +185,13 @@ The `mvn docker:run -Pdocker` target has been configured for this (see [`pom.xml
 
 See [https://github.com/casparderksen/docker-oracle](https://github.com/casparderksen/docker-oracle)
 for running an Oracle database in Docker, or 
-(https://github.com/casparderksen/vagrant-oracle12c)[https://github.com/casparderksen/vagrant-oracle12c]
+[https://github.com/casparderksen/vagrant-oracle12c](https://github.com/casparderksen/vagrant-oracle12c)
 for running Oracle in a Vagrant box.
 
 ## Install OJDBC driver
 
 Download `ojdbc8.jar` from
-(https://www.oracle.com/technetwork/database/application-development/jdbc/downloads/jdbc-ucp-183-5013470.html)[https://www.oracle.com/technetwork/database/application-development/jdbc/downloads/jdbc-ucp-183-5013470.html]
+[https://www.oracle.com/technetwork/database/application-development/jdbc/downloads/jdbc-ucp-183-5013470.html](https://www.oracle.com/technetwork/database/application-development/jdbc/downloads/jdbc-ucp-183-5013470.html)
 and install it in your local Maven repository:
 
     mvn install:install-file -Dfile=ojdbc8.jar -DgroupId=com.oracle.jdbc -DartifactId=ojdbc8 -Dversion=18.3.0.0 -Dpackaging=jar
