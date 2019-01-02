@@ -1,6 +1,8 @@
 # About
 
 This is a microservices chassis for building applications with JEE8/MicroProfile/Docker, based on Thorntail.
+Datasource and database-specific migration scripts can be selected by specifying a configuration profile.
+Unit-integration tests are ran against an H2 in-memory database.
 
 # Integrated frameworks:
 
@@ -44,6 +46,10 @@ Resources:
 - Config: [http://localhost:8080/api/config/{key}](http://localhost:8080/api/config/{key})
 - CRUD resource example: [http://localhost:8080/api/documents](http://localhost:8080/api/documents)
  
+# Building the application
+
+Before building, see the [workaround for Flyway database migrations](#flyway-database-migrations).
+
 # Running the application
 
 Go to directory [`myapp`](myapp).
@@ -68,7 +74,7 @@ To run the application from the command line:
 
     $ java -jar target/myapp-thorntail.jar -Sh2
 
-A profile with datasource configuration must be supplied.
+A profile with datasource configuration must be specified.
 
 ## Running from Docker
 
@@ -87,11 +93,11 @@ To run the application from IntelliJ:
 ## Running Arquillian unit-integration tests
 
 The `@DefaultDeployment` annotation does not bundle tests dependencies for in-container tests.
-Therefore, a loadable extensions is added via the Java SPI mechanism for adding test
-libraries to the deployment. Note that `@DefaultDeployment` only adds classes in the current package.
+Therefore, an Arquillian loadable extension is added via the Java SPI mechanism for adding test
+dependencies to the deployment. Note that `@DefaultDeployment` only adds classes in the current package.
 
 The file [`project-stages.yml`](myapp/src/test/resources/project-stages.yml) contains configuration
-required for testing, in particular a datasource. In Thorntail 4, this file could be replaced
+required for testing, in particular an H2 datasource. In Thorntail 4, this file could be replaced
 with profiles that are activated through the `thorntail.profiles` property.
 
 
@@ -109,9 +115,9 @@ To run Arquillian integration tests from IntelliJ:
 
 ## HTTPS
 
-Enable https by running:
+Enable https by specifying the `https` profile:
 
-    $ cd myapp; java -jar target/myapp-thorntail.jar -Shttps -Sh2
+    $ java -jar target/myapp-thorntail.jar -Sh2 -Shttps
     
 See [project-https.yml](myapp/src/main/resources/project-https.yml) for an example https configuration
 (adapt to your needs). Https is not configured by default, because storing passwords and certificates
@@ -131,6 +137,17 @@ it is possible to run a standalone application with an H2 in-memory database, or
 A datasource configuration must be supplied in order to run the application, either via a profile or
 external configuration file. Available profiles are: `h2`, `postgres`.
 
+## Flyway database migrations
+
+Database specific migration scripts are stored in 
+[src/main/resources/db/migration/_\<db\>_](myapp/src/main/resources/db/migration).
+
+In Thorntail 2.2.1 it is not possible to specify alternate locations for database dependent migration scripts.
+This will be solved in Thorntail 2.3.0.Final (https://issues.jboss.org/browse/THORN-914).
+Workaround:
+- Clone `https://github.com/thorntail/thorntail.git` and execute `mvn clean install -DskipTests`
+- Set `thorntail-flyway` version to `2.3.0.Final-SNAPSHOT`
+ 
 ## Debugging
 
 The `testing` profile enables debug logging.
@@ -160,7 +177,7 @@ start the container with the following environment variable:
 
     JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
 
-The `mvn docker:run -Pdocker` target has been configured for this (see [`pom.xml`](pom.xml)).
+The `mvn docker:run -Pdocker` target has been configured for this (see [`pom.xml`](thorntail-parent/pom.xml)).
 
 # References
 

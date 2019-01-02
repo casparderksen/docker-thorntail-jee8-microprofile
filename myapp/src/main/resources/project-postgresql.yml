@@ -1,0 +1,16 @@
+thorntail:
+  datasources:
+    data-sources:
+      MyDS:
+        driver-name: postgresql
+        connection-url: jdbc:postgresql://localhost:5432/postgres"
+        user-name: postgres
+        password: postgres
+        validate-on-match: true
+        background-validation: false
+        valid-connection-checker-class-name: org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLValidConnectionChecker
+        stale-connection-checker-class-name: org.jboss.jca.adapters.jdbc.extensions.postgres.StaleConnectionChecker
+        exception-sorter-class-name: org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLExceptionSorter
+
+flyway:
+  locations: classpath:db/migration/postgresql
