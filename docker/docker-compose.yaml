@@ -1,0 +1,20 @@
+version: "3.1"
+
+services:
+  oracledb:
+    build:
+      context: ./oracledb
+    ports:
+      - "1521:1521"
+      - "5500:5500"
+    volumes:
+      - "oradata:/opt/oracle/oradata"
+
+  myapp:
+    image: myapp:latest
+    command: -Soracle
+    ports:
+      - "8080:8080"
+
+volumes:
+  oradata:

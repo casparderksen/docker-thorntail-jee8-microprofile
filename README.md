@@ -187,13 +187,6 @@ The `mvn docker:run -Pdocker` target has been configured for this (see [`pom.xml
 
 # Oracle database
 
-## Install database
-
-See [https://github.com/casparderksen/docker-oracle](https://github.com/casparderksen/docker-oracle)
-for running an Oracle database in Docker, or 
-[https://github.com/casparderksen/vagrant-oracle12c](https://github.com/casparderksen/vagrant-oracle12c)
-for running Oracle in a Vagrant box.
-
 ## Install OJDBC driver
 
 Download `ojdbc8.jar` from
@@ -235,6 +228,31 @@ Apply migrations:
 Clean database:
 
     $ mvn flyway:clean@myschema -Poracle
+
+# Docker Compose
+
+The directory [docker](docker) contains a Docker Compose configuration to run a containerized application 
+and Oracle database.
+
+## Prerequisites
+
+First build an Oracle container image as described in [https://github.com/oracle/docker-images/tree/master/OracleDatabase/SingleInstance](https://github.com/oracle/docker-images/tree/master/OracleDatabase/SingleInstance). 
+For Oracle Database 12.2.0.1 Enterprise Edition this involves the following steps:
+
+1. Place `linuxx64_12201_database.zip` in `dockerfiles/12.2.0.1`.
+2. Go to `dockerfiles` and run `buildDockerImage.sh -v 12.2.0.1 -e`
+
+## Build the database
+
+First start the database container:
+
+    $ docker-compose up -d oracledb
+    $ docker logs -f docker_oracledb_1
+
+Follow the log file and wait for the database to build. Then start the application container:
+
+    $ docker-compose up -d
+    $ docker logs -f docker_myapp_1
 
 # References
 
