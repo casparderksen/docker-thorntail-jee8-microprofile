@@ -1,8 +1,6 @@
 thorntail:
   https:
     only: true
-
-  http:
     keystore:
       path: security/keystore.jks
       password: changeit
