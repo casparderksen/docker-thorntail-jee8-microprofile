@@ -48,7 +48,9 @@ Resources:
  
 # Building the application
 
-Before building, see the [workaround for Flyway database migrations](#flyway-database-migrations).
+Before building, see the [workaround for Flyway database migrations](#flyway-database-migrations). Then run
+
+    $ mvn package
 
 # Running the application
 
@@ -70,7 +72,7 @@ Run Docker container:
 
 ## Running from the command line
 
-To run the application from the command line with H2 database:
+To run the application from the command line with an in-memory H2 database:
 
     $ java -jar target/myapp-thorntail.jar -Sh2
 
@@ -78,7 +80,7 @@ A profile with datasource configuration must be specified.
 
 ## Running from Docker
 
-TO run the application from Docker with https enabled and H2 database:
+To run the application from Docker with https enabled and H2 database:
 
     $ mvn package -Pdocker
     $ docker run --rm -it -p 8443:8443 -v $(pwd)/security:/opt/security myapp -Shttps -Sh2
@@ -96,12 +98,14 @@ To run the application from IntelliJ:
 
 The `@DefaultDeployment` annotation does not bundle tests dependencies for in-container tests.
 Therefore, an Arquillian loadable extension is added via the Java SPI mechanism for adding test
-dependencies to the deployment. Note that `@DefaultDeployment` only adds classes in the current package.
+dependencies to the deployment. 
+
+Note that `@DefaultDeployment` only adds classes in the current package. Place your tests in
+a package that includes all dependencies.
 
 The file [`project-stages.yml`](myapp/src/test/resources/project-stages.yml) contains configuration
-required for testing, in particular an H2 datasource. In Thorntail 4, this file could be replaced
-with profiles that are activated through the `thorntail.profiles` property.
-
+required for testing, in particular an H2 datasource. In Thorntail 4, this file can be removed
+and replaced with profiles that are activated through the `thorntail.profiles` property.
 
 ## Running Arquillian tests from the IDE
 
@@ -134,9 +138,9 @@ target is configured for running with https enabled.
 
 ## Datasources
 
-Datasource configuration is stored in `profile-*.yml` files, and not enabled by default. In this way,
+Datasource configuration is stored in `profile-*.yml` files. These profiles are not enabled by default. In this way,
 it is possible to run a standalone application with an H2 in-memory database, or connect to a network database.
-A datasource configuration must be supplied in order to run the application, either via a profile or
+A datasource configuration must be supplied in order to run the application, either via a profile or via
 external configuration file. Available profiles are: `h2`, `mysql` (untested), `oracle`, `postgres` (untested).
 
 ## Flyway database migrations
@@ -205,7 +209,7 @@ Also configure the connection details in [pom.xml](myapp/pom.xml) for using the 
 
 ## Running the application
 
-To run the application from the command line:
+To run the application from the command line with an Oracle database:
 
     $ mvn package -Poracle
     $ java -jar target/myapp-thorntail.jar -Soracle
@@ -215,7 +219,7 @@ To run the application from the command line:
 The `docker` profile in [pom.xml](myapp/pom.xml) overrides the JDBC connection URL
 for service discovery in a Docker network (adapt to your needs).
 
-To run the application from Docker:
+To run the application from Docker with an Oracle database:
 
     $ mvn  package -Poracle -Pdocker
     $ docker run --rm -it -p 8080:8080 myapp -Soracle
