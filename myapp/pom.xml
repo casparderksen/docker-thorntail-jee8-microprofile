@@ -17,7 +17,6 @@
     <build>
         <finalName>${project.artifactId}</finalName>
         <plugins>
-
             <plugin>
                 <groupId>io.thorntail</groupId>
                 <artifactId>thorntail-maven-plugin</artifactId>
@@ -27,6 +26,27 @@
                         <argument>-Stesting</argument>
                     </arguments>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <executions>
+                    <!-- Run with 'mvn flyway:GOAL@myschema -Poracle' to invoke independently.
+                         GOAL is one of clean/info/migrate/... -->
+                    <execution>
+                        <id>myschema</id>
+                        <configuration>
+                            <driver>${flyway.driver}</driver>
+                            <url>${flyway.url}</url>
+                            <user>${flyway.user}</user>
+                            <password>${flyway.password}</password>
+                            <locations>
+                                <location>${flyway.location}</location>
+                            </locations>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
@@ -47,17 +67,18 @@
 
         <dependency>
             <groupId>io.thorntail</groupId>
-            <artifactId>flyway</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.thorntail</groupId>
             <artifactId>jpa</artifactId>
         </dependency>
 
         <dependency>
             <groupId>io.thorntail</groupId>
             <artifactId>transactions</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.thorntail</groupId>
+            <artifactId>flyway</artifactId>
+            <version>2.3.0.Final-SNAPSHOT</version>
         </dependency>
 
         <!-- MicroProfile extensions -->
@@ -69,12 +90,55 @@
 
         <!-- Database -->
 
+        <!--<dependency>-->
+        <!--<groupId>org.hibernate</groupId>-->
+        <!--<artifactId>hibernate-c3p0</artifactId>-->
+        <!--</dependency>-->
+
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>${h2.version}</version>
         </dependency>
 
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>oracle</id>
+
+            <properties>
+                <oracle.connection-url>jdbc:oracle:thin:@//localhost:1521/ORCLPDB1</oracle.connection-url>
+                <flyway.driver>oracle.jdbc.OracleDriver</flyway.driver>
+                <flyway.url>${oracle.connection-url}</flyway.url>
+                <flyway.user>myschema</flyway.user>
+                <flyway.password>myschema</flyway.password>
+                <flyway.location>filesystem:src/main/resources/db/migration/oracle</flyway.location>
+            </properties>
+
+            <dependencies>
+                <dependency>
+                    <groupId>com.oracle.jdbc</groupId>
+                    <artifactId>ojdbc8</artifactId>
+                </dependency>
+            </dependencies>
+
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.flywaydb</groupId>
+                            <artifactId>flyway-maven-plugin</artifactId>
+                            <dependencies>
+                                <dependency>
+                                    <groupId>com.oracle.jdbc</groupId>
+                                    <artifactId>ojdbc8</artifactId>
+                                    <version>${ojdbc8.version}</version>
+                                </dependency>
+                            </dependencies>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+        </profile>
+    </profiles>
 </project>

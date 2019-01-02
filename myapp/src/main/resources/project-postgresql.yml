@@ -6,11 +6,16 @@ thorntail:
         connection-url: jdbc:postgresql://localhost:5432/postgres"
         user-name: postgres
         password: postgres
+        valid-connection-checker-class-name: org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLValidConnectionChecker
         validate-on-match: true
         background-validation: false
-        valid-connection-checker-class-name: org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLValidConnectionChecker
-        stale-connection-checker-class-name: org.jboss.jca.adapters.jdbc.extensions.postgres.StaleConnectionChecker
         exception-sorter-class-name: org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLExceptionSorter
+
+    jdbc-drivers:
+      postgresql:
+        driver-class-name: org.postgresql.Driver
+        xa-datasource-class: org.postgresql.xa.PGXADataSource
+        driver-module-name: org.postgresql
 
 flyway:
   locations: classpath:db/migration/postgresql

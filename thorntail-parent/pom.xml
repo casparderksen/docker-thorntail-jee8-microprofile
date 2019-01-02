@@ -16,28 +16,43 @@
         <failOnMissingWebXml>false</failOnMissingWebXml>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
+        <!-- Maven plugins -->
         <docker-maven-plugin.version>0.27.2</docker-maven-plugin.version>
         <maven-failsafe-plugin.version>3.0.0-M3</maven-failsafe-plugin.version>
+        <flyway-maven-plugin.version>3.0</flyway-maven-plugin.version>
 
+        <!-- JEE / Thorntail -->
         <javaee-api.version>8.0</javaee-api.version>
         <thorntail.version>2.2.1.Final</thorntail.version>
-        <lombok.version>1.18.4</lombok.version>
-        <slf4j.version>1.7.25</slf4j.version>
 
+        <!-- Microprofile extensions -->
         <healthprobe-system.version>1.0.5</healthprobe-system.version>
         <healthprobe-jvm.version>1.0.5</healthprobe-jvm.version>
         <health-ui.version>1.0.5</health-ui.version>
         <swagger-ui.version>1.0.1</swagger-ui.version>
 
+        <!-- Generic libraries -->
+        <lombok.version>1.18.4</lombok.version>
+        <slf4j.version>1.7.25</slf4j.version>
+
+        <!-- Databases -->
+        <hibernate.version>5.1.16.Final</hibernate.version>
+        <h2.version>1.4.197</h2.version>
+        <mysql.version>8.0.13</mysql.version>
+        <ojdbc8.version>18.3.0.0</ojdbc8.version>
+        <postgresql.version>42.2.5</postgresql.version>
+
+        <!-- Arquillian -->
         <arquillian-bom.version>1.1.12.Final</arquillian-bom.version>
         <arquillian-drone-bom.version>2.0.1.Final</arquillian-drone-bom.version>
         <graphene-webdriver.version>2.1.0.Final</graphene-webdriver.version>
-        <h2.version>1.4.197</h2.version>
 
+        <!-- Test libraries -->
         <assertj-core.version>3.11.1</assertj-core.version>
         <assertj-db.version>1.2.0</assertj-db.version>
         <mockito-core.version>2.23.4</mockito-core.version>
         <rest-assured.version>3.2.0</rest-assured.version>
+
     </properties>
 
     <build>
@@ -49,6 +64,12 @@
                     <groupId>io.thorntail</groupId>
                     <artifactId>thorntail-maven-plugin</artifactId>
                     <version>${thorntail.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.flywaydb</groupId>
+                    <artifactId>flyway-maven-plugin</artifactId>
+                    <version>${flyway-maven-plugin.version}</version>
                 </plugin>
 
                 <plugin>
@@ -181,7 +202,39 @@
                 <version>${slf4j.version}</version>
             </dependency>
 
-            <!-- Test dependencies -->
+            <!-- Databases -->
+
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-c3p0</artifactId>
+                <version>${hibernate.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>${h2.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.oracle.jdbc</groupId>
+                <artifactId>ojdbc8</artifactId>
+                <version>${ojdbc8.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>${postgresql.version}</version>
+            </dependency>
+
+            <!-- Arquillian -->
 
             <dependency>
                 <groupId>org.jboss.arquillian</groupId>
@@ -205,6 +258,8 @@
                 <version>${graphene-webdriver.version}</version>
                 <type>pom</type>
             </dependency>
+
+            <!-- Test libraries -->
 
             <dependency>
                 <groupId>org.assertj</groupId>
@@ -310,6 +365,8 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- Arquillian -->
+
         <dependency>
             <groupId>io.thorntail</groupId>
             <artifactId>arquillian</artifactId>
@@ -328,6 +385,8 @@
             <type>pom</type>
             <scope>test</scope>
         </dependency>
+
+        <!-- Test libraries -->
 
         <dependency>
             <groupId>org.assertj</groupId>
@@ -359,7 +418,6 @@
         <profile>
             <id>docker</id>
             <build>
-
                 <pluginManagement>
                     <plugins>
                         <plugin>

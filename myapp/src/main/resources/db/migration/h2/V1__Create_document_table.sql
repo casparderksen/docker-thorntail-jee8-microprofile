@@ -1,5 +1,5 @@
 CREATE TABLE document (
-    id BIGINT NOT NULL,
+    id   BIGINT NOT NULL,
     name VARCHAR2(100) NOT NULL
 );
 

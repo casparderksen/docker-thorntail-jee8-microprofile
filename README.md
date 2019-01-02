@@ -10,11 +10,11 @@ Unit-integration tests are ran against an H2 in-memory database.
 - Docker container built via Fabric8 Docker Maven Plugin
 - Remote debugging in Docker container
 - Lombok (add plugin to your IDE)
-- Datasource with health check
 - JAX-RS resource
 - TLS (https)
-- Flyway database migration
 - JPA and transactions
+- Datasource with MicroProfile health check
+- Flyway database migration (multiple database flavors)
 - SLF4J logging and Thorntail logging configuration
 - MicroProfile Health endpoint with JVM and system health (via MicroProfile Extensions)
 - MicroProfile Metrics endpoint (with example Counter)
@@ -111,7 +111,7 @@ To run Arquillian integration tests from IntelliJ:
 - Set name: "Thorntail 2.2.1"
 - Add dependency, select Existing library: "Maven: io.thorntail:arquillian-adapter:2.2.1-Final"
 
-# Configuring the application
+# Application profiles
 
 ## HTTPS
 
@@ -130,12 +130,12 @@ To run the Docker container with https enabled, mount a host volume containing `
  `/opt/security` and specify `-Shttps` as command-line argument. The `mvn docker:run -Pdocker`
 target is configured for running with https enabled.
 
-## Datasource configuration
+## Datasources
 
 Datasource configuration is stored in `profile-*.yml` files, and not enabled by default. In this way,
 it is possible to run a standalone application with an H2 in-memory database, or connect to a network database.
 A datasource configuration must be supplied in order to run the application, either via a profile or
-external configuration file. Available profiles are: `h2`, `postgres`.
+external configuration file. Available profiles are: `h2`, `mysql` (untested), `oracle`, `postgres` (untested).
 
 ## Flyway database migrations
 
@@ -179,6 +179,46 @@ start the container with the following environment variable:
 
 The `mvn docker:run -Pdocker` target has been configured for this (see [`pom.xml`](thorntail-parent/pom.xml)).
 
+# Oracle database
+
+## Install database
+
+See [https://github.com/casparderksen/docker-oracle](https://github.com/casparderksen/docker-oracle)
+for running an Oracle database in Docker, or 
+(https://github.com/casparderksen/vagrant-oracle12c)[https://github.com/casparderksen/vagrant-oracle12c]
+for running Oracle in a Vagrant box.
+
+## Install OJDBC driver
+
+Download `ojdbc8.jar` from
+(https://www.oracle.com/technetwork/database/application-development/jdbc/downloads/jdbc-ucp-183-5013470.html)[https://www.oracle.com/technetwork/database/application-development/jdbc/downloads/jdbc-ucp-183-5013470.html]
+and install it in your local Maven repository:
+
+    mvn install:install-file -Dfile=ojdbc8.jar -DgroupId=com.oracle.jdbc -DartifactId=ojdbc8 -Dversion=18.3.0.0 -Dpackaging=jar
+
+## Configure the database connection
+
+Configure the connection details in [project-oracle.yml](myapp/src/main/resources/project-oracle.yml).
+Also configure the connection details in [pom.xml](myapp/pom.xml) for using the Flyway Maven plugin.
+
+## Running the application
+
+To run the application from the command line:
+
+    $ java -jar target/myapp-thorntail.jar -Soracle
+
+## Flyway Maven plugin
+
+It is also possible to test database migrations via the Flyway Maven plugin. 
+
+Apply migrations:
+
+    mvn flyway:migrate@myschema -Poracle
+
+Clean database:
+
+    mvn flyway:clean@myschema -Poracle
+
 # References
 
 Thorntail:
@@ -198,3 +238,6 @@ MicroProfile:
 
 Testing:
 - [Functional testing using Drone and Graphene](http://arquillian.org/guides/functional_testing_using_graphene/)
+
+Oracle:
+- [OJDBC compatibility](https://www.oracle.com/technetwork/database/enterprise-edition/jdbc-faq-090281.html#01_01)
