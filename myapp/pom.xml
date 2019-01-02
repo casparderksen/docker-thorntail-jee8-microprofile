@@ -23,7 +23,7 @@
                 <configuration>
                     <arguments>
                         <argument>-Sh2</argument>
-                        <argument>-Stesting</argument>
+                        <argument>-Sdebug</argument>
                     </arguments>
                 </configuration>
             </plugin>

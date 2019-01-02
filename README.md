@@ -90,7 +90,7 @@ To run the application from Docker with https enabled and H2 database:
 To run the application from IntelliJ:
 - Edit Run/Debug Configurations
 - Add Application configuration
-- Set Program arguments: `-Sh2 -Stesting`
+- Set Program arguments: `-Sh2 -Sdebug`
 - Set Working directory: `$MODULE_WORKING_DIR$`
 - Set Use classpath of module: "myapp"
 
@@ -103,7 +103,7 @@ dependencies to the deployment.
 Note that `@DefaultDeployment` only adds classes in the current package. Place your tests in
 a package that includes all dependencies.
 
-The file [`project-stages.yml`](myapp/src/test/resources/project-stages.yml) contains configuration
+The file [`project-testing.yml`](myapp/src/test/resources/project-testing.yml) contains configuration
 required for testing, in particular an H2 datasource. In Thorntail 4, this file can be removed
 and replaced with profiles that are activated through the `thorntail.profiles` property.
 
@@ -156,7 +156,7 @@ Workaround:
  
 ## Debugging
 
-The `testing` profile enables debug logging.
+The `debug` profile enables debug logging.
 
 # Docker
 
