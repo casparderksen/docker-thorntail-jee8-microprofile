@@ -70,7 +70,7 @@ Run Docker container:
 
 ## Running from the command line
 
-To run the application from the command line:
+To run the application from the command line with H2 database:
 
     $ java -jar target/myapp-thorntail.jar -Sh2
 
@@ -78,8 +78,10 @@ A profile with datasource configuration must be specified.
 
 ## Running from Docker
 
+TO run the application from Docker with https enabled and H2 database:
+
     $ mvn package -Pdocker
-    $ docker run --rm -it -v $(pwd)/security:/opt/security myapp -Sh2 -Shttps
+    $ docker run --rm -it -p 8443:8443 -v $(pwd)/security:/opt/security myapp -Shttps -Sh2
  
 ## Running from the IDE
 
@@ -167,7 +169,7 @@ the container.
 
 To run the image with another entrypoint:
 
-    docker run --rm -it --entrypoint bash myapp
+    $ docker run --rm -it --entrypoint bash myapp
 
 ## Remote debugging in Docker
 
@@ -205,7 +207,18 @@ Also configure the connection details in [pom.xml](myapp/pom.xml) for using the 
 
 To run the application from the command line:
 
+    $ mvn package -Poracle
     $ java -jar target/myapp-thorntail.jar -Soracle
+    
+## Running from Docker
+
+The `docker` profile in [pom.xml](myapp/pom.xml) overrides the JDBC connection URL
+for service discovery in a Docker network (adapt to your needs).
+
+To run the application from Docker:
+
+    $ mvn  package -Poracle -Pdocker
+    $ docker run --rm -it -p 8080:8080 myapp -Soracle
 
 ## Flyway Maven plugin
 
@@ -213,11 +226,11 @@ It is also possible to test database migrations via the Flyway Maven plugin.
 
 Apply migrations:
 
-    mvn flyway:migrate@myschema -Poracle
+    $ mvn flyway:migrate@myschema -Poracle
 
 Clean database:
 
-    mvn flyway:clean@myschema -Poracle
+    $ mvn flyway:clean@myschema -Poracle
 
 # References
 

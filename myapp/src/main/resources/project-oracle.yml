@@ -3,7 +3,7 @@ thorntail:
     data-sources:
       MyDS:
         driver-name: oracle
-        connection-url: jdbc:oracle:thin:@//localhost:1521/ORCLPDB1
+        connection-url: ${oracle.connection-url}
         user-name: myschema
         password: myschema
         valid-connection-checker-class-name: org.jboss.jca.adapters.jdbc.extensions.oracle.OracleValidConnectionChecker

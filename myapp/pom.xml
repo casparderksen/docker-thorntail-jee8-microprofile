@@ -140,5 +140,13 @@
                 </pluginManagement>
             </build>
         </profile>
+
+        <profile>
+            <id>docker</id>
+
+            <properties>
+                <oracle.connection-url>jdbc:oracle:thin:@//oracledb:1521/ORCLPDB1</oracle.connection-url>
+            </properties>
+        </profile>
     </profiles>
 </project>
