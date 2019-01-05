@@ -5,9 +5,15 @@ thorntail:
         level: DEBUG
 
   datasources:
+    jdbc-drivers:
+      h2testing:
+        driver-class-name: org.h2.Driver
+        xa-datasource-class-name: org.h2.jdbcx.JdbcDataSource
+        driver-module-name: com.h2database.h2
+
     data-sources:
       MyDS:
-        driver-name: h2
+        driver-name: h2testing
         connection-url: jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
         user-name: sa
         password: sa
