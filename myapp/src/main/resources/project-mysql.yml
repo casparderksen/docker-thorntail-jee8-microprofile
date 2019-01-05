@@ -11,11 +11,5 @@ thorntail:
         background-validation: false
         exception-sorter-class-name: org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLExceptionSorter
 
-    jdbc-drivers:
-      mysql:
-        driver-class-name: com.mysql.jdbc.Driver
-        xa-datasource-class-name: com.mysql.jdbc.jdbc2.optional.MysqlXADataSource
-        driver-module-name: com.mysql
-
 flyway:
   locations: classpath:db/migration/mysql

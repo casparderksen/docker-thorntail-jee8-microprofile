@@ -11,11 +11,5 @@ thorntail:
         background-validation: false
         exception-sorter-class-name: org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLExceptionSorter
 
-    jdbc-drivers:
-      postgresql:
-        driver-class-name: org.postgresql.Driver
-        xa-datasource-class: org.postgresql.xa.PGXADataSource
-        driver-module-name: org.postgresql
-
 flyway:
   locations: classpath:db/migration/postgresql

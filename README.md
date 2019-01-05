@@ -103,8 +103,8 @@ dependencies to the deployment.
 Note that `@DefaultDeployment` only adds classes in the current package. Place your tests in
 a package that includes all dependencies.
 
-The file [`project-testing.yml`](myapp/src/test/resources/project-testing.yml) contains configuration
-required for testing, in particular an H2 datasource. In Thorntail 4, this file can be removed
+The file [`project-stages.yml`](myapp/src/test/resources/project-stages.yml) contains configuration
+required for testing, in particular an H2 datasource. In Thorntail 4, this file may be removed
 and replaced with profiles that are activated through the `thorntail.profiles` property.
 
 ## Running Arquillian tests from the IDE
