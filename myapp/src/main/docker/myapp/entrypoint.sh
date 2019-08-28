@@ -8,11 +8,3 @@ export THORNTAIL_JAVA_OPTS="${JAVA_OPTS} ${JAVA_EXTRA_OPTS} -Djboss.tx.node.id=$
 
 # Run application
 exec /usr/bin/java ${THORNTAIL_JAVA_OPTS} -jar myapp.jar $*
-
-# TODO run hollow war
-#war=$(ls *.war)
-#if [ "$1" = "${war%.war}" ]; then
-#    exec /usr/bin/java ${THORNTAIL_JAVA_OPTS} -jar thorntail-server.jar ${war}
-#fi
-
-exec "$@"
