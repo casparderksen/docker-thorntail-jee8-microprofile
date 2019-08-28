@@ -94,7 +94,8 @@
             <id>oracle</id>
 
             <properties>
-                <flyway.url>jdbc:oracle:thin:@//localhost:1521/ORCLPDB1</flyway.url>
+                <oracle.connection-url>jdbc:oracle:thin:@//oracledb:1521/ORCLPDB1</oracle.connection-url>
+                <flyway.url>${oracle.connection-url}}</flyway.url>
                 <flyway.user>myschema</flyway.user>
                 <flyway.password>myschema</flyway.password>
             </properties>
@@ -102,7 +103,7 @@
             <dependencies>
                 <dependency>
                     <groupId>com.oracle.jdbc</groupId>
-                    <artifactId>ojdbc10</artifactId>
+                    <artifactId>ojdbc8</artifactId>
                 </dependency>
             </dependencies>
 
@@ -115,8 +116,8 @@
                             <dependencies>
                                 <dependency>
                                     <groupId>com.oracle.jdbc</groupId>
-                                    <artifactId>ojdbc10</artifactId>
-                                    <version>${ojdbc10.version}</version>
+                                    <artifactId>ojdbc8</artifactId>
+                                    <version>${ojdbc8.version}</version>
                                 </dependency>
                             </dependencies>
                         </plugin>

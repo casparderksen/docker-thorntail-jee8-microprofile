@@ -188,15 +188,16 @@ The `mvn docker:run -Pdocker` target has been configured for this (see [`pom.xml
 ## Install OJDBC driver
 
 Download `ojdbc8.jar` from
-[https://www.oracle.com/technetwork/database/application-development/jdbc/downloads/jdbc-ucp-19c-5460552.html](https://www.oracle.com/technetwork/database/application-development/jdbc/downloads/jdbc-ucp-19c-5460552.html)
+[https://www.oracle.com/database/technologies/appdev/jdbc-ucp-183-downloads.html](https://www.oracle.com/database/technologies/appdev/jdbc-ucp-183-downloads.html)
 and install it in your local Maven repository:
 
-    mvn install:install-file -Dfile=ojdbc10.jar -DgroupId=com.oracle.jdbc -DartifactId=ojdbc10 -Dversion=19.3.0.0 -Dpackaging=jar
+    mvn install:install-file -Dfile=ojdbc8.jar -DgroupId=com.oracle.jdbc -DartifactId=ojdbc10 -Dversion=18.3.0.0 -Dpackaging=jar
 
 ## Configure the database connection
 
 Configure the connection details in [project-oracle.yml](myapp/src/main/resources/project-oracle.yml).
-Also configure the connection details in [pom.xml](myapp/pom.xml) for using the Flyway Maven plugin.
+Also configure the JDBC URL in [myapp/om.xml](myapp/pom.xml). See the Thorntail documentation
+for all configuration options.
 
 ## Running the application
 
@@ -212,7 +213,7 @@ for service discovery in a Docker network (adapt to your needs).
 
 To run the application from Docker with an Oracle database:
 
-    $ mvn  package -Poracle -Pdocker,!h2
+    $ mvn  package -Pdocker,oracle,\!h2
     $ docker run --rm -it -p 8080:8080 myapp -Soracle
 
 ## Flyway Maven plugin
@@ -227,9 +228,9 @@ Clean database:
 
     $ mvn flyway:clean@myschema -Poracle
 
-# Docker Compose
+# Docker Compose example
 
-The directory [docker](docker) contains a Docker Compose configuration to run a containerized application 
+The directory [docker-compose](docker-compose) contains a Docker Compose configuration to run a containerized application 
 and Oracle database.
 
 ## Prerequisites
@@ -240,17 +241,23 @@ For Oracle Database 12.2.0.1 Enterprise Edition this involves the following step
 1. Place `linuxx64_12201_database.zip` in `dockerfiles/12.2.0.1`.
 2. Go to `dockerfiles` and run `buildDockerImage.sh -v 12.2.0.1 -e`
 
+## Build the application
+
+Go to directory [`myapp`](myapp). To build the application as follows:
+ 
+     $ mvn package -Pdocker,oracle,\!h2
+
 ## Build the database
 
-First start the database container:
+Go to the directory [`docker-compose`](docker-compose). First start the database container:
 
     $ docker-compose up -d oracledb
-    $ docker logs -f docker_oracledb_1
+    $ docker-compose logs -f oracledb
 
 Follow the log file and wait for the database to build. Then start the application container:
 
     $ docker-compose up -d
-    $ docker logs -f docker_myapp_1
+    $ docker-compose logs -f myapp
 
 # References
 

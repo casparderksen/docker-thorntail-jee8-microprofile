@@ -42,6 +42,7 @@
         <hibernate.version>5.4.4.Final</hibernate.version>
         <h2.version>1.4.199</h2.version>
         <mysql.version>8.0.17</mysql.version>
+        <ojdbc8.version>18.3.0.0</ojdbc8.version>
         <ojdbc10.version>19.3.0.0</ojdbc10.version>
         <postgresql.version>42.2.6</postgresql.version>
 
@@ -228,6 +229,12 @@
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
                 <version>${mysql.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.oracle.jdbc</groupId>
+                <artifactId>ojdbc8</artifactId>
+                <version>${ojdbc8.version}</version>
             </dependency>
 
             <dependency>
