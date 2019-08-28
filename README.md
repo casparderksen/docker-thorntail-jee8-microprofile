@@ -4,6 +4,8 @@ This is a microservices chassis for building applications with JEE8/MicroProfile
 Datasource and database-specific migration scripts can be selected by specifying a configuration profile.
 Unit-integration tests are ran against an H2 in-memory database.
 
+Checkout version `thorntail-2.2.1` for a fully tested version, this version is not fully tested/working yet.
+
 # Integrated frameworks:
 
 - Thorntail
