@@ -1,4 +1,4 @@
-package nl.casparderksen.rest;
+package nl.casparderksen.ping;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

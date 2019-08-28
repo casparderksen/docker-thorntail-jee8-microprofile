@@ -1,7 +1,6 @@
-package nl.casparderksen.rest;
+package nl.casparderksen.myservice;
 
 import nl.casparderksen.model.Document;
-import nl.casparderksen.service.DocumentRepository;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
@@ -41,9 +40,9 @@ public class DocumentsResource {
             @QueryParam(Param.START) @DefaultValue("0") @Min(0) int start,
             @QueryParam(Param.COUNT) @DefaultValue("20") @Min(1) @Max(100) int count,
             @Context UriInfo uriInfo) {
-        final List<Document> list = documentRepository.getRange(start, count);
-        final Link[] paginationLinks = getPaginationLinks(start, count, list.size(), uriInfo);
-        return Response.ok(getGenericEntity(list)).links(paginationLinks).build();
+        final List<Document> documents = documentRepository.getRange(start, count);
+        final Link[] paginationLinks = getPaginationLinks(start, count, documents.size(), uriInfo);
+        return Response.ok(toEntity(documents)).links(paginationLinks).build();
     }
 
     @Operation(description = "Gets a document by id.")
@@ -138,7 +137,7 @@ public class DocumentsResource {
         return Response.status(NOT_FOUND).build();
     }
 
-    private static GenericEntity<List<Document>> getGenericEntity(final List<Document> list) {
+    private static GenericEntity<List<Document>> toEntity(final List<Document> list) {
         return new GenericEntity<List<Document>>(list) {
         };
     }

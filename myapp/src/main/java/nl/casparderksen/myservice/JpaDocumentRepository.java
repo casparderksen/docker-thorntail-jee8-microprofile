@@ -1,8 +1,7 @@
-package nl.casparderksen.persistence;
+package nl.casparderksen.myservice;
 
 import lombok.extern.slf4j.Slf4j;
 import nl.casparderksen.model.Document;
-import nl.casparderksen.service.DocumentRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;

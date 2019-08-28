@@ -1,4 +1,4 @@
-package nl.casparderksen.persistence;
+package nl.casparderksen.myservice;
 
 import lombok.*;
 import nl.casparderksen.model.Document;

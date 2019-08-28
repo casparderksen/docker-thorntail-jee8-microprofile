@@ -2,7 +2,7 @@ package nl.casparderksen;
 
 import lombok.extern.slf4j.Slf4j;
 import nl.casparderksen.model.Document;
-import nl.casparderksen.service.DocumentRepository;
+import nl.casparderksen.myservice.DocumentRepository;
 import org.assertj.db.type.Table;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
@@ -20,6 +20,7 @@ import javax.sql.DataSource;
 import javax.transaction.UserTransaction;
 
 import static org.assertj.db.api.Assertions.assertThat;
+import static org.junit.Assert.assertNotNull;
 
 @SuppressWarnings("ArquillianDeploymentAbsent")
 @RunWith(Arquillian.class)
@@ -34,10 +35,10 @@ public class PersistenceIT {
     private EntityManager entityManager;
 
     @Inject
-    DocumentRepository repository;
+    private DocumentRepository repository;
 
     @Inject
-    UserTransaction utx;
+    private UserTransaction utx;
 
     @Before
     public void setUp() throws Exception {
@@ -50,7 +51,9 @@ public class PersistenceIT {
 
     @Test
     public void dataShouldBePersisted() throws NamingException {
-        Table table = new Table(getDatasource(), "DOCUMENT");
+        DataSource datasource = getDatasource();
+        assertNotNull(datasource);
+        Table table = new Table(datasource, "DOCUMENT");
         assertThat(table).row(0)
                 .value("id").isEqualTo(1)
                 .value("name").isEqualTo("foo");

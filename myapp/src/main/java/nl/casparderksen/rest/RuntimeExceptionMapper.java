@@ -1,4 +1,4 @@
-package nl.casparderksen.rest.exceptions;
+package nl.casparderksen.rest;
 
 import lombok.extern.slf4j.Slf4j;
 

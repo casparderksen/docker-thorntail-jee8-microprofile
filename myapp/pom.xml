@@ -16,6 +16,7 @@
 
     <build>
         <finalName>${project.artifactId}</finalName>
+
         <plugins>
             <plugin>
                 <groupId>io.thorntail</groupId>
@@ -27,42 +28,15 @@
                     </arguments>
                 </configuration>
             </plugin>
-
-            <plugin>
-                <groupId>org.flywaydb</groupId>
-                <artifactId>flyway-maven-plugin</artifactId>
-                <executions>
-                    <!-- Run with 'mvn flyway:GOAL@myschema -Poracle' to invoke independently.
-                         GOAL is one of clean/info/migrate/... -->
-                    <execution>
-                        <id>myschema</id>
-                        <configuration>
-                            <driver>${flyway.driver}</driver>
-                            <url>${flyway.url}</url>
-                            <user>${flyway.user}</user>
-                            <password>${flyway.password}</password>
-                            <locations>
-                                <location>${flyway.location}</location>
-                            </locations>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
 
     <dependencies>
 
-        <!-- Thorntail / JEE -->
-
+        <!-- TODO libs to hollow jar -->
         <dependency>
             <groupId>io.thorntail</groupId>
             <artifactId>jaxrs</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>datasources</artifactId>
         </dependency>
 
         <dependency>
@@ -72,53 +46,63 @@
 
         <dependency>
             <groupId>io.thorntail</groupId>
-            <artifactId>transactions</artifactId>
+            <artifactId>flyway</artifactId>
         </dependency>
 
         <dependency>
             <groupId>io.thorntail</groupId>
-            <artifactId>flyway</artifactId>
-            <version>2.3.0.Final-SNAPSHOT</version>
+            <artifactId>microprofile</artifactId>
         </dependency>
 
-        <!-- MicroProfile extensions -->
+        <dependency>
+            <groupId>org.microprofile-ext.health-ext</groupId>
+            <artifactId>healthprobe-jvm</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.microprofile-ext.health-ext</groupId>
+            <artifactId>healthprobe-system</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.microprofile-ext.health-ext</groupId>
+            <artifactId>health-ui</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.microprofile-ext.openapi-ext</groupId>
             <artifactId>swagger-ui</artifactId>
         </dependency>
 
-        <!-- Database -->
-
-        <!--<dependency>-->
-        <!--<groupId>org.hibernate</groupId>-->
-        <!--<artifactId>hibernate-c3p0</artifactId>-->
-        <!--</dependency>-->
-
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-        </dependency>
-
     </dependencies>
 
     <profiles>
         <profile>
+            <id>h2</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>com.h2database</groupId>
+                    <artifactId>h2</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+
+        <profile>
             <id>oracle</id>
 
             <properties>
-                <oracle.connection-url>jdbc:oracle:thin:@//localhost:1521/ORCLPDB1</oracle.connection-url>
-                <flyway.driver>oracle.jdbc.OracleDriver</flyway.driver>
-                <flyway.url>${oracle.connection-url}</flyway.url>
+                <flyway.url>jdbc:oracle:thin:@//localhost:1521/ORCLPDB1</flyway.url>
                 <flyway.user>myschema</flyway.user>
                 <flyway.password>myschema</flyway.password>
-                <flyway.location>filesystem:src/main/resources/db/migration/oracle</flyway.location>
             </properties>
 
             <dependencies>
                 <dependency>
                     <groupId>com.oracle.jdbc</groupId>
-                    <artifactId>ojdbc8</artifactId>
+                    <artifactId>ojdbc10</artifactId>
                 </dependency>
             </dependencies>
 
@@ -131,8 +115,8 @@
                             <dependencies>
                                 <dependency>
                                     <groupId>com.oracle.jdbc</groupId>
-                                    <artifactId>ojdbc8</artifactId>
-                                    <version>${ojdbc8.version}</version>
+                                    <artifactId>ojdbc10</artifactId>
+                                    <version>${ojdbc10.version}</version>
                                 </dependency>
                             </dependencies>
                         </plugin>
@@ -143,10 +127,73 @@
 
         <profile>
             <id>docker</id>
-
-            <properties>
-                <oracle.connection-url>jdbc:oracle:thin:@//oracledb:1521/ORCLPDB1</oracle.connection-url>
-            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.fabric8</groupId>
+                        <artifactId>docker-maven-plugin</artifactId>
+                        <configuration>
+                            <images>
+                                <image>
+                                    <name>caspard/%a</name>
+                                    <build>
+                                        <dockerFileDir>${project.artifactId}</dockerFileDir>
+                                        <tags>
+                                            <tag>${project.version}</tag>
+                                        </tags>
+                                        <assembly>
+                                            <inline>
+                                                <file>
+                                                    <source>${project.build.directory}/${project.artifactId}-thorntail.jar</source>
+                                                    <destName>${project.artifactId}.jar</destName>
+                                                </file>
+                                            </inline>
+                                        </assembly>
+                                    </build>
+                                    <run>
+                                        <ports>
+                                            <port>8080:8080</port>
+                                            <port>8443:8443</port>
+                                            <port>5005:5005</port>
+                                        </ports>
+                                        <env>
+                                            <JAVA_TOOL_OPTIONS>
+                                                -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
+                                            </JAVA_TOOL_OPTIONS>
+                                        </env>
+                                        <memory>256000000</memory>
+                                        <cmd>-Sh2</cmd>
+                                    </run>
+                                </image>
+                            </images>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>build</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>pre-integration-test</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>start</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>post-integration-test</id>
+                                <phase>post-integration-test</phase>
+                                <goals>
+                                    <goal>stop</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
+
     </profiles>
+
 </project>

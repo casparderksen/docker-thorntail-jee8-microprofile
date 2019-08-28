@@ -1,0 +1,17 @@
+openapi: 3.0.0
+info:
+  title: "${project.artifactId}"
+  description: Example application
+  contact:
+    name: "Caspar Derksen"
+    url: https://github.com/casparderksen/docker-thorntail-jee8-microprofile
+  license:
+    name: Eclipse Public License - v 1.0
+    url: https://www.eclipse.org/legal/epl-v10.html
+  version: "${project.version}"
+servers:
+  - url: http://localhost:8080
+paths:
+  /health:
+  /metrics:
+  /openapi:

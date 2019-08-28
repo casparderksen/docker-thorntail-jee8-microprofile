@@ -6,7 +6,7 @@ Unit-integration tests are ran against an H2 in-memory database.
 
 # Integrated frameworks:
 
-- Thorntail 2.2.1
+- Thorntail
 - Docker container built via Fabric8 Docker Maven Plugin
 - Remote debugging in Docker container
 - Lombok (add plugin to your IDE)
@@ -48,51 +48,59 @@ Resources:
  
 # Building the application
 
-Before building, see the [workaround for Flyway database migrations](#flyway-database-migrations). Then run
+Build the application with
 
     $ mvn package
+    
+or
+
+    $ mvn package -Pdocker
+    
+to build Docker images as well. By default, the `h2` profile is activated to include the H2 in-memory
+database driver.
+
+Note that the [`thorntail-hollow`](thorntail-hollow) module
+defines base images that need to build once. Afterwards, you can build Docker images from
+the [`myapp`](myapp) directory as well.
 
 # Running the application
 
-Go to directory [`myapp`](myapp).
+Go to directory [`myapp`](myapp). To run the application from Maven:
+
+    $ mvn thorntail:run
     
-## Running from Maven
-
-Running the application from Maven:
-- `mvn thorntail:run`
-- `mvn thorntail:start`
-
-Build docker container:
-- `mvn package -Pdocker`
-
-Run Docker container:
-- `mvn docker:run -Pdocker`
-- `mvn docker:start -Pdocker`
-- `mvn docker:stop -Pdocker`
-
-## Running from the command line
-
-To run the application from the command line with an in-memory H2 database:
+To run from the command line:
 
     $ java -jar target/myapp-thorntail.jar -Sh2
-
-A profile with datasource configuration must be specified.
+    
+The '-Sh2' option configures a H2 datasource. When using a different database, make sure to enable
+the profile for including a matching database driver during the build phase.
 
 ## Running from Docker
 
-To run the application from Docker with https enabled and H2 database:
+Make sure that you have built the base image for the application.
 
-    $ mvn package -Pdocker
-    $ docker run --rm -it -p 8443:8443 -v $(pwd)/security:/opt/security myapp -Shttps -Sh2
+To run the application in Docker from Maven:
+
+    $ mvn docker:run -Pdocker,h2
+    
+To run the application in Docker from the command-line:
+
+    $ mvn package -Pdocker,h2
+    $ docker run --rm -it -p 8080:8080 caspard/myapp -Sh2
  
 ## Running from the IDE
 
 To run the application from IntelliJ:
 - Edit Run/Debug Configurations
 - Add Application configuration
+- Set Main class: `org.wildfly.swarm.runner.Runner`
 - Set Program arguments: `-Sh2 -Sdebug`
 - Set Working directory: `$MODULE_WORKING_DIR$`
 - Set Use classpath of module: "myapp"
+- Check Include dependecies with "Provided" scope
+
+# Testing the application
 
 ## Running Arquillian unit-integration tests
 
@@ -114,8 +122,8 @@ To run Arquillian integration tests from IntelliJ:
 - Add Arquillian Junit configuration
 - Select Configure
 - Add Manual container configuration
-- Set name: "Thorntail 2.2.1"
-- Add dependency, select Existing library: "Maven: io.thorntail:arquillian-adapter:2.2.1-Final"
+- Set name: "Thorntail 2.5.0"
+- Add dependency, select Existing library: "Maven: io.thorntail:arquillian-adapter:2.5.0-Final"
 
 # Application profiles
 
@@ -128,7 +136,7 @@ Enable https by specifying the `https` profile:
 See [project-https.yml](myapp/src/main/resources/project-https.yml) for an example https configuration
 (adapt to your needs). Https is not configured by default, because storing passwords and certificates
 in archives/containers is insecure and not portable across environments. Furthermore, https could be 
-offloaded by Nginx or Istio.
+offloaded by Nginx, or Istio when deploying to Kubernetes.
 
 To generate a self-signed certificate, run `gen_keystore.sh` in [myapp/security](myapp/security).
 
@@ -138,21 +146,10 @@ target is configured for running with https enabled.
 
 ## Datasources
 
-Datasource configuration is stored in `profile-*.yml` files. These profiles are not enabled by default. In this way,
+Datasource configuration is stored in `profile-\<db\>.yml` files. These profiles are not enabled by default. In this way,
 it is possible to run a standalone application with an H2 in-memory database, or connect to a network database.
 A datasource configuration must be supplied in order to run the application, either via a profile or via
-external configuration file. Available profiles are: `h2`, `mysql` (untested), `oracle`, `postgres` (untested).
-
-## Flyway database migrations
-
-Database specific migration scripts are stored in 
-[src/main/resources/db/migration/_\<db\>_](myapp/src/main/resources/db/migration).
-
-In Thorntail 2.2.1 it is not possible to specify alternate locations for database dependent migration scripts.
-This will be solved in Thorntail 2.3.0.Final (https://issues.jboss.org/browse/THORN-914).
-Workaround:
-- Clone `https://github.com/thorntail/thorntail.git` and execute `mvn clean install -DskipTests`
-- Set `thorntail-flyway` version to `2.3.0.Final-SNAPSHOT`
+external configuration file. Available profiles are: `h2`, `oracle`, `mysql` (untested), `postgres` (untested).
  
 ## Debugging
 
@@ -162,9 +159,8 @@ The `debug` profile enables debug logging.
 
 ## Java 8 in Docker
 
-When running Java 8 in a container, the following JVM options should be specified:
-- respect CPU and memory limits: `-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap`
-- use all available heap in Docker: `-XX:MaxRAMFraction=1`
+When running in a container, the following JVM options should be specified:
+- use all available heap in Docker: `-XX:MaxRAMFraction=1` in order to set memory from the container orchestrator
 - ensure sufficient entropy: `-Djava.security.egd=file:/dev/./urandom`
 
 When building the container, an exec-style entrypoint should be specified, in order to launch a single process
@@ -190,10 +186,10 @@ The `mvn docker:run -Pdocker` target has been configured for this (see [`pom.xml
 ## Install OJDBC driver
 
 Download `ojdbc8.jar` from
-[https://www.oracle.com/technetwork/database/application-development/jdbc/downloads/jdbc-ucp-183-5013470.html](https://www.oracle.com/technetwork/database/application-development/jdbc/downloads/jdbc-ucp-183-5013470.html)
+[https://www.oracle.com/technetwork/database/application-development/jdbc/downloads/jdbc-ucp-19c-5460552.html](https://www.oracle.com/technetwork/database/application-development/jdbc/downloads/jdbc-ucp-19c-5460552.html)
 and install it in your local Maven repository:
 
-    mvn install:install-file -Dfile=ojdbc8.jar -DgroupId=com.oracle.jdbc -DartifactId=ojdbc8 -Dversion=18.3.0.0 -Dpackaging=jar
+    mvn install:install-file -Dfile=ojdbc10.jar -DgroupId=com.oracle.jdbc -DartifactId=ojdbc10 -Dversion=19.3.0.0 -Dpackaging=jar
 
 ## Configure the database connection
 
@@ -204,7 +200,7 @@ Also configure the connection details in [pom.xml](myapp/pom.xml) for using the 
 
 To run the application from the command line with an Oracle database:
 
-    $ mvn package -Poracle
+    $ mvn package -Poracle,!h2
     $ java -jar target/myapp-thorntail.jar -Soracle
     
 ## Running from Docker
@@ -214,7 +210,7 @@ for service discovery in a Docker network (adapt to your needs).
 
 To run the application from Docker with an Oracle database:
 
-    $ mvn  package -Poracle -Pdocker
+    $ mvn  package -Poracle -Pdocker,!h2
     $ docker run --rm -it -p 8080:8080 myapp -Soracle
 
 ## Flyway Maven plugin
@@ -257,8 +253,8 @@ Follow the log file and wait for the database to build. Then start the applicati
 # References
 
 Thorntail:
-- [Thorntail 2.2.1 documentation](https://docs.thorntail.io/2.2.1.Final/)
-- [Thorntail examples](https://github.com/thorntail/thorntail-examples/tree/2.2.1.Final)
+- [Thorntail documentation](https://docs.thorntail.io)
+- [Thorntail examples](https://github.com/thorntail/thorntail-examples)
 
 MicroProfile:
 - [MicroProfile Config](https://github.com/eclipse/microprofile-config)
@@ -269,7 +265,6 @@ MicroProfile:
 - [MicroProfile OpenAPI](https://github.com/eclipse/microprofile-open-api/blob/master/spec/src/main/asciidoc/microprofile-openapi-spec.adoc)
 - [MicroProfile Extensions](https://www.microprofile-ext.org)
 - [Swagger UI on MicroProfile OpenAPI](https://www.phillip-kruger.com/post/microprofile_openapi_swaggerui/)
-- [Thorntail examples](https://github.com/thorntail/thorntail-examples)
 
 Testing:
 - [Functional testing using Drone and Graphene](http://arquillian.org/guides/functional_testing_using_graphene/)

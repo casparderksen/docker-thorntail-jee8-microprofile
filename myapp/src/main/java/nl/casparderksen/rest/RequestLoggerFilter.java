@@ -1,4 +1,4 @@
-package nl.casparderksen.rest.filters;
+package nl.casparderksen.rest;
 
 import lombok.extern.slf4j.Slf4j;
 

@@ -17,46 +17,48 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- Maven plugins -->
-        <docker-maven-plugin.version>0.27.2</docker-maven-plugin.version>
+        <docker-maven-plugin.version>0.31.0</docker-maven-plugin.version>
         <maven-failsafe-plugin.version>3.0.0-M3</maven-failsafe-plugin.version>
-        <flyway-maven-plugin.version>3.0</flyway-maven-plugin.version>
+        <flyway-maven-plugin.version>5.2.4</flyway-maven-plugin.version>
 
         <!-- JEE / Thorntail -->
         <javaee-api.version>8.0</javaee-api.version>
-        <thorntail.version>2.2.1.Final</thorntail.version>
+        <thorntail.version>2.5.0.Final</thorntail.version>
 
-        <!-- Microprofile extensions -->
+        <!-- MicroProfile -->
+        <microprofile.version>2.2</microprofile.version>
+
+        <!-- MicroProfile extensions -->
         <healthprobe-system.version>1.0.5</healthprobe-system.version>
         <healthprobe-jvm.version>1.0.5</healthprobe-jvm.version>
         <health-ui.version>1.0.5</health-ui.version>
-        <swagger-ui.version>1.0.1</swagger-ui.version>
+        <swagger-ui.version>1.0.2</swagger-ui.version>
 
         <!-- Generic libraries -->
-        <lombok.version>1.18.4</lombok.version>
-        <slf4j.version>1.7.25</slf4j.version>
+        <lombok.version>1.18.8</lombok.version>
+        <slf4j.version>1.7.28</slf4j.version>
 
         <!-- Databases -->
-        <hibernate.version>5.1.16.Final</hibernate.version>
-        <h2.version>1.4.197</h2.version>
-        <mysql.version>8.0.13</mysql.version>
-        <ojdbc8.version>18.3.0.0</ojdbc8.version>
-        <postgresql.version>42.2.5</postgresql.version>
+        <hibernate.version>5.4.4.Final</hibernate.version>
+        <h2.version>1.4.199</h2.version>
+        <mysql.version>8.0.17</mysql.version>
+        <ojdbc10.version>19.3.0.0</ojdbc10.version>
+        <postgresql.version>42.2.6</postgresql.version>
 
         <!-- Arquillian -->
-        <arquillian-bom.version>1.1.12.Final</arquillian-bom.version>
-        <arquillian-drone-bom.version>2.0.1.Final</arquillian-drone-bom.version>
-        <graphene-webdriver.version>2.1.0.Final</graphene-webdriver.version>
+        <arquillian-bom.version>1.4.1.Final</arquillian-bom.version>
+        <arquillian-drone-bom.version>2.5.1</arquillian-drone-bom.version>
+        <graphene-webdriver.version>2.3.2</graphene-webdriver.version>
 
         <!-- Test libraries -->
-        <assertj-core.version>3.11.1</assertj-core.version>
+        <assertj-core.version>3.13.2</assertj-core.version>
         <assertj-db.version>1.2.0</assertj-db.version>
-        <mockito-core.version>2.23.4</mockito-core.version>
-        <rest-assured.version>3.2.0</rest-assured.version>
+        <mockito-core.version>3.0.0</mockito-core.version>
+        <rest-assured.version>4.0.0</rest-assured.version>
 
     </properties>
 
     <build>
-
         <pluginManagement>
             <plugins>
 
@@ -64,6 +66,12 @@
                     <groupId>io.thorntail</groupId>
                     <artifactId>thorntail-maven-plugin</artifactId>
                     <version>${thorntail.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>io.fabric8</groupId>
+                    <artifactId>docker-maven-plugin</artifactId>
+                    <version>${docker-maven-plugin.version}</version>
                 </plugin>
 
                 <plugin>
@@ -224,8 +232,8 @@
 
             <dependency>
                 <groupId>com.oracle.jdbc</groupId>
-                <artifactId>ojdbc8</artifactId>
-                <version>${ojdbc8.version}</version>
+                <artifactId>ojdbc10</artifactId>
+                <version>${ojdbc10.version}</version>
             </dependency>
 
             <dependency>
@@ -298,51 +306,14 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Thorntail runner for IDE -->
-
-        <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>thorntail-runner</artifactId>
-            <version>${thorntail.version}</version>
-        </dependency>
-
         <!-- MicroProfile -->
 
         <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>microprofile-health</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>microprofile-config</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>microprofile-openapi</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>microprofile-metrics</artifactId>
-        </dependency>
-
-        <!-- MicroProfile extensions -->
-
-        <dependency>
-            <groupId>org.microprofile-ext.health-ext</groupId>
-            <artifactId>healthprobe-jvm</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.microprofile-ext.health-ext</groupId>
-            <artifactId>healthprobe-system</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.microprofile-ext.health-ext</groupId>
-            <artifactId>health-ui</artifactId>
+            <groupId>org.eclipse.microprofile</groupId>
+            <artifactId>microprofile</artifactId>
+            <version>${microprofile.version}</version>
+            <type>pom</type>
+            <scope>provided</scope>
         </dependency>
 
         <!-- Generic libraries-->
@@ -350,11 +321,13 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <!-- Test dependencies -->
@@ -386,6 +359,15 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- Thorntail runner for IDE -->
+
+        <dependency>
+            <groupId>io.thorntail</groupId>
+            <artifactId>thorntail-runner</artifactId>
+            <version>${thorntail.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
         <!-- Test libraries -->
 
         <dependency>
@@ -413,117 +395,5 @@
         </dependency>
 
     </dependencies>
-
-    <profiles>
-        <profile>
-            <id>docker</id>
-            <build>
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <groupId>io.fabric8</groupId>
-                            <artifactId>docker-maven-plugin</artifactId>
-                            <version>${docker-maven-plugin.version}</version>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-
-                <plugins>
-                    <plugin>
-                        <groupId>io.fabric8</groupId>
-                        <artifactId>docker-maven-plugin</artifactId>
-                        <configuration>
-                            <images>
-                                <image>
-                                    <name>${project.artifactId}</name>
-                                    <run>
-                                        <ports>
-                                            <port>8443:8443</port>
-                                            <port>8080:8080</port>
-                                            <port>5005:5005</port>
-                                        </ports>
-                                        <env>
-                                            <JAVA_TOOL_OPTIONS>
-                                                -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
-                                            </JAVA_TOOL_OPTIONS>
-                                        </env>
-                                        <memory>1000000000</memory>
-                                        <volumes>
-                                            <bind>
-                                                <volume>./security:/opt/security</volume>
-                                            </bind>
-                                        </volumes>
-                                        <cmd>-Shttps -Sh2</cmd>
-                                    </run>
-                                    <build>
-                                        <from>openjdk:8-jre</from>
-                                        <tags>
-                                            <tag>${project.version}</tag>
-                                        </tags>
-                                        <labels>
-                                            <artifactId>${project.artifactId}</artifactId>
-                                            <version>${project.version}</version>
-                                        </labels>
-                                        <ports>
-                                            <port>8080</port>
-                                        </ports>
-                                        <user>nobody</user>
-                                        <workdir>/opt</workdir>
-                                        <assembly>
-                                            <basedir>/</basedir>
-                                            <inline>
-                                                <files>
-                                                    <file>
-                                                        <source>
-                                                            ${project.build.directory}/${project.build.finalName}-thorntail.jar
-                                                        </source>
-                                                        <outputDirectory>/opt</outputDirectory>
-                                                    </file>
-                                                </files>
-                                            </inline>
-                                        </assembly>
-                                        <entryPoint>
-                                            <exec>
-                                                <arg>/usr/bin/java</arg>
-                                                <arg>-Djava.net.preferIPv4Stack=true</arg>
-                                                <arg>-Djava.security.egd=file:/dev/./urandom</arg>
-                                                <arg>-XX:+UnlockExperimentalVMOptions</arg>
-                                                <arg>-XX:+UseCGroupMemoryLimitForHeap</arg>
-                                                <arg>-XX:MaxRAMFraction=1</arg>
-                                                <arg>-jar", "${project.build.finalName}-thorntail.jar</arg>
-                                            </exec>
-                                        </entryPoint>
-                                    </build>
-                                </image>
-                            </images>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>build</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>pre-integration-test</id>
-                                <phase>pre-integration-test</phase>
-                                <goals>
-                                    <goal>start</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>post-integration-test</id>
-                                <phase>post-integration-test</phase>
-                                <goals>
-                                    <goal>stop</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-
-            </build>
-        </profile>
-    </profiles>
 
 </project>

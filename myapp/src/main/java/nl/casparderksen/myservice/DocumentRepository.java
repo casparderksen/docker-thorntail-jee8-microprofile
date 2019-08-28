@@ -1,4 +1,4 @@
-package nl.casparderksen.service;
+package nl.casparderksen.myservice;
 
 import nl.casparderksen.model.Document;
 
