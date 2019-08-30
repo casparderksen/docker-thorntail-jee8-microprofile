@@ -10,5 +10,4 @@ COPY maven/${project.artifactId}.jar ${THORNTAIL_HOME}/
 COPY entrypoint.sh /usr/local/bin/
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
-#CMD ["${project.artifactId}"]
 
