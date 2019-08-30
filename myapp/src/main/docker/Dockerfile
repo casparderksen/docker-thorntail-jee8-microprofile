@@ -1,13 +1,15 @@
-FROM caspard/thorntail-openjdk8
+FROM caspard/openjdk8
 
 LABEL org.label-schema.description="Application ${project.groupId}:${project.artifactId}:${project.version}" \
       org.label-schema.name=${project.artifactId} \
       org.label-schema.version=${project.version}
 
-COPY maven/${project.artifactId}.jar ${THORNTAIL_HOME}/
-#COPY maven/${project.artifactId}.war ${THORNTAIL_HOME}/
+EXPOSE 5005 8080 8443
 
-COPY entrypoint.sh /usr/local/bin/
+COPY run-env.sh /opt
+COPY maven/${project.artifactId}.jar /opt
 
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+USER nobody
+
+ENTRYPOINT ["/opt/run-java.sh"]
 

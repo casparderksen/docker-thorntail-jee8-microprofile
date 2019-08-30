@@ -11,3 +11,6 @@ RUN yum update -y \
 
 # Set JAVA_HOME environment variable
 ENV JAVA_HOME /usr/lib/jvm/java
+
+# Add run-java.sh script
+COPY maven/run-java.sh /opt

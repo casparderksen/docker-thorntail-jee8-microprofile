@@ -4,12 +4,13 @@ This is a microservices chassis for building applications with JEE8/MicroProfile
 Datasource and database-specific migration scripts can be selected by specifying a configuration profile.
 Unit-integration tests are ran against an H2 in-memory database.
 
-Checkout version `thorntail-2.2.1` for a fully tested version, this version is not fully tested/working yet.
+Checkout version `thorntail-2.2.1` for a fully tested version, https has not been tested for this version yet.
 
 # Integrated frameworks:
 
 - Thorntail
 - Docker container built via Fabric8 Docker Maven Plugin
+- Fabric8.io run-java.sh script for tuning and running Java apps in Docker
 - Remote debugging in Docker container
 - Lombok (add plugin to your IDE)
 - JAX-RS resource
@@ -161,17 +162,16 @@ The `debug` profile enables debug logging.
 
 ## Java 8 in Docker
 
-When running in a container, the following JVM options should be specified:
-- use all available heap in Docker: `-XX:MaxRAMFraction=1` in order to set memory from the container orchestrator
-- ensure sufficient entropy: `-Djava.security.egd=file:/dev/./urandom`
+The Fabric8.io `run-java.sh` script is used for tuning JVM options and running the application in Docker.
+This allows many JVM settings to be configured via environment variables.
+See [https://github.com/fabric8io-images/run-java-sh/blob/master/fish-pepper/run-java-sh/readme.md](https://github.com/fabric8io-images/run-java-sh/blob/master/fish-pepper/run-java-sh/readme.md)
+for configuration options.
 
 When building the container, an exec-style entrypoint should be specified, in order to launch a single process
 that can receive Unix signals. In this way, command line arguments for profiles can be specified when starting
-the container.
+the container. To run the image with another entrypoint:
 
-To run the image with another entrypoint:
-
-    $ docker run --rm -it --entrypoint bash myapp
+    $ docker run --rm -it --entrypoint bash caspard/myapp
 
 ## Remote debugging in Docker
 
@@ -203,7 +203,7 @@ for all configuration options.
 
 To run the application from the command line with an Oracle database:
 
-    $ mvn package -Poracle,!h2
+    $ mvn package -Poracle,\!h2
     $ java -jar target/myapp-thorntail.jar -Soracle
     
 ## Running from Docker

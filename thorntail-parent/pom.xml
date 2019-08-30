@@ -37,6 +37,7 @@
         <!-- Generic libraries -->
         <lombok.version>1.18.8</lombok.version>
         <slf4j.version>1.7.28</slf4j.version>
+        <run-java-sh.version>1.3.4</run-java-sh.version>
 
         <!-- Databases -->
         <hibernate.version>5.4.4.Final</hibernate.version>
@@ -209,6 +210,12 @@
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-simple</artifactId>
                 <version>${slf4j.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.fabric8</groupId>
+                <artifactId>run-java-sh</artifactId>
+                <version>${run-java-sh.version}</version>
             </dependency>
 
             <!-- Databases -->

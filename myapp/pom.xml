@@ -10,7 +10,7 @@
         <relativePath>../thorntail-parent</relativePath>
     </parent>
 
-    <name>Thorntail JEE8/MicroProfile App</name>
+    <name>My App</name>
     <artifactId>myapp</artifactId>
     <packaging>war</packaging>
 

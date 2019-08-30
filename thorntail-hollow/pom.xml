@@ -183,6 +183,17 @@
                                     <name>caspard/openjdk8</name>
                                     <build>
                                         <contextDir>openjdk8</contextDir>
+                                        <tags>
+                                            <tag>${project.version}</tag>
+                                        </tags>
+                                        <assembly>
+                                            <inline>
+                                                <file>
+                                                    <source>${project.build.directory}/docker-extra/run-java/run-java.sh</source>
+                                                    <destName>run-java.sh</destName>
+                                                </file>
+                                            </inline>
+                                        </assembly>
                                     </build>
                                 </image>
                                 <image>
@@ -212,6 +223,13 @@
                                 </goals>
                             </execution>
                         </executions>
+                        <dependencies>
+                            <dependency>
+                                <groupId>io.fabric8</groupId>
+                                <artifactId>run-java-sh</artifactId>
+                                <version>${run-java-sh.version}</version>
+                            </dependency>
+                        </dependencies>
                     </plugin>
                 </plugins>
             </build>
