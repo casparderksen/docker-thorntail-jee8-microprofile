@@ -17,6 +17,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- Maven plugins -->
+        <git-commit-id-plugin.version>2.2.5</git-commit-id-plugin.version>
         <docker-maven-plugin.version>0.31.0</docker-maven-plugin.version>
         <maven-failsafe-plugin.version>3.0.0-M3</maven-failsafe-plugin.version>
         <flyway-maven-plugin.version>5.2.4</flyway-maven-plugin.version>
@@ -68,6 +69,12 @@
                     <groupId>io.thorntail</groupId>
                     <artifactId>thorntail-maven-plugin</artifactId>
                     <version>${thorntail.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>pl.project13.maven</groupId>
+                    <artifactId>git-commit-id-plugin</artifactId>
+                    <version>${git-commit-id-plugin.version}</version>
                 </plugin>
 
                 <plugin>

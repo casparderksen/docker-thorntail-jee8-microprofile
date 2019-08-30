@@ -11,6 +11,7 @@ Checkout version `thorntail-2.2.1` for a fully tested version, https has not bee
 - Thorntail
 - Docker container built via Fabric8 Docker Maven Plugin
 - Fabric8.io run-java.sh script for tuning and running Java apps in Docker
+- Git info in Docker labels and application info
 - Remote debugging in Docker container
 - Lombok (add plugin to your IDE)
 - JAX-RS resource

@@ -1,1 +1,1 @@
-Application ${project.groupId}:${project.artifactId}:${project.version} is ready on port ${thorntail.http.port}/${thorntail.https.port}
+Application ${project.groupId}:${project.artifactId}:${project.version} (${git.commit.id.abbrev}) is ready on port ${thorntail.http.port}/${thorntail.https.port}

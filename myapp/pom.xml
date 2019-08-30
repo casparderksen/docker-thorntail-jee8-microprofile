@@ -28,6 +28,22 @@
                     </arguments>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>pl.project13.maven</groupId>
+                <artifactId>git-commit-id-plugin</artifactId>
+                <configuration>
+                    <generateGitPropertiesFile>true</generateGitPropertiesFile>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>git-info</id>
+                        <goals>
+                            <goal>revision</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
@@ -145,7 +161,9 @@
                                         <assembly>
                                             <inline>
                                                 <file>
-                                                    <source>${project.build.directory}/${project.artifactId}-thorntail.jar</source>
+                                                    <source>
+                                                        ${project.build.directory}/${project.artifactId}-thorntail.jar
+                                                    </source>
                                                     <destName>${project.artifactId}.jar</destName>
                                                 </file>
                                             </inline>

@@ -2,7 +2,9 @@ FROM caspard/openjdk8
 
 LABEL org.label-schema.description="Thorntail JDK8 base image" \
       org.label-schema.name=${project.artifactId} \
-      org.label-schema.version=${project.version}
+      org.label-schema.version=${project.version} \
+      org.label-schema.vcs-url=${git.remote.origin.url} \
+      org.label-schema.vcs-ref=${git.commit.id}
 
 # Generate self signed TLS certificate
 RUN mkdir /opt/security \
