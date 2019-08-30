@@ -7,4 +7,4 @@
 
 # Run application
 jar_file=$(ls *.jar)
-exec /usr/bin/java ${JAVA_OPTS} ${JAVA_EXTRA_OPTS} -Djboss.tx.node.id=${TX_NODE_ID} -jar ${jar_file} $*
+exec /usr/bin/java ${JAVA_OPTS} ${JAVA_EXTRA_OPTS} -Dthorntail.transactions.node-identifier=${TX_NODE_ID} -jar ${jar_file} $*
