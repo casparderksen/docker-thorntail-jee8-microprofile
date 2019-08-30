@@ -138,7 +138,7 @@
                                 <image>
                                     <name>caspard/%a</name>
                                     <build>
-                                        <dockerFileDir>${project.artifactId}</dockerFileDir>
+                                        <contextDir>${project.basedir}/src/main/docker</contextDir>
                                         <tags>
                                             <tag>${project.version}</tag>
                                         </tags>

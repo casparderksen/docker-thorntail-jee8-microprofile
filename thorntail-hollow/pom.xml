@@ -174,13 +174,13 @@
                                 <image>
                                     <name>caspard/openjdk8</name>
                                     <build>
-                                        <dockerFileDir>openjdk8</dockerFileDir>
+                                        <contextDir>openjdk8</contextDir>
                                     </build>
                                 </image>
                                 <image>
                                     <name>caspard/thorntail-openjdk8</name>
                                     <build>
-                                        <dockerFileDir>thorntail</dockerFileDir>
+                                        <contextDir>thorntail</contextDir>
                                         <tags>
                                             <tag>${project.version}</tag>
                                         </tags>
