@@ -33,6 +33,14 @@
                             <hollow>true</hollow>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>start</id>
+                        <phase>none</phase>
+                    </execution>
+                    <execution>
+                        <id>stop</id>
+                        <phase>none</phase>
+                    </execution>
                 </executions>
             </plugin>
         </plugins>
@@ -125,8 +133,8 @@
             <dependencies>
                 <dependency>
                     <groupId>com.oracle.jdbc</groupId>
-                    <artifactId>ojdbc10</artifactId>
-                    <version>${ojdbc10.version}</version>
+                    <artifactId>ojdbc8</artifactId>
+                    <version>${ojdbc8.version}</version>
                 </dependency>
             </dependencies>
         </profile>
