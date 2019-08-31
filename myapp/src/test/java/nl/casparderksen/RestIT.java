@@ -134,7 +134,7 @@ public class RestIT {
         given().accept(ContentType.JSON)
                 .when().get(ping())
                 .then().statusCode(200)
-                .and().body("name", equalTo("myapp"));
+                .and().body("projectArtifactId", equalTo("myapp"));
     }
 
     @Test
@@ -142,7 +142,7 @@ public class RestIT {
         given().accept(ContentType.XML)
                 .when().get(ping())
                 .then().statusCode(200)
-                .and().body(hasXPath("//name", equalTo("myapp")));
+                .and().body(hasXPath("//projectArtifactId", equalTo("myapp")));
     }
 
     @Test
@@ -153,9 +153,9 @@ public class RestIT {
     }
 
     @Test
-    public void shouldGetConfigApplicationName() {
+    public void shouldGetConfiguredArtifactId() {
         given().accept(ContentType.TEXT)
-                .when().get(config("application.name"))
+                .when().get(config("project.artifactId"))
                 .then().statusCode(200)
                 .and().body(equalTo("myapp"));
     }
