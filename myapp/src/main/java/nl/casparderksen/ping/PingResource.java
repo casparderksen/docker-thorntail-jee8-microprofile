@@ -24,12 +24,44 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class PingResource {
 
     @Inject
-    @ConfigProperty(name = "application.name")
-    private String name;
+    @ConfigProperty(name = "project.groupId")
+    private String projectGroupId;
 
     @Inject
-    @ConfigProperty(name = "application.version")
-    private String version;
+    @ConfigProperty(name = "project.artifactId")
+    private String projectArtifactId;
+
+    @Inject
+    @ConfigProperty(name = "project.version")
+    private String projectVersion;
+
+    @Inject
+    @ConfigProperty(name = "git.remote.origin.url")
+    private String gitRemoteOriginURL;
+
+    @Inject
+    @ConfigProperty(name = "git.build.time")
+    private String gitBuildTime;
+
+    @Inject
+    @ConfigProperty(name = "git.branch")
+    private String gitBranch;
+
+    @Inject
+    @ConfigProperty(name = "git.commit.id")
+    private String gitCommitId;
+
+    @Inject
+    @ConfigProperty(name = "git.commit.id.abbrev")
+    private String gitCommitIdAbbrev;
+
+    @Inject
+    @ConfigProperty(name = "git.dirty")
+    private boolean gitDirty;
+
+    @Inject
+    @ConfigProperty(name = "git.tags", defaultValue = "")
+    private String gitTags;
 
     @GET
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
@@ -44,7 +76,17 @@ public class PingResource {
             displayName = "Number of pings",
             description = "Metric to show how many times the ping endpoint was called")
     public PingResponse ping() {
-        return new PingResponse(name, version);
+        return new PingResponse(
+                projectGroupId,
+                projectArtifactId,
+                projectVersion,
+                gitRemoteOriginURL,
+                gitBuildTime,
+                gitBranch,
+                gitCommitId,
+                gitCommitIdAbbrev,
+                gitDirty,
+                gitTags);
     }
 
     @Data
@@ -52,7 +94,15 @@ public class PingResource {
     @AllArgsConstructor
     @XmlRootElement
     public static class PingResponse {
-        private String name;
-        private String version;
+        private String projectGroupId;
+        private String projectArtifactId;
+        private String projectVersion;
+        private String gitRemoteOriginURL;
+        private String gitBuildTime;
+        private String gitBranch;
+        private String gitCommitId;
+        private String gitCommitIdAbbrev;
+        private boolean gitDirty;
+        private String gitTags;
     }
 }

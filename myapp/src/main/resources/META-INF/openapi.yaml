@@ -6,8 +6,8 @@ info:
     name: "Caspar Derksen"
     url: https://github.com/casparderksen/docker-thorntail-jee8-microprofile
   license:
-    name: Eclipse Public License - v 1.0
-    url: https://www.eclipse.org/legal/epl-v10.html
+    name: Eclipse Public License - v 2.0
+    url: https://www.eclipse.org/legal/epl-v20.html
   version: "${project.version}"
 servers:
   - url: http://localhost:8080
