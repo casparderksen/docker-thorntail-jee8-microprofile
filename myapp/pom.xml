@@ -70,7 +70,7 @@
 
             <properties>
                 <oracle.connection-url>jdbc:oracle:thin:@//oracledb:1521/ORCLPDB1</oracle.connection-url>
-                <flyway.url>${oracle.connection-url}}</flyway.url>
+                <flyway.url>jdbc:oracle:thin:@//localhost:1521/ORCLPDB1</flyway.url>
                 <flyway.user>myschema</flyway.user>
                 <flyway.password>myschema</flyway.password>
             </properties>
