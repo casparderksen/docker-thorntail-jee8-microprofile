@@ -1,4 +1,4 @@
-FROM caspard/openjdk8
+FROM my/openjdk8
 
 LABEL org.label-schema.description="Thorntail JDK8 base image" \
       org.label-schema.name=${project.artifactId} \
