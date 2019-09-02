@@ -29,6 +29,7 @@ Caveat: https has not been tested for this version yet.
 
 # Test frameworks
 
+- ArchUnit for testing Onion Architecture compliance [https://www.archunit.org](https://www.archunit.org)
 - Arquillian integration testing
 - Arquillian extension for adding test dependencies (AssertJ) to in-container test
 - RestAssured integration tests for JAX-RS endpoints

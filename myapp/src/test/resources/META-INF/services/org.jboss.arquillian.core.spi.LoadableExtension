@@ -1,1 +1,1 @@
-nl.casparderksen.util.arquillian.ArquillianExtension
+org.myapp.util.arquillian.ArquillianExtension

@@ -111,7 +111,7 @@
                         <configuration>
                             <images>
                                 <image>
-                                    <name>caspard/%a</name>
+                                    <name>my/%a</name>
                                     <build>
                                         <contextDir>${project.basedir}/src/main/docker</contextDir>
                                         <tags>

@@ -20,6 +20,7 @@
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <git-commit-id-plugin.version>2.2.5</git-commit-id-plugin.version>
         <docker-maven-plugin.version>0.31.0</docker-maven-plugin.version>
+        <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
         <maven-failsafe-plugin.version>3.0.0-M3</maven-failsafe-plugin.version>
         <flyway-maven-plugin.version>5.2.4</flyway-maven-plugin.version>
 
@@ -56,11 +57,12 @@
         <graphene-webdriver.version>2.3.2</graphene-webdriver.version>
 
         <!-- Test libraries -->
+        <junit-jupiter.version>5.5.1</junit-jupiter.version>
+        <archunit-junit5.version>0.11.0</archunit-junit5.version>
         <assertj-core.version>3.13.2</assertj-core.version>
         <assertj-db.version>1.2.0</assertj-db.version>
         <mockito-core.version>3.0.0</mockito-core.version>
         <rest-assured.version>4.0.0</rest-assured.version>
-
     </properties>
 
     <build>
@@ -95,6 +97,12 @@
                     <groupId>org.flywaydb</groupId>
                     <artifactId>flyway-maven-plugin</artifactId>
                     <version>${flyway-maven-plugin.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven-surefire-plugin.version}</version>
                 </plugin>
 
                 <plugin>
@@ -314,6 +322,40 @@
                 <version>${postgresql.version}</version>
             </dependency>
 
+            <!-- JUnit -->
+
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-api</artifactId>
+                <version>${junit-jupiter.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-engine</artifactId>
+                <version>${junit-jupiter.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.junit.vintage</groupId>
+                <artifactId>junit-vintage-engine</artifactId>
+                <version>${junit-jupiter.version}</version>
+            </dependency>
+
+            <!-- ArchUnit -->
+
+            <dependency>
+                <groupId>com.tngtech.archunit</groupId>
+                <artifactId>archunit-junit5-api</artifactId>
+                <version>${archunit-junit5.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.tngtech.archunit</groupId>
+                <artifactId>archunit-junit5-engine</artifactId>
+                <version>${archunit-junit5.version}</version>
+            </dependency>
+
             <!-- Arquillian -->
 
             <dependency>
@@ -453,6 +495,40 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- JUnit -->
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- ArchUnit -->
+
+        <dependency>
+            <groupId>com.tngtech.archunit</groupId>
+            <artifactId>archunit-junit5-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.tngtech.archunit</groupId>
+            <artifactId>archunit-junit5-engine</artifactId>
             <scope>test</scope>
         </dependency>
 

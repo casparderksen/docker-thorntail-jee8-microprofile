@@ -11,7 +11,7 @@ services:
       - "oradata:/opt/oracle/oradata"
 
   myapp:
-    image: caspard/myapp:latest
+    image: my/myapp:latest
     command: -Soracle
     ports:
       - "8080:8080"

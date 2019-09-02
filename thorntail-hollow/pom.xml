@@ -173,7 +173,7 @@
                         <configuration>
                             <images>
                                 <image>
-                                    <name>caspard/openjdk8</name>
+                                    <name>my/openjdk8</name>
                                     <build>
                                         <contextDir>openjdk8</contextDir>
                                         <tags>
@@ -190,7 +190,7 @@
                                     </build>
                                 </image>
                                 <image>
-                                    <name>caspard/thorntail-openjdk8</name>
+                                    <name>my/thorntail-openjdk8</name>
                                     <build>
                                         <contextDir>thorntail</contextDir>
                                         <tags>
