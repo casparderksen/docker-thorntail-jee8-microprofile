@@ -1,4 +1,4 @@
-package nl.casparderksen.arquillian;
+package nl.casparderksen.util.arquillian;
 
 import org.jboss.arquillian.container.test.spi.client.deployment.AuxiliaryArchiveAppender;
 import org.jboss.arquillian.core.spi.LoadableExtension;

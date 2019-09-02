@@ -1,6 +1,6 @@
 CREATE TABLE document (
-    id   NUMBER(19,0) NOT NULL,
-    name VARCHAR2(100) NOT NULL
-);
+    id   VARCHAR2(36) NOT NULL,
+    name VARCHAR2(100) NOT NULL,
 
-CREATE SEQUENCE id_seq;
+    CONSTRAINT id_pk PRIMARY KEY (id)
+);

@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: "${project.artifactId}"
+  title: "${project.artifactId} ${project.version} (${git.commit.id.abbrev})"
   description: Example application
   contact:
     name: "Caspar Derksen"
@@ -8,10 +8,13 @@ info:
   license:
     name: Eclipse Public License - v 2.0
     url: https://www.eclipse.org/legal/epl-v20.html
-  version: "${project.version}"
+  version: "1.0"
 servers:
   - url: http://localhost:8080
 paths:
   /health:
+    description: "MicroProfile Health endpoint"
   /metrics:
+    description: "MicroProfile Metrics endpoint"
   /openapi:
+    description: "OpenAPI endpoint"

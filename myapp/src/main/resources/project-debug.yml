@@ -3,3 +3,7 @@ thorntail:
     loggers:
       nl.casparderksen:
         level: DEBUG
+
+hibernate:
+  show_sql: true
+  format_sql: false

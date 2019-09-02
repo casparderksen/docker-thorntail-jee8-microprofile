@@ -55,13 +55,6 @@
             <artifactId>web</artifactId>
         </dependency>
 
-        <!-- MicroProfile -->
-
-        <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>microprofile</artifactId>
-        </dependency>
-
         <!-- MicroProfile extensions -->
 
         <dependency>

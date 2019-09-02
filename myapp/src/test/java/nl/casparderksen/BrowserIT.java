@@ -28,9 +28,9 @@ public class BrowserIT {
     @ArquillianResource
     private URL deploymentURL;
 
-    private URL url(String path) {
+    private URL url() {
         try {
-            return new URL(deploymentURL, path);
+            return new URL(deploymentURL, "/api/openapi-ui/index.html");
         } catch (MalformedURLException exception) {
             throw new RuntimeException(exception);
         }
@@ -38,7 +38,7 @@ public class BrowserIT {
 
     @Test
     public void shouldDisplayUI() {
-        driver.navigate().to(url("/api/openapi-ui/index.html"));
+        driver.navigate().to(url());
         assertThat(driver.getPageSource()).contains("myapp - Swagger UI");
     }
 }

@@ -4,23 +4,25 @@ This is a microservices chassis for building applications with JEE8/MicroProfile
 Datasource and database-specific migration scripts can be selected by specifying a configuration profile.
 Unit-integration tests are ran against an H2 in-memory database.
 
-Checkout version `thorntail-2.2.1` for a fully tested version, https has not been tested for this version yet.
+Caveat: https has not been tested for this version yet.
 
 # Integrated frameworks:
 
 - Thorntail
 - Docker container built via Fabric8 Docker Maven Plugin
-- Fabric8.io run-java.sh script for tuning and running Java apps in Docker
-- Git info in Docker labels and application info
+- Fabric8.io run-java.sh entrypoint for tuning and running Java apps in Docker
+- Git info in Docker labels and application info (git-commit-id-plugin)
 - Remote debugging in Docker container
 - Lombok (add plugin to your IDE)
-- JAX-RS resource
+- MapStruct for mapping between domain values and DTOs (add plugin to your IDE)
+- JAX-RS resources
 - TLS (https)
 - JPA and transactions
-- Datasource with MicroProfile health check
+- Datasource for H2, Oracle and other databases
 - Flyway database migration (multiple database flavors)
 - SLF4J logging and Thorntail logging configuration
-- MicroProfile Health endpoint with JVM and system health (via MicroProfile Extensions)
+- HealthCheck for datasource
+- MicroProfile Health endpoint with JVM, system health (via MicroProfile Extensions)
 - MicroProfile Metrics endpoint (with example Counter)
 - MicroProfile Config configuration
 - MicroProfile OpenAPI specification with SwaggerUI extension
@@ -40,13 +42,14 @@ MicroProfile:
 - OpenAPI: [http://localhost:8080/openapi](http://localhost:8080/openapi)
 - Health: [http://localhost:8080/health](http://localhost:8080/health)
 
-Microprofile extensions:
+MicroProfile extensions:
 - Health UI: [http://localhost:8080/health-ui/](http://localhost:8080/health-ui/)
 - Swagger UI: [http://localhost:8080/api/openapi-ui](http://localhost:8080/api/openapi-ui)
 
 Resources:
 - Ping [http://localhost:8080/api/ping](http://localhost:8080/api/ping)
 - Ping counter: [http://localhost:8080/metrics/application/PingCounter](http://localhost:8080/metrics/application/PingCounter)
+- Application info [http://localhost:8080/api/info](http://localhost:8080/api/info)
 - Config: [http://localhost:8080/api/config/{key}](http://localhost:8080/api/config/{key})
 - CRUD resource example: [http://localhost:8080/api/documents](http://localhost:8080/api/documents)
  
@@ -102,7 +105,7 @@ To run the application from IntelliJ:
 - Set Program arguments: `-Sh2 -Sdebug`
 - Set Working directory: `$MODULE_WORKING_DIR$`
 - Set Use classpath of module: "myapp"
-- Check Include dependecies with "Provided" scope
+- Check Include dependencies with "Provided" scope
 
 # Testing the application
 
@@ -110,7 +113,8 @@ To run the application from IntelliJ:
 
 The `@DefaultDeployment` annotation does not bundle tests dependencies for in-container tests.
 Therefore, an Arquillian loadable extension is added via the Java SPI mechanism for adding test
-dependencies to the deployment. 
+dependencies to the deployment. If you refactor to different package names, do not forget to change
+the class name in file [org.jboss.arquillian.core.spi.LoadableExtension](myapp/src/test/resources/META-INF/services/org.jboss.arquillian.core.spi.LoadableExtension).
 
 Note that `@DefaultDeployment` only adds classes in the current package. Place your tests in
 a package that includes all dependencies.
@@ -168,7 +172,7 @@ This allows many JVM settings to be configured via environment variables.
 See [https://github.com/fabric8io-images/run-java-sh/blob/master/fish-pepper/run-java-sh/readme.md](https://github.com/fabric8io-images/run-java-sh/blob/master/fish-pepper/run-java-sh/readme.md)
 for configuration options.
 
-When building the container, an exec-style entrypoint should be specified, in order to launch a single process
+When building the container, an exec-style entrypoint must be specified, in order to launch a single process
 that can receive Unix signals. In this way, command line arguments for profiles can be specified when starting
 the container. To run the image with another entrypoint:
 

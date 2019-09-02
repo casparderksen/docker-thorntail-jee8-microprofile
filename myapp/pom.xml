@@ -28,28 +28,12 @@
                     </arguments>
                 </configuration>
             </plugin>
-
-            <plugin>
-                <groupId>pl.project13.maven</groupId>
-                <artifactId>git-commit-id-plugin</artifactId>
-                <configuration>
-                    <generateGitPropertiesFile>true</generateGitPropertiesFile>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>git-info</id>
-                        <goals>
-                            <goal>revision</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
 
     <dependencies>
 
-        <!-- TODO libs to hollow jar -->
+        <!-- TODO libs provided by hollow jar -->
         <dependency>
             <groupId>io.thorntail</groupId>
             <artifactId>jaxrs</artifactId>
@@ -63,31 +47,6 @@
         <dependency>
             <groupId>io.thorntail</groupId>
             <artifactId>flyway</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>microprofile</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.microprofile-ext.health-ext</groupId>
-            <artifactId>healthprobe-jvm</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.microprofile-ext.health-ext</groupId>
-            <artifactId>healthprobe-system</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.microprofile-ext.health-ext</groupId>
-            <artifactId>health-ui</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.microprofile-ext.openapi-ext</groupId>
-            <artifactId>swagger-ui</artifactId>
         </dependency>
 
     </dependencies>

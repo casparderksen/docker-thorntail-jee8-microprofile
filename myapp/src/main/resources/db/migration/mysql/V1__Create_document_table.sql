@@ -1,6 +1,6 @@
 CREATE TABLE document (
-    id BIGINT NOT NULL,
-    name VARCHAR2(100) NOT NULL
-);
+    id VARCHAR(36) NOT NULL,
+    name VARCHAR(100) NOT NULL,
 
-CREATE SEQUENCE id_seq;
+    PRIMARY KEY(id)
+);

@@ -1,4 +1,4 @@
-package nl.casparderksen.rest;
+package nl.casparderksen.util.rest.filters;
 
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerResponseContext;

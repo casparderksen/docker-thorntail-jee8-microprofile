@@ -1,4 +1,4 @@
-package nl.casparderksen.health;
+package nl.casparderksen.application.adapter.health;
 
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.microprofile.config.inject.ConfigProperty;

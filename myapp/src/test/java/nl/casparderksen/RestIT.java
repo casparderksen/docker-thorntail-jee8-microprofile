@@ -1,7 +1,7 @@
 package nl.casparderksen;
 
 import io.restassured.http.ContentType;
-import nl.casparderksen.model.Document;
+import nl.casparderksen.documentservice.adapter.rest.DocumentDTO;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.junit.InSequence;
@@ -12,8 +12,11 @@ import org.wildfly.swarm.arquillian.DefaultDeployment;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.UUID;
 
 import static io.restassured.RestAssured.given;
+import static nl.casparderksen.util.hamcrest.StoreUuidMatcher.storeUUID;
+import static nl.casparderksen.util.hamcrest.StoreUuidMatcher.getUUID;
 import static org.hamcrest.Matchers.*;
 
 @SuppressWarnings("ArquillianDeploymentAbsent")
@@ -37,6 +40,10 @@ public class RestIT {
         return url("api/ping");
     }
 
+    private URL info() {
+        return url("api/info");
+    }
+
     private URL health() {
         return url("health");
     }
@@ -57,8 +64,12 @@ public class RestIT {
         return url("api/documents");
     }
 
-    private URL documents(long id) {
+    private URL documents(UUID id) {
         return url("api/documents/" + id);
+    }
+
+    private URL documents(String action) {
+        return url("api/documents/" + action);
     }
 
     private String relation(URL url, String name) {
@@ -116,7 +127,7 @@ public class RestIT {
     }
 
     @Test
-    public void healthStatusatabaseShouldBeUp() {
+    public void healthStatusDatabaseShouldBeUp() {
         given()
                 .when().get(health())
                 .then().body("checks.find{it.name='database'}.status", equalTo("UP"));
@@ -130,19 +141,10 @@ public class RestIT {
     }
 
     @Test
-    public void shouldPingJson() {
+    public void shouldPingApplication() {
         given().accept(ContentType.JSON)
                 .when().get(ping())
-                .then().statusCode(200)
-                .and().body("projectArtifactId", equalTo("myapp"));
-    }
-
-    @Test
-    public void shouldPingXml() {
-        given().accept(ContentType.XML)
-                .when().get(ping())
-                .then().statusCode(200)
-                .and().body(hasXPath("//projectArtifactId", equalTo("myapp")));
+                .then().statusCode(200);
     }
 
     @Test
@@ -150,6 +152,22 @@ public class RestIT {
         given()
                 .when().get(metric("PingCounter"))
                 .then().statusCode(200);
+    }
+
+    @Test
+    public void shouldGetApplicationInfoAsJson() {
+        given().accept(ContentType.JSON)
+                .when().get(info())
+                .then().statusCode(200)
+                .and().body("projectArtifactId", equalTo("myapp"));
+    }
+
+    @Test
+    public void shouldGetApplicationInfoAsXml() {
+        given().accept(ContentType.XML)
+                .when().get(info())
+                .then().statusCode(200)
+                .and().body(hasXPath("//projectArtifactId", equalTo("myapp")));
     }
 
     @Test
@@ -163,11 +181,12 @@ public class RestIT {
     @Test
     @InSequence(1)
     public void shouldCreateDocument() {
-        given().body(new Document("foo"))
+        given().body(DocumentDTO.builder().name("foo").build())
                 .and().contentType(ContentType.JSON)
                 .when().post(documents())
                 .then().statusCode(201)
-                .and().header("Location", endsWith(documents(1).toString()));
+                .and().body("id", storeUUID())
+                .and().header("Location", endsWith(documents(getUUID()).toString()));
     }
 
     @Test
@@ -183,38 +202,56 @@ public class RestIT {
     @InSequence(3)
     public void shouldGetDocument() {
         given()
-                .when().get(documents(1))
+                .when().get(documents(getUUID()))
                 .then().statusCode(200)
-                .and().header("Link", equalTo(relation(documents(1), "self")))
-                .and().body("id", equalTo(1))
+                .and().header("Link", equalTo(relation(documents(getUUID()), "self")))
+                .and().body("id", equalTo(getUUID()))
                 .and().body("name", equalTo("foo"));
     }
 
     @Test
     @InSequence(4)
     public void shouldUpdateDocument() {
-        given().body(new Document("bar"))
+        given().body(DocumentDTO.builder().name("bar").build())
                 .and().contentType(ContentType.JSON)
-                .when().put(documents(1))
+                .when().put(documents(getUUID()))
                 .then().statusCode(200)
-                .and().header("Link", equalTo(relation(documents(1), "self")))
-                .and().body("id", equalTo(1))
+                .and().header("Link", equalTo(relation(documents(getUUID()), "self")))
+                .and().body("id", equalTo(getUUID()))
                 .and().body("name", equalTo("bar"));
     }
 
     @Test
     @InSequence(5)
-    public void shouldDeleteDocument() {
+    public void shouldCountDocuments() {
         given()
-                .when().delete(documents(1))
-                .then().statusCode(204);
+                .when().get(documents("count"))
+                .then().statusCode(200)
+                .and().body("count", equalTo(1));
     }
 
     @Test
     @InSequence(6)
-    public void shouldNotFindDocument() {
+    public void shouldDeleteDocument() {
         given()
-                .when().get(documents(1))
+                .when().delete(documents(getUUID()))
+                .then().statusCode(204);
+    }
+
+    @Test
+    @InSequence(7)
+    public void shouldNotGetDocument() {
+        given()
+                .when().get(documents(getUUID()))
+                .then().statusCode(404);
+    }
+
+    @Test
+    @InSequence(8)
+    public void shouldNotUpdateDocument() {
+        given().body(DocumentDTO.builder().name("bar").build())
+                .and().contentType(ContentType.JSON)
+                .when().put(documents(getUUID()))
                 .then().statusCode(404);
     }
 }
