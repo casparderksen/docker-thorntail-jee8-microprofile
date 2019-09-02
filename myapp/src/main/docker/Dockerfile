@@ -1,4 +1,4 @@
-FROM caspard/openjdk8
+FROM my/openjdk8
 
 LABEL org.label-schema.description="Application ${project.groupId}:${project.artifactId}:${project.version}" \
       org.label-schema.name=${project.artifactId} \
