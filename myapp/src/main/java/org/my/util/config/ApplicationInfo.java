@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.eclipse.microprofile.config.Config;
 
+@SuppressWarnings("WeakerAccess")
 @Data
 @NoArgsConstructor
 public class ApplicationInfo {

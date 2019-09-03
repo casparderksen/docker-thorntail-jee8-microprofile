@@ -8,7 +8,7 @@ import com.tngtech.archunit.lang.ArchRule;
 import static com.tngtech.archunit.library.Architectures.onionArchitecture;
 
 @AnalyzeClasses(packages = "org.my.app", importOptions = ImportOption.DoNotIncludeTests.class)
-public class OnionArchitectureTest {
+class OnionArchitectureTest {
 
     @ArchTest
     static final ArchRule ONION_ARCHITECTURE_IS_RESPECTED = onionArchitecture()

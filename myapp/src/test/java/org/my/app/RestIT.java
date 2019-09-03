@@ -19,7 +19,7 @@ import static org.my.util.hamcrest.StoreUuidMatcher.storeUUID;
 import static org.my.util.hamcrest.StoreUuidMatcher.getUUID;
 import static org.hamcrest.Matchers.*;
 
-@SuppressWarnings("ArquillianDeploymentAbsent")
+@SuppressWarnings({"ArquillianDeploymentAbsent", "SameParameterValue"})
 @RunWith(Arquillian.class)
 @DefaultDeployment
 @RunAsClient
