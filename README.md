@@ -95,7 +95,7 @@ To run the application in Docker from Maven:
 To run the application in Docker from the command-line:
 
     $ mvn package -Pdocker,h2
-    $ docker run --rm -it -p 8080:8080 caspard/myapp -Sh2
+    $ docker run --rm -it -p 8080:8080 my/myapp -Sh2
  
 ## Running from the IDE
 
@@ -210,7 +210,7 @@ When building the container, an exec-style entrypoint must be specified, in orde
 that can receive Unix signals. In this way, command line arguments for profiles can be specified when starting
 the container. To run the image with another entrypoint:
 
-    $ docker run --rm -it --entrypoint bash caspard/myapp
+    $ docker run --rm -it --entrypoint bash my/myapp
 
 ## Remote debugging in Docker
 
