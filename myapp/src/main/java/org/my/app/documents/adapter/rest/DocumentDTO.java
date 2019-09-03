@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.my.app.documents.domain.model.Document;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -18,9 +19,13 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @XmlRootElement(name = "document")
+@Schema(name="Document", description="Datatype that represents documents")
 public class DocumentDTO implements Serializable {
 
+    @Schema(description = "UUID of the document")
     private UUID id;
+
+    @Schema(description = "Description of the document", required = true)
     private String name;
 
     Document toDocument() {

@@ -224,10 +224,10 @@ public class RestIT {
     @Test
     @InSequence(5)
     public void shouldCountDocuments() {
-        given()
+        given().accept(ContentType.TEXT)
                 .when().get(documents("count"))
                 .then().statusCode(200)
-                .and().body("count", equalTo(1));
+                .and().body(equalTo(1));
     }
 
     @Test
