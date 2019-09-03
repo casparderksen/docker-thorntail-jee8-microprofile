@@ -10,7 +10,7 @@ import javax.ws.rs.ext.Provider;
  */
 @Slf4j
 @Provider
-public class ExceptionMapper implements javax.ws.rs.ext.ExceptionMapper<Exception> {
+public class SneakyExceptionMapper implements javax.ws.rs.ext.ExceptionMapper<Exception> {
 
     @Override
     public Response toResponse(Exception exception) {

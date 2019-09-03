@@ -31,7 +31,7 @@ public interface Responses {
         return Response.ok(toEntity(entities)).links(paginationLinks).build();
     }
 
-    static <T, ID> Response getCreatedResponse(T entity, ID id, UriInfo uriInfo) {
+    static <T, I> Response getCreatedResponse(T entity, I id, UriInfo uriInfo) {
         final URI location = Links.getLocation(uriInfo, id);
         return Response.created(location).entity(entity).build();
     }
