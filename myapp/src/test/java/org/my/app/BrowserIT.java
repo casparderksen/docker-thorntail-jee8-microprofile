@@ -37,6 +37,6 @@ public class BrowserIT {
     @Test
     public void shouldDisplaySwaggerUI() {
             driver.navigate().to(url("/api/openapi-ui/index.html"));
-        assertThat(driver.getPageSource()).contains("Swagger UI");
+        assertThat(driver.getPageSource()).contains("MicroProfile - Open API");
     }
 }

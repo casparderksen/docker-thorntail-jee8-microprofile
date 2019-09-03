@@ -227,7 +227,7 @@ public class RestIT {
         given().accept(ContentType.TEXT)
                 .when().get(documents("count"))
                 .then().statusCode(200)
-                .and().body(equalTo(1));
+                .and().body(equalTo("1"));
     }
 
     @Test
