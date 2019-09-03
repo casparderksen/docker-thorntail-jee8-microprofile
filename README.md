@@ -29,7 +29,7 @@ Caveat: https has not been tested for this version yet.
 
 # Test frameworks
 
-- ArchUnit for testing Onion Architecture compliance [https://www.archunit.org](https://www.archunit.org)
+- ArchUnit for testing Onion Architecture and dependency rules
 - Arquillian integration testing
 - Arquillian extension for adding test dependencies (AssertJ) to in-container test
 - RestAssured integration tests for JAX-RS endpoints
@@ -110,19 +110,52 @@ To run the application from IntelliJ:
 
 # Testing the application
 
+## Architecture conformance tests
+
+The application is organized into slices and then layers, according to 
+[Onion Architecture](https://jeffreypalermo.com/2008/07/the-onion-architecture-part-1/) principles.
+We use [ArchUnit](https://www.archunit.org) unit tests for validating compliance to architecture rules.
+
+Code organization:
+- `org.my.app.<slice>`: slice of functionality (not a layer)
+  - `domain`: core logic, depends on business domain, framework-free
+    - `model`: domain entities (behaviour and encapsulated data)
+    - `service`: domain services
+  - `application`: use cases (application specific workflow)
+  - `adapter`: adapters for external systems or infrastructure
+    - `rest`: REST API (thin, no logic other than DTO mapping and building responses)
+- `org.my.util.<slice>`: application independent generic logic (could be moved to library)
+
+Dependency rules:
+- Slices must be independent
+- There must not be cyclic dependencies
+- The `domain` package may not depend on other packages
+- The `application` package may depend on `domain`, but not on any `adapter`
+- An `adapter` package may use `application` and `domain`
+- An `adapter` package may not depend on any other `adapter` package
+- A `util` package may not depend on `app` packages
+
+Consequences:
+- Use application services to send data from an input adapter to an output adapter (workflow).
+- Use Dependency Inversion or domain events for invoking adapters from domain or application services.
+
+We want domain and JPA entities to be consistent at all times.
+Therefore, REST adapters use DTOs as input and output models.
+
 ## Running Arquillian unit-integration tests
 
-The `@DefaultDeployment` annotation does not bundle tests dependencies for in-container tests.
-Therefore, an Arquillian loadable extension is added via the Java SPI mechanism for adding test
-dependencies to the deployment. If you refactor to different package names, do not forget to change
-the class name in file [org.jboss.arquillian.core.spi.LoadableExtension](myapp/src/test/resources/META-INF/services/org.jboss.arquillian.core.spi.LoadableExtension).
-
-Note that `@DefaultDeployment` only adds classes in the current package. Place your tests in
-a package that includes all dependencies.
-
-The file [`project-stages.yml`](myapp/src/test/resources/project-stages.yml) contains configuration
+We use Arquillian to test the application against an in-memory H2 database.
+The file [`project-stages.yml`](myapp/src/test/resources/project-stages.yml) contains the configuration
 required for testing, in particular an H2 datasource. In Thorntail 4, this file may be removed
 and replaced with profiles that are activated through the `thorntail.profiles` property.
+
+The `@DefaultDeployment` annotation is designed to bundle application slices for deployment. 
+As a result, only classes in the current package are added to the generated deployment. 
+However, slices may depend on generic utilities. Furthermore, in-container tests may require additional testing libraries.
+For this, an Arquillian loadable extension is added via the Java SPI mechanism for adding utilities and
+test dependencies to the deployment. If you refactor to different package names, do not forget to change
+the package names in [ArquillianExtension](myapp/src/test/java/org/my/util/arquillian/ArquillianExtension.java)
+and [org.jboss.arquillian.core.spi.LoadableExtension](myapp/src/test/resources/META-INF/services/org.jboss.arquillian.core.spi.LoadableExtension).
 
 ## Running Arquillian tests from the IDE
 
