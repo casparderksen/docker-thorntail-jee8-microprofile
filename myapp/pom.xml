@@ -139,7 +139,6 @@
                                                 -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
                                             </JAVA_TOOL_OPTIONS>
                                         </env>
-                                        <memory>256000000</memory>
                                         <cmd>-Sh2</cmd>
                                     </run>
                                 </image>
