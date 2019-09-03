@@ -61,7 +61,7 @@
         <archunit-junit5.version>0.11.0</archunit-junit5.version>
         <assertj-core.version>3.13.2</assertj-core.version>
         <assertj-db.version>1.2.0</assertj-db.version>
-        <mockito-core.version>3.0.0</mockito-core.version>
+        <mockito.version>3.0.0</mockito.version>
         <rest-assured.version>4.0.0</rest-assured.version>
     </properties>
 
@@ -374,6 +374,20 @@
                 <scope>import</scope>
             </dependency>
 
+            <!-- Mockito -->
+
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>${mockito.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-junit-jupiter</artifactId>
+                <version>${mockito.version}</version>
+            </dependency>
+            
             <!-- Test libraries -->
 
             <dependency>
@@ -386,12 +400,6 @@
                 <groupId>org.assertj</groupId>
                 <artifactId>assertj-db</artifactId>
                 <version>${assertj-db.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.mockito</groupId>
-                <artifactId>mockito-core</artifactId>
-                <version>${mockito-core.version}</version>
             </dependency>
 
             <dependency>
@@ -546,6 +554,20 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- Mockito -->
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+
         <!-- Test libraries -->
 
         <dependency>
@@ -557,12 +579,6 @@
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-db</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
             <scope>test</scope>
         </dependency>
 
