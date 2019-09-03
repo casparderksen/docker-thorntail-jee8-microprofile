@@ -315,7 +315,7 @@ MicroProfile:
 - [Swagger UI on MicroProfile OpenAPI](https://www.phillip-kruger.com/post/microprofile_openapi_swaggerui/)
 
 Testing:
-- [Functional testing using Drone and Graphene](http://arquillian.org/guides/functional_testing_using_graphene/)
+- [Functional testing using Drone and Graphene](http://arquillian.org/arquillian-graphene/)
 
 Oracle:
 - [OJDBC compatibility](https://www.oracle.com/technetwork/database/enterprise-edition/jdbc-faq-090281.html#01_01)

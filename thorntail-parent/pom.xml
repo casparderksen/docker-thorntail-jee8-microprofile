@@ -374,13 +374,6 @@
                 <scope>import</scope>
             </dependency>
 
-            <dependency>
-                <groupId>org.jboss.arquillian.graphene</groupId>
-                <artifactId>graphene-webdriver</artifactId>
-                <version>${graphene-webdriver.version}</version>
-                <type>pom</type>
-            </dependency>
-
             <!-- Test libraries -->
 
             <dependency>
@@ -547,8 +540,8 @@
         </dependency>
 
         <dependency>
-            <groupId>org.jboss.arquillian.graphene</groupId>
-            <artifactId>graphene-webdriver</artifactId>
+            <groupId>org.jboss.arquillian.extension</groupId>
+            <artifactId>arquillian-drone-webdriver-depchain</artifactId>
             <type>pom</type>
             <scope>test</scope>
         </dependency>

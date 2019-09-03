@@ -4,7 +4,6 @@ import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
@@ -19,7 +18,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(Arquillian.class)
 @DefaultDeployment
 @RunAsClient
-@Ignore // TODO fix test
 public class BrowserIT {
 
     @Drone
@@ -28,17 +26,17 @@ public class BrowserIT {
     @ArquillianResource
     private URL deploymentURL;
 
-    private URL url() {
+    private URL url(String path) {
         try {
-            return new URL(deploymentURL, "/api/openapi-ui/index.html");
+            return new URL(deploymentURL, path);
         } catch (MalformedURLException exception) {
             throw new RuntimeException(exception);
         }
     }
 
     @Test
-    public void shouldDisplayUI() {
-        driver.navigate().to(url());
-        assertThat(driver.getPageSource()).contains("myapp - Swagger UI");
+    public void shouldDisplaySwaggerUI() {
+            driver.navigate().to(url("/api/openapi-ui/index.html"));
+        assertThat(driver.getPageSource()).contains("Swagger UI");
     }
 }
