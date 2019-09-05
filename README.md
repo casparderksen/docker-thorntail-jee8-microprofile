@@ -1,40 +1,48 @@
 # About
 
-This is a microservices chassis for building applications with JEE8/MicroProfile/Docker, based on Thorntail.
+This is a microservices chassis for building production-ready applications with JEE8/MicroProfile/Docker, based on Thorntail.
 Datasource and database-specific migration scripts can be selected by specifying a configuration profile.
-Unit-integration tests are ran against an H2 in-memory database.
+Unit-integration tests are ran against an H2 in-memory database. A Docker compose example demonstrates
+integration with an Oracle database and Prometheus for monitoring.
 
-Caveat: https has not been tested for this version yet.
+## Functionality and integrated frameworks
 
-# Integrated frameworks:
-
-- Thorntail
+- Thorntail fat JAR, hollow JAR for Docker build, and hot deployment for development
 - Docker container built via Fabric8 Docker Maven Plugin
-- Fabric8.io run-java.sh entrypoint for tuning and running Java apps in Docker
-- Git info in Docker labels and application info (git-commit-id-plugin)
+- Fabric8.io run-java.sh entrypoint for JVM tuning and running Java apps in Docker
+- Git info and Maven coordinates in Docker labels and application info resource (git-commit-id-plugin)
 - Remote debugging in Docker container
 - Lombok (add plugin to your IDE)
+- JAX-RS resources with OpenAPI annotations. 
 - MapStruct for mapping between domain values and DTOs (add plugin to your IDE)
-- JAX-RS resources
-- TLS (https)
-- JPA and transactions
+- Bean Validation of DTOs
+- JPA with transactions
 - Datasource for H2, Oracle and other databases
 - Flyway database migration (multiple database flavors)
 - SLF4J logging and Thorntail logging configuration
-- HealthCheck for datasource
-- MicroProfile Health endpoint with JVM, system health (via MicroProfile Extensions)
+- HealthCheck provider for the datasource
+- MicroProfile Health extensions for JVM metrics and system health
 - MicroProfile Metrics endpoint (with example Counter)
 - MicroProfile Config configuration
 - MicroProfile OpenAPI specification with SwaggerUI extension
+- MicroProfile Extensions Health UI
+- MicroProfile Extensions Swagger UI based on OpenAPI annotations
 
-# Test frameworks
+## Test frameworks
 
-- ArchUnit for testing Onion Architecture and dependency rules
+- JUnit5 unit testing
 - Arquillian integration testing
-- Arquillian extension for adding test dependencies (AssertJ) to in-container test
+- ArchUnit for testing Onion Architecture compliance and independence of functional slices
+- Arquillian extension for adding test dependencies (utils, test-frameworks) to in-container tests
 - RestAssured integration tests for JAX-RS endpoints
-- Selenium browser tests via Drone and Graphene
+- Selenium browser tests via WebDriver Drone and Graphene
 - AssertJ and AssertJ-DB fluent tests
+
+## Observability
+
+- OpenMetrics monitoring with Prometheus. TODO: Graphana dashboards and AlertManager alerts.
+- TODO: OpenTracing tracing with Jaeger
+- TODO: ElasticStack logging
 
 # Endpoints
 
@@ -43,7 +51,7 @@ MicroProfile:
 - OpenAPI: [http://localhost:8080/openapi](http://localhost:8080/openapi)
 - Health: [http://localhost:8080/health](http://localhost:8080/health)
 
-MicroProfile extensions:
+MicroProfile Extension UIs:
 - Health UI: [http://localhost:8080/health-ui/](http://localhost:8080/health-ui/)
 - Swagger UI: [http://localhost:8080/api/openapi-ui](http://localhost:8080/api/openapi-ui)
 
@@ -60,42 +68,63 @@ Build the application with
 
     $ mvn package
     
-or
+## Building Docker images
 
-    $ mvn package -Pdocker
+In order to benefit from Docker image layering, we first build a base image that contains a Thorntail Hollow JAR. 
+This JAR contains our selected Thorntail fractions and generic dependencies such as database drivers. 
+We can then add Thorntail Thin WARs to the base image for building application images. 
+The base image needs to be built only once, unless additional Thorntail fractions or provided dependencies are needed. 
+
+In order to build the base image, go to the directory [`thorntail-server`](thorntail-server) and run
+
+    $ mvn clean package -Pdocker,h2,mp-ext
     
-to build Docker images as well. By default, the `h2` profile is activated to include the H2 in-memory
-database driver.
+The `h2` Maven profile includes the H2 in-memory database driver. The `mp-ext` profile includes several
+MicroProfile-Extensions libraries. You
 
-Note that the [`thorntail-hollow`](thorntail-hollow) module
-defines base images that need to build once. Afterwards, you can build Docker images from
-the [`myapp`](myapp) directory as well.
+## Building Docker application images
+
+After building the base image, go to the directory [`myapp`](myapp) and run
+
+    $ mvn clean package -Pdocker,\!h2,\!mp-ext
+    
+to build the application image. Disable profiles for dependencies that are already included in the base image.
 
 # Running the application
 
-Go to directory [`myapp`](myapp). To run the application from Maven:
+After building all Maven modules, go to the directory [`myapp`](myapp) for running the application.
+
+##  Running from Maven
+
+To run the application from Maven:
 
     $ mvn thorntail:run
-    
-To run from the command line:
 
-    $ java -jar target/myapp-thorntail.jar -Sh2
+## Running from the command line
+
+To run the application as fat JAR from the command line:
+
+    $ java -jar target/myapp-1.0.0-SNAPSHOT-thorntail.jar -Sh2
     
-The '-Sh2' option configures a H2 datasource. When using a different database, make sure to enable
-the profile for including a matching database driver during the build phase.
+When running the application, it is mandatory to specify a profile that defines a datasource.
+The '-Sh2' option configures a datasource for an embedded H2 in-memory database.
 
 ## Running from Docker
 
-Make sure that you have built the base image for the application.
+Make sure that you have built the base images for the application.
 
 To run the application in Docker from Maven:
 
-    $ mvn docker:run -Pdocker,h2
+    $ mvn docker:run -Pdocker
     
 To run the application in Docker from the command-line:
 
-    $ mvn package -Pdocker,h2
-    $ docker run --rm -it -p 8080:8080 my/myapp -Sh2
+    $ mvn package -Pdocker
+    $ docker run --rm -it -p 8080:8080 my/myapp
+    
+A limitation of Thorntail Thin WARs is that it is not possible to load configuration profiles.
+Therefore, we must specify the location of the corresponding configuration file as option.
+The default command runs thorntail with the H2 configuration.
  
 ## Running from the IDE
 
@@ -107,53 +136,25 @@ To run the application from IntelliJ:
 - Set Working directory: `$MODULE_WORKING_DIR$`
 - Set Use classpath of module: "myapp"
 - Check Include dependencies with "Provided" scope
-
+    
 # Testing the application
 
 ## Architecture conformance tests
 
-The application is organized into slices and then layers, according to 
-[Onion Architecture](https://jeffreypalermo.com/2008/07/the-onion-architecture-part-1/) principles.
-We use [ArchUnit](https://www.archunit.org) unit tests for validating compliance to architecture rules.
-
-Code organization:
-- `org.my.app.<slice>`: slice of functionality (not a layer)
-  - `domain`: core logic, depends on business domain, framework-free
-    - `model`: domain entities (behaviour and encapsulated data)
-    - `service`: domain services
-  - `application`: use cases (application specific workflow)
-  - `adapter`: adapters for external systems or infrastructure
-    - `rest`: REST API (thin, no logic other than DTO mapping and building responses)
-- `org.my.util.<slice>`: application independent generic logic (could be moved to library)
-
-Dependency rules:
-- Slices must be independent
-- There must not be cyclic dependencies
-- The `domain` package may not depend on other packages
-- The `application` package may depend on `domain`, but not on any `adapter`
-- An `adapter` package may use `application` and `domain`
-- An `adapter` package may not depend on any other `adapter` package
-- A `util` package may not depend on `app` packages
-
-Consequences:
-- Use application services to send data from an input adapter to an output adapter (workflow).
-- Use Dependency Inversion or domain events for invoking adapters from domain or application services.
-
-We want domain and JPA entities to be consistent at all times.
-Therefore, REST adapters use DTOs as input and output models.
+We use [ArchUnit](https://www.archunit.org) unit tests for validating compliance to [architecture rules](doc/architecture.md).
 
 ## Running Arquillian unit-integration tests
 
 We use Arquillian to test the application against an in-memory H2 database.
 The file [`project-stages.yml`](myapp/src/test/resources/project-stages.yml) contains the configuration
-required for testing, in particular an H2 datasource. In Thorntail 4, this file may be removed
-and replaced with profiles that are activated through the `thorntail.profiles` property.
+required for testing, in particular an H2 datasource (in Thorntail 4, this file may be removed
+and replaced with profiles that are activated through the `thorntail.profiles` property).
 
 The `@DefaultDeployment` annotation is designed to bundle application slices for deployment. 
 As a result, only classes in the current package are added to the generated deployment. 
 However, slices may depend on generic utilities. Furthermore, in-container tests may require additional testing libraries.
-For this, an Arquillian loadable extension is added via the Java SPI mechanism for adding utilities and
-test dependencies to the deployment. If you refactor to different package names, do not forget to change
+For this, an Arquillian loadable extension is added via the Java SPI mechanism for adding utility classes and
+test dependencies to the deployment. If you refactor to different package names or frameworks, do not forget to change
 the package names in [ArquillianExtension](myapp/src/test/java/org/my/util/arquillian/ArquillianExtension.java)
 and [org.jboss.arquillian.core.spi.LoadableExtension](myapp/src/test/resources/META-INF/services/org.jboss.arquillian.core.spi.LoadableExtension).
 
@@ -167,39 +168,30 @@ To run Arquillian integration tests from IntelliJ:
 - Set name: "Thorntail 2.5.0"
 - Add dependency, select Existing library: "Maven: io.thorntail:arquillian-adapter:2.5.0-Final"
 
-# Application profiles
+# Debugging the application
 
-## HTTPS
+To enable remote debugging, define the environment variable
 
-Enable https by specifying the `https` profile:
+    JAVA_TOOL_OPTIONS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005"
 
-    $ java -jar target/myapp-thorntail.jar -Sh2 -Shttps
+The `JAVA_TOOL_OPTIONS` environment variable can also be defined in the Docker environment to enable debugging
+without altering the container image. Alternatively, you can enable debugging as follows:
+
+    $ docker run --rm -it -p 8080:8080 my/myapp --debug myapp.war -s=project-debug.yml -s=project-h2.yml
     
-See [project-https.yml](myapp/src/main/resources/project-https.yml) for an example https configuration
-(adapt to your needs). Https is not configured by default, because storing passwords and certificates
-in archives/containers is insecure and not portable across environments. Furthermore, https could be 
-offloaded by Nginx, or Istio when deploying to Kubernetes.
+The `profile-debug.yml` profile enables debug logging and configures Hibernate to show SQL queries.
+    
+# Configuring the application
 
-To generate a self-signed certificate, run `gen_keystore.sh` in [myapp/security](myapp/security).
+Configuration profiles are defined in [myapp/src/main/resources/`profile-*.yml`](myapp/src/main/resources) Yaml files.
+No profile defining a datasource is enabled by default. In this way, it is possible to run a standalone application with 
+an H2 in-memory database on your workstation, or connect to some network database in other environment or Docker.
 
-To run the Docker container with https enabled, mount a host volume containing `keystore.jsk` at
- `/opt/security` and specify `-Shttps` as command-line argument. The `mvn docker:run -Pdocker`
-target is configured for running with https enabled.
-
-## Datasources
-
-Datasource configuration is stored in `profile-\<db\>.yml` files. These profiles are not enabled by default. In this way,
-it is possible to run a standalone application with an H2 in-memory database, or connect to a network database.
-A datasource configuration must be supplied in order to run the application, either via a profile or via
-external configuration file. Available profiles are: `h2`, `oracle`, `mysql` (untested), `postgres` (untested).
+To run the application, a datasource configuration must be provided, either via a profile, or via an
+external configuration file. Otherwise the application will fail to start.
+Available profiles are: `h2`, `oracle`, `mysql` (untested), `postgres` (untested).
  
-## Debugging
-
-The `debug` profile enables debug logging.
-
-# Docker
-
-## Java 8 in Docker
+# Java in Docker
 
 The Fabric8.io `run-java.sh` script is used for tuning JVM options and running the application in Docker.
 This allows many JVM settings to be configured via environment variables.
@@ -207,20 +199,10 @@ See [https://github.com/fabric8io-images/run-java-sh/blob/master/fish-pepper/run
 for configuration options.
 
 When building the container, an exec-style entrypoint must be specified, in order to launch a single process
-that can receive Unix signals. In this way, command line arguments for profiles can be specified when starting
-the container. To run the image with another entrypoint:
+that can receive Unix signals. In this way, command line arguments for configuration files can be specified when 
+starting the container. To run the image with a Bash shell as entrypoint:
 
     $ docker run --rm -it --entrypoint bash my/myapp
-
-## Remote debugging in Docker
-
-The `JAVA_TOOL_OPTIONS` environment variable can be specified to set Java command line options without
-altering the container image. To enable remote debugging in a Docker container, 
-start the container with the following environment variable:
-
-    JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
-
-The `mvn docker:run -Pdocker` target has been configured for this (see [`pom.xml`](thorntail-parent/pom.xml)).
 
 # Oracle database
 
@@ -282,9 +264,9 @@ For Oracle Database 12.2.0.1 Enterprise Edition this involves the following step
 
 ## Build the application
 
-Go to directory [`myapp`](myapp). To build the application as follows:
+Go to directory [`myapp`](myapp) and build the application image:
  
-     $ mvn package -Pdocker,oracle,\!h2
+     $ mvn package -Pdocker,oracle,\!h2,\!mp-ext
 
 ## Build the database
 
@@ -313,6 +295,9 @@ MicroProfile:
 - [MicroProfile OpenAPI](https://github.com/eclipse/microprofile-open-api/blob/master/spec/src/main/asciidoc/microprofile-openapi-spec.adoc)
 - [MicroProfile Extensions](https://www.microprofile-ext.org)
 - [Swagger UI on MicroProfile OpenAPI](https://www.phillip-kruger.com/post/microprofile_openapi_swaggerui/)
+
+Java in Docker:
+- [run-java-.sh](https://github.com/fabric8io-images/run-java-sh/blob/master/fish-pepper/run-java-sh/readme.md)
 
 Testing:
 - [Functional testing using Drone and Graphene](http://arquillian.org/arquillian-graphene/)

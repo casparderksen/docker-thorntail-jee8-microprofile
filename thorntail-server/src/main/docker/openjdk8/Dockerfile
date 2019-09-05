@@ -15,4 +15,4 @@ RUN yum update -y \
 ENV JAVA_HOME /usr/lib/jvm/java
 
 # Add run-java.sh script
-COPY maven/run-java.sh /opt
+COPY maven/run-java.sh /usr/local/bin

@@ -1,4 +1,4 @@
-FROM my/openjdk8
+FROM my/thorntail-server-openjdk8
 
 LABEL org.label-schema.description="Application ${project.groupId}:${project.artifactId}:${project.version}" \
       org.label-schema.name=${project.artifactId} \
@@ -8,10 +8,9 @@ LABEL org.label-schema.description="Application ${project.groupId}:${project.art
 
 EXPOSE 5005 8080 8443
 
-COPY run-env.sh /opt
-COPY maven/${project.artifactId}.jar /opt
+COPY run-env.sh /opt/thorntail
+COPY maven/project-*.yml /opt/thorntail/
+COPY maven/${project.artifactId}.war /opt/thorntail
 
-USER nobody
-
-ENTRYPOINT ["/opt/run-java.sh"]
+CMD [ "${project.artifactId}.war", "-s=project-defaults.yml", "-s=project-${databaseProfile}.yml" ]
 

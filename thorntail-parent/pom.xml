@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <name>Thorntail JEE8/MicroProfile Docker Parent POM</name>
-    <groupId>nl.casparderksen</groupId>
+    <groupId>org.my</groupId>
     <artifactId>thorntail-parent</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
@@ -27,9 +27,6 @@
         <!-- JEE / Thorntail -->
         <javaee-api.version>8.0</javaee-api.version>
         <thorntail.version>2.5.0.Final</thorntail.version>
-
-        <!-- MicroProfile -->
-        <microprofile.version>2.2</microprofile.version>
 
         <!-- MicroProfile extensions -->
         <healthprobe-system.version>1.0.5</healthprobe-system.version>
@@ -76,6 +73,18 @@
                 </plugin>
 
                 <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven-surefire-plugin.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>${maven-failsafe-plugin.version}</version>
+                </plugin>
+
+                <plugin>
                     <groupId>io.thorntail</groupId>
                     <artifactId>thorntail-maven-plugin</artifactId>
                     <version>${thorntail.version}</version>
@@ -99,23 +108,10 @@
                     <version>${flyway-maven-plugin.version}</version>
                 </plugin>
 
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>${maven-surefire-plugin.version}</version>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-failsafe-plugin</artifactId>
-                    <version>${maven-failsafe-plugin.version}</version>
-                </plugin>
-
             </plugins>
         </pluginManagement>
 
         <plugins>
-
             <plugin>
                 <groupId>pl.project13.maven</groupId>
                 <artifactId>git-commit-id-plugin</artifactId>
@@ -158,6 +154,10 @@
                     <properties>
                         <java.net.preferIPv4Stack>true</java.net.preferIPv4Stack>
                     </properties>
+                    <arguments>
+                        <argument>-S${databaseProfile}</argument>
+                        <argument>-Sdebug</argument>
+                    </arguments>
                 </configuration>
                 <executions>
                     <execution>
@@ -180,7 +180,6 @@
                     </execution>
                 </executions>
             </plugin>
-
         </plugins>
 
         <resources>
@@ -223,6 +222,12 @@
             <dependency>
                 <groupId>io.thorntail</groupId>
                 <artifactId>flyway</artifactId>
+                <version>${thorntail.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.thorntail</groupId>
+                <artifactId>scanner</artifactId>
                 <version>${thorntail.version}</version>
             </dependency>
 
@@ -387,7 +392,7 @@
                 <artifactId>mockito-junit-jupiter</artifactId>
                 <version>${mockito.version}</version>
             </dependency>
-            
+
             <!-- Test libraries -->
 
             <dependency>
@@ -413,7 +418,7 @@
 
     <dependencies>
 
-        <!-- JEE -->
+        <!-- JEE API -->
 
         <dependency>
             <groupId>javax</groupId>
@@ -421,43 +426,7 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- MicroProfile -->
-
-        <dependency>
-            <groupId>org.eclipse.microprofile</groupId>
-            <artifactId>microprofile</artifactId>
-            <version>${microprofile.version}</version>
-            <type>pom</type>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- MicroProfile extensions -->
-
-        <dependency>
-            <groupId>org.microprofile-ext.health-ext</groupId>
-            <artifactId>healthprobe-jvm</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.microprofile-ext.health-ext</groupId>
-            <artifactId>healthprobe-system</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.microprofile-ext.health-ext</groupId>
-            <artifactId>health-ui</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.microprofile-ext.openapi-ext</groupId>
-            <artifactId>swagger-ui</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-
-        <!-- Thorntail -->
+        <!-- Thorntail & MicroProfile-->
 
         <dependency>
             <groupId>io.thorntail</groupId>
@@ -466,12 +435,30 @@
 
         <dependency>
             <groupId>io.thorntail</groupId>
-            <artifactId>thorntail-runner</artifactId>
-            <version>${thorntail.version}</version>
-            <scope>provided</scope>
+            <artifactId>jaxrs</artifactId>
         </dependency>
 
-        <!-- Generic libraries-->
+        <dependency>
+            <groupId>io.thorntail</groupId>
+            <artifactId>jpa</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.thorntail</groupId>
+            <artifactId>elytron</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.thorntail</groupId>
+            <artifactId>flyway</artifactId>
+        </dependency>
+
+        <!-- Generic libraries -->
+
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -480,15 +467,18 @@
         </dependency>
 
         <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct</artifactId>
-            <version>${mapstruct.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <scope>provided</scope>
+        </dependency>
+
+        <!-- Thorntail IDE runner -->
+
+        <dependency>
+            <groupId>io.thorntail</groupId>
+            <artifactId>thorntail-runner</artifactId>
+            <version>${thorntail.version}</version>
+            <scope>runtime</scope>
         </dependency>
 
         <!-- Test dependencies -->
@@ -519,7 +509,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- ArchUnit -->
+        <!-- ArchUnit Architecture Tests -->
 
         <dependency>
             <groupId>com.tngtech.archunit</groupId>
@@ -533,7 +523,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Arquillian -->
+        <!-- Arquillian Integration Tests -->
 
         <dependency>
             <groupId>io.thorntail</groupId>
@@ -590,4 +580,113 @@
 
     </dependencies>
 
+    <profiles>
+
+        <profile>
+            <id>mp-ext</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>org.microprofile-ext.health-ext</groupId>
+                    <artifactId>healthprobe-jvm</artifactId>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.microprofile-ext.health-ext</groupId>
+                    <artifactId>healthprobe-system</artifactId>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.microprofile-ext.health-ext</groupId>
+                    <artifactId>health-ui</artifactId>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.microprofile-ext.openapi-ext</groupId>
+                    <artifactId>swagger-ui</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+
+        <profile>
+            <id>h2</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <databaseProfile>h2</databaseProfile>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>com.h2database</groupId>
+                    <artifactId>h2</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+
+        <profile>
+            <id>mysql</id>
+            <properties>
+                <databaseProfile>mysql</databaseProfile>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>mysql</groupId>
+                    <artifactId>mysql-connector-java</artifactId>
+                    <version>${mysql.version}</version>
+                </dependency>
+            </dependencies>
+        </profile>
+
+        <profile>
+            <id>oracle</id>
+            <properties>
+                <databaseProfile>oracle</databaseProfile>
+                <oracle.connection-url>jdbc:oracle:thin:@//oracledb:1521/ORCLPDB1</oracle.connection-url>
+                <flyway.url>jdbc:oracle:thin:@//localhost:1521/ORCLPDB1</flyway.url>
+                <flyway.user>myschema</flyway.user>
+                <flyway.password>myschema</flyway.password>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>com.oracle.jdbc</groupId>
+                    <artifactId>ojdbc8</artifactId>
+                </dependency>
+            </dependencies>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.flywaydb</groupId>
+                            <artifactId>flyway-maven-plugin</artifactId>
+                            <dependencies>
+                                <dependency>
+                                    <groupId>com.oracle.jdbc</groupId>
+                                    <artifactId>ojdbc8</artifactId>
+                                    <version>${ojdbc8.version}</version>
+                                </dependency>
+                            </dependencies>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+        </profile>
+
+        <profile>
+            <id>postgresql</id>
+            <properties>
+                <databaseProfile>postgresql</databaseProfile>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>org.postgresql</groupId>
+                    <artifactId>postgresql</artifactId>
+                    <version>${postgresql.version}</version>
+                </dependency>
+            </dependencies>
+        </profile>
+
+    </profiles>
 </project>

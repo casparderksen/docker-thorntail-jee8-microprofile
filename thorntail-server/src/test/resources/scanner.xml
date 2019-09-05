@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<server xmlns="urn:jboss:domain:2.0">
+    <profile>
+        <subsystem xmlns="urn:jboss:domain:deployment-scanner:2.0">
+            <deployment-scanner path="${project.build.directory}/deployments"
+                                scan-interval="${deployment.scanner.interval:5000}"
+                                runtime-failure-causes-rollback="${jboss.deployment.scanner.rollback.on.failure:false}"/>
+        </subsystem>
+    </profile>
+</server>

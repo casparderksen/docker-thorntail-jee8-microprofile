@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>nl.casparderksen</groupId>
+        <groupId>org.my</groupId>
         <artifactId>thorntail-parent</artifactId>
         <version>1.0.0-SNAPSHOT</version>
         <relativePath>../thorntail-parent</relativePath>
@@ -14,93 +14,7 @@
     <artifactId>myapp</artifactId>
     <packaging>war</packaging>
 
-    <build>
-        <finalName>${project.artifactId}</finalName>
-
-        <plugins>
-            <plugin>
-                <groupId>io.thorntail</groupId>
-                <artifactId>thorntail-maven-plugin</artifactId>
-                <configuration>
-                    <arguments>
-                        <argument>-Sh2</argument>
-                        <argument>-Sdebug</argument>
-                    </arguments>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-
-    <dependencies>
-
-        <!-- TODO libs provided by hollow jar -->
-        <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>jaxrs</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>jpa</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>flyway</artifactId>
-        </dependency>
-
-    </dependencies>
-
     <profiles>
-        <profile>
-            <id>h2</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>com.h2database</groupId>
-                    <artifactId>h2</artifactId>
-                </dependency>
-            </dependencies>
-        </profile>
-
-        <profile>
-            <id>oracle</id>
-
-            <properties>
-                <oracle.connection-url>jdbc:oracle:thin:@//oracledb:1521/ORCLPDB1</oracle.connection-url>
-                <flyway.url>jdbc:oracle:thin:@//localhost:1521/ORCLPDB1</flyway.url>
-                <flyway.user>myschema</flyway.user>
-                <flyway.password>myschema</flyway.password>
-            </properties>
-
-            <dependencies>
-                <dependency>
-                    <groupId>com.oracle.jdbc</groupId>
-                    <artifactId>ojdbc8</artifactId>
-                </dependency>
-            </dependencies>
-
-            <build>
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <groupId>org.flywaydb</groupId>
-                            <artifactId>flyway-maven-plugin</artifactId>
-                            <dependencies>
-                                <dependency>
-                                    <groupId>com.oracle.jdbc</groupId>
-                                    <artifactId>ojdbc8</artifactId>
-                                    <version>${ojdbc8.version}</version>
-                                </dependency>
-                            </dependencies>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-            </build>
-        </profile>
-
         <profile>
             <id>docker</id>
             <build>
@@ -121,10 +35,17 @@
                                             <inline>
                                                 <file>
                                                     <source>
-                                                        ${project.build.directory}/${project.artifactId}-thorntail.jar
+                                                        ${project.build.directory}/${project.build.finalName}.war
                                                     </source>
-                                                    <destName>${project.artifactId}.jar</destName>
+                                                    <destName>${project.artifactId}.war</destName>
                                                 </file>
+                                                <fileSets>
+                                                    <fileSet>
+                                                        <directory>${project.build.outputDirectory}</directory>
+                                                        <include>project-*.yml</include>
+                                                        <outputDirectory>/</outputDirectory>
+                                                    </fileSet>
+                                                </fileSets>
                                             </inline>
                                         </assembly>
                                     </build>
@@ -139,7 +60,7 @@
                                                 -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
                                             </JAVA_TOOL_OPTIONS>
                                         </env>
-                                        <cmd>-Sh2</cmd>
+                                        <cmd>-S${databaseProfile}</cmd>
                                     </run>
                                 </image>
                             </images>
@@ -170,7 +91,5 @@
                 </plugins>
             </build>
         </profile>
-
     </profiles>
-
 </project>

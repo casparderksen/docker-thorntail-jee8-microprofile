@@ -5,20 +5,17 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>nl.casparderksen</groupId>
+        <groupId>org.my</groupId>
         <artifactId>thorntail-parent</artifactId>
         <version>1.0.0-SNAPSHOT</version>
         <relativePath>../thorntail-parent</relativePath>
     </parent>
 
-    <name>Thorntail Hollow JAR</name>
-    <groupId>nl.casparderksen.thorntail.servers</groupId>
-    <artifactId>my</artifactId>
+    <name>Thorntail Hollow Server JAR</name>
+    <artifactId>my-thorntail-server</artifactId>
     <packaging>jar</packaging>
 
-
     <build>
-        <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>io.thorntail</groupId>
@@ -33,132 +30,39 @@
                             <hollow>true</hollow>
                         </configuration>
                     </execution>
-                    <execution>
-                        <id>start</id>
-                        <phase>none</phase>
-                    </execution>
-                    <execution>
-                        <id>stop</id>
-                        <phase>none</phase>
-                    </execution>
                 </executions>
             </plugin>
         </plugins>
     </build>
 
-    <dependencies>
-
-        <!-- JEE Web Profile -->
-
-        <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>web</artifactId>
-        </dependency>
-
-        <!-- MicroProfile extensions -->
-
-        <dependency>
-            <groupId>org.microprofile-ext.health-ext</groupId>
-            <artifactId>healthprobe-jvm</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.microprofile-ext.health-ext</groupId>
-            <artifactId>healthprobe-system</artifactId>
-        </dependency>
-
-        <!-- Elytron -->
-
-        <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>elytron</artifactId>
-        </dependency>
-
-    </dependencies>
-
     <profiles>
 
         <profile>
-            <id>c3p0</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.hibernate</groupId>
-                    <artifactId>hibernate-c3p0</artifactId>
-                </dependency>
-            </dependencies>
-        </profile>
-
-        <profile>
-            <id>flyway</id>
-            <dependencies>
-                <dependency>
-                    <groupId>io.thorntail</groupId>
-                    <artifactId>flyway</artifactId>
-                    <version>${thorntail.version}</version>
-                </dependency>
-            </dependencies>
+            <id>mp-ext</id>
+            <activation>
+                <property>
+                    <name>!skipMicroProfileExtensions</name>
+                </property>
+            </activation>
         </profile>
 
         <profile>
             <id>h2</id>
-            <dependencies>
-                <dependency>
-                    <groupId>com.h2database</groupId>
-                    <artifactId>h2</artifactId>
-                    <version>${h2.version}</version>
-                </dependency>
-            </dependencies>
+            <!-- Activate by default is database is h2 -->
+            <activation>
+                <property>
+                    <name>databaseProfile</name>
+                    <value>h2</value>
+                </property>
+            </activation>
         </profile>
 
         <profile>
-            <id>mysql</id>
+            <id>scanner</id>
             <dependencies>
                 <dependency>
-                    <groupId>mysql</groupId>
-                    <artifactId>mysql-connector-java</artifactId>
-                    <version>${mysql.version}</version>
-                </dependency>
-            </dependencies>
-        </profile>
-
-        <profile>
-            <id>oracle</id>
-            <dependencies>
-                <dependency>
-                    <groupId>com.oracle.jdbc</groupId>
-                    <artifactId>ojdbc8</artifactId>
-                    <version>${ojdbc8.version}</version>
-                </dependency>
-            </dependencies>
-        </profile>
-
-        <profile>
-            <id>postgresql</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.postgresql</groupId>
-                    <artifactId>postgresql</artifactId>
-                    <version>${postgresql.version}</version>
-                </dependency>
-            </dependencies>
-        </profile>
-
-        <profile>
-            <id>health-ui</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.microprofile-ext.health-ext</groupId>
-                    <artifactId>health-ui</artifactId>
-                </dependency>
-            </dependencies>
-        </profile>
-
-        <profile>
-            <id>swagger-ui</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.microprofile-ext.openapi-ext</groupId>
-                    <artifactId>swagger-ui</artifactId>
+                    <groupId>io.thorntail</groupId>
+                    <artifactId>scanner</artifactId>
                 </dependency>
             </dependencies>
         </profile>
@@ -182,7 +86,9 @@
                                         <assembly>
                                             <inline>
                                                 <file>
-                                                    <source>${project.build.directory}/docker-extra/run-java/run-java.sh</source>
+                                                    <source>
+                                                        ${project.build.directory}/docker-extra/run-java/run-java.sh
+                                                    </source>
                                                     <destName>run-java.sh</destName>
                                                 </file>
                                             </inline>
@@ -190,16 +96,18 @@
                                     </build>
                                 </image>
                                 <image>
-                                    <name>my/thorntail-openjdk8</name>
+                                    <name>my/thorntail-server-openjdk8</name>
                                     <build>
-                                        <contextDir>thorntail</contextDir>
+                                        <contextDir>thorntail-server</contextDir>
                                         <tags>
                                             <tag>${project.version}</tag>
                                         </tags>
                                         <assembly>
                                             <inline>
                                                 <file>
-                                                    <source>${project.build.directory}/${project.artifactId}-hollow-thorntail.jar</source>
+                                                    <source>
+                                                        ${project.build.directory}/${project.build.finalName}-hollow-thorntail.jar
+                                                    </source>
                                                     <destName>${project.artifactId}.jar</destName>
                                                 </file>
                                             </inline>
@@ -227,5 +135,6 @@
                 </plugins>
             </build>
         </profile>
+
     </profiles>
 </project>

@@ -24,7 +24,6 @@ public class PingResource {
     @Counted(
             name = "PingCounter",
             absolute = true,
-            monotonic = true,
             displayName = "Number of pings",
             description = "Metric to show how many times the ping endpoint was called")
     public Response ping() {
