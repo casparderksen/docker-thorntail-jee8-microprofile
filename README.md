@@ -1,6 +1,6 @@
 # About
 
-This is a microservices chassis for building production-ready applications with JEE8/MicroProfile/Docker, based on Thorntail.
+This is a microservices chassis for building applications with JEE8/MicroProfile/Docker, based on Thorntail.
 Datasource and database-specific migration scripts can be selected by specifying a configuration profile.
 Unit-integration tests are ran against an H2 in-memory database. A Docker compose example demonstrates
 integration with an Oracle database and Prometheus for monitoring.
@@ -180,7 +180,27 @@ without altering the container image. Alternatively, you can enable debugging as
     $ docker run --rm -it -p 8080:8080 my/myapp --debug myapp.war -s=project-debug.yml -s=project-h2.yml
     
 The `profile-debug.yml` profile enables debug logging and configures Hibernate to show SQL queries.
+
+## Thorntail Watch and Deploy (TWAD)
+
+Thorntail Watch and Deploy (TWAD) is inspired by Adam Bien's [WAD](http://wad.sh) for fat application servers.
+However, Thorntail first builds a fat WAR before generating a thin WAR. This makes the build process quite slow
+in comparison with real ThinWARs, and this really obstructs productivity (hence the name TWAD).
+Note that in Thorntail 4 you can use thorntail-devtools for hot class reloading, making TWAD obsolete.
+
+The [`twad.sh`](myapp/twad.sh) script builds and deploys a thin WAR to a running Thorntail server whenever a
+code change is detected. Before watching the source folder, TWAD first starts a server in the background.
+
+Before using TWAD we need to build a server with the deployment-scanner fraction enabled. For this, 
+go to the directory [`thorntail-server`](thorntail-server) and run:
+                                                                              
+    $ mvn clean package -Pscanner,h2,mp-ext
     
+Now go to the directory [`myapp`](myapp) and run
+
+    $ mvn clean package
+    $ ./twad.sh
+        
 # Configuring the application
 
 Configuration profiles are defined in [myapp/src/main/resources/`profile-*.yml`](myapp/src/main/resources) Yaml files.
