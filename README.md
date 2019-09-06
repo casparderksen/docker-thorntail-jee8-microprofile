@@ -121,7 +121,8 @@ To run the application from IntelliJ:
 
 ## Architecture conformance tests
 
-We use [ArchUnit](https://www.archunit.org) unit tests for validating compliance to [architecture rules](doc/architecture.md).
+We use [ArchUnit](https://www.archunit.org) unit tests for validating compliance to 
+[architecture rules](https://github.com/casparderksen/software-architecture/tree/master).
 
 ## Running Arquillian unit-integration tests
 
