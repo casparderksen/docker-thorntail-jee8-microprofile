@@ -14,6 +14,55 @@
     <artifactId>myapp</artifactId>
     <packaging>war</packaging>
 
+    <dependencies>
+        <dependency>
+            <groupId>io.thorntail</groupId>
+            <artifactId>jaxrs</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.thorntail</groupId>
+            <artifactId>jpa</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.thorntail</groupId>
+            <artifactId>flyway</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>${mapstruct.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>io.thorntail</groupId>
+                <artifactId>thorntail-maven-plugin</artifactId>
+                <configuration>
+                    <properties>
+                        <java.net.preferIPv4Stack>true</java.net.preferIPv4Stack>
+                    </properties>
+                    <arguments>
+                        <argument>-S${databaseProfile}</argument>
+                        <argument>-Sdebug</argument>
+                    </arguments>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>package</id>
+                        <goals>
+                            <goal>package</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
     <profiles>
         <profile>
             <id>docker</id>
@@ -26,29 +75,6 @@
                             <images>
                                 <image>
                                     <name>my/%a</name>
-                                    <build>
-                                        <contextDir>${project.basedir}/src/main/docker</contextDir>
-                                        <tags>
-                                            <tag>${project.version}</tag>
-                                        </tags>
-                                        <assembly>
-                                            <inline>
-                                                <file>
-                                                    <source>
-                                                        ${project.build.directory}/${project.build.finalName}.war
-                                                    </source>
-                                                    <destName>${project.artifactId}.war</destName>
-                                                </file>
-                                                <fileSets>
-                                                    <fileSet>
-                                                        <directory>${project.build.outputDirectory}</directory>
-                                                        <include>project-*.yml</include>
-                                                        <outputDirectory>/</outputDirectory>
-                                                    </fileSet>
-                                                </fileSets>
-                                            </inline>
-                                        </assembly>
-                                    </build>
                                     <run>
                                         <ports>
                                             <port>8080:8080</port>
@@ -65,31 +91,10 @@
                                 </image>
                             </images>
                         </configuration>
-                        <executions>
-                            <execution>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>build</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>pre-integration-test</id>
-                                <phase>pre-integration-test</phase>
-                                <goals>
-                                    <goal>start</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>post-integration-test</id>
-                                <phase>post-integration-test</phase>
-                                <goals>
-                                    <goal>stop</goal>
-                                </goals>
-                            </execution>
-                        </executions>
                     </plugin>
                 </plugins>
             </build>
         </profile>
     </profiles>
+
 </project>

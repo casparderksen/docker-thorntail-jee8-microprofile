@@ -11,62 +11,11 @@
         <relativePath>../thorntail-parent</relativePath>
     </parent>
 
-    <name>Thorntail Hollow Server JAR</name>
-    <artifactId>my-thorntail-server</artifactId>
+    <name>Thorntail Docker Base Image</name>
+    <artifactId>thorntail-docker</artifactId>
     <packaging>jar</packaging>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>io.thorntail</groupId>
-                <artifactId>thorntail-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>package</id>
-                        <goals>
-                            <goal>package</goal>
-                        </goals>
-                        <configuration>
-                            <hollow>true</hollow>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
-
     <profiles>
-
-        <profile>
-            <id>mp-ext</id>
-            <activation>
-                <property>
-                    <name>!skipMicroProfileExtensions</name>
-                </property>
-            </activation>
-        </profile>
-
-        <profile>
-            <id>h2</id>
-            <!-- Activate by default is database is h2 -->
-            <activation>
-                <property>
-                    <name>databaseProfile</name>
-                    <value>h2</value>
-                </property>
-            </activation>
-        </profile>
-
-        <profile>
-            <id>scanner</id>
-            <dependencies>
-                <dependency>
-                    <groupId>io.thorntail</groupId>
-                    <artifactId>scanner</artifactId>
-                </dependency>
-            </dependencies>
-        </profile>
-
         <profile>
             <id>docker</id>
             <build>
@@ -96,22 +45,12 @@
                                     </build>
                                 </image>
                                 <image>
-                                    <name>my/thorntail-server-openjdk8</name>
+                                    <name>my/thorntail-openjdk8</name>
                                     <build>
-                                        <contextDir>thorntail-server</contextDir>
+                                        <contextDir>thorntail</contextDir>
                                         <tags>
                                             <tag>${project.version}</tag>
                                         </tags>
-                                        <assembly>
-                                            <inline>
-                                                <file>
-                                                    <source>
-                                                        ${project.build.directory}/${project.build.finalName}-hollow-thorntail.jar
-                                                    </source>
-                                                    <destName>${project.artifactId}.jar</destName>
-                                                </file>
-                                            </inline>
-                                        </assembly>
                                     </build>
                                 </image>
                             </images>
@@ -135,6 +74,5 @@
                 </plugins>
             </build>
         </profile>
-
     </profiles>
 </project>

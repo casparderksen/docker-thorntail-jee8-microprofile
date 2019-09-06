@@ -7,26 +7,24 @@ integration with an Oracle database and Prometheus for monitoring.
 
 ## Functionality and integrated frameworks
 
-- Thorntail fat JAR, hollow JAR for Docker build, and hot deployment for development
 - Docker container built via Fabric8 Docker Maven Plugin
-- Fabric8.io run-java.sh entrypoint for JVM tuning and running Java apps in Docker
-- Git info and Maven coordinates in Docker labels and application info resource (git-commit-id-plugin)
+- Fabric8.io `run-java.sh` entrypoint for JVM tuning and running Java apps in Docker
+- Git-commit-id-plugin for runtime application identification (in addition to Maven coordinates)
 - Remote debugging in Docker container
 - Lombok (add plugin to your IDE)
-- JAX-RS resources with OpenAPI annotations. 
 - MapStruct for mapping between domain values and DTOs (add plugin to your IDE)
+- JAX-RS resources with OpenAPI annotations
 - Bean Validation of DTOs
 - JPA with transactions
-- Datasource for H2, Oracle and other databases
-- Flyway database migration (multiple database flavors)
+- Datasource for H2, Oracle, MySQL, Postgresql
+- Flyway database migrations (dependent on selected database)
 - SLF4J logging and Thorntail logging configuration
-- HealthCheck provider for the datasource
-- MicroProfile Health extensions for JVM metrics and system health
+- MicroProfile Health Check provider for the datasource
 - MicroProfile Metrics endpoint (with example Counter)
 - MicroProfile Config configuration
-- MicroProfile OpenAPI specification with SwaggerUI extension
+- MicroProfile Extensions OpenAPI UI
 - MicroProfile Extensions Health UI
-- MicroProfile Extensions Swagger UI based on OpenAPI annotations
+- MicroProfile Health Extensions for JVM metrics and system health
 
 ## Test frameworks
 
@@ -68,31 +66,20 @@ Build the application with
 
     $ mvn package
     
+By default, the `h2` Maven profile is enabled for including the H2 in-memory database driver.
+    
 ## Building Docker images
 
-In order to benefit from Docker image layering, we first build a base image that contains a Thorntail Hollow JAR. 
-This JAR contains our selected Thorntail fractions and generic dependencies such as database drivers. 
-We can then add Thorntail Thin WARs to the base image for building application images. 
-The base image needs to be built only once, unless additional Thorntail fractions or provided dependencies are needed. 
+The [`thorntail-docker`](thorntail-docker) directory defines builds for OpenJDK and Thorntail base images.
+The base images need to be built once, before building the [`myapp`](myapp) image.
 
-In order to build the base image, go to the directory [`thorntail-server`](thorntail-server) and run
+Build docker images with
 
-    $ mvn clean package -Pdocker,h2,mp-ext
-    
-The `h2` Maven profile includes the H2 in-memory database driver. The `mp-ext` profile includes several
-MicroProfile-Extensions libraries. You
-
-## Building Docker application images
-
-After building the base image, go to the directory [`myapp`](myapp) and run
-
-    $ mvn clean package -Pdocker,\!h2,\!mp-ext
-    
-to build the application image. Disable profiles for dependencies that are already included in the base image.
+    $ mvn package -Pdocker
 
 # Running the application
 
-After building all Maven modules, go to the directory [`myapp`](myapp) for running the application.
+After building the project, go to the directory [`myapp`](myapp) for running the application.
 
 ##  Running from Maven
 
@@ -111,21 +98,14 @@ The '-Sh2' option configures a datasource for an embedded H2 in-memory database.
 
 ## Running from Docker
 
-Make sure that you have built the base images for the application.
-
 To run the application in Docker from Maven:
 
     $ mvn docker:run -Pdocker
     
 To run the application in Docker from the command-line:
 
-    $ mvn package -Pdocker
     $ docker run --rm -it -p 8080:8080 my/myapp
     
-A limitation of Thorntail Thin WARs is that it is not possible to load configuration profiles.
-Therefore, we must specify the location of the corresponding configuration file as option.
-The default command runs thorntail with the H2 configuration.
- 
 ## Running from the IDE
 
 To run the application from IntelliJ:
@@ -152,10 +132,10 @@ and replaced with profiles that are activated through the `thorntail.profiles` p
 
 The `@DefaultDeployment` annotation is designed to bundle application slices for deployment. 
 As a result, only classes in the current package are added to the generated deployment. 
-However, slices may depend on generic utilities. Furthermore, in-container tests may require additional testing libraries.
-For this, an Arquillian loadable extension is added via the Java SPI mechanism for adding utility classes and
-test dependencies to the deployment. If you refactor to different package names or frameworks, do not forget to change
-the package names in [ArquillianExtension](myapp/src/test/java/org/my/util/arquillian/ArquillianExtension.java)
+However, slices may depend on generic utility packages. Furthermore, in-container tests may require additional 
+testing libraries. For this, an Arquillian loadable extension is added via the Java SPI mechanism for adding utility 
+classes and test dependencies to the deployment. If you refactor to different package names or frameworks, do not forget 
+to change the package names in [ArquillianExtension](myapp/src/test/java/org/my/util/arquillian/ArquillianExtension.java)
 and [org.jboss.arquillian.core.spi.LoadableExtension](myapp/src/test/resources/META-INF/services/org.jboss.arquillian.core.spi.LoadableExtension).
 
 ## Running Arquillian tests from the IDE
@@ -175,31 +155,9 @@ To enable remote debugging, define the environment variable
     JAVA_TOOL_OPTIONS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005"
 
 The `JAVA_TOOL_OPTIONS` environment variable can also be defined in the Docker environment to enable debugging
-without altering the container image. Alternatively, you can enable debugging as follows:
-
-    $ docker run --rm -it -p 8080:8080 my/myapp --debug myapp.war -s=project-debug.yml -s=project-h2.yml
+without altering the container image.
     
 The `profile-debug.yml` profile enables debug logging and configures Hibernate to show SQL queries.
-
-## Thorntail Watch and Deploy (TWAD)
-
-Thorntail Watch and Deploy (TWAD) is inspired by Adam Bien's [WAD](http://wad.sh) for fat application servers.
-However, Thorntail first builds a fat WAR before generating a thin WAR. This makes the build process quite slow
-in comparison with real ThinWARs, and this really obstructs productivity (hence the name TWAD).
-Note that in Thorntail 4 you can use thorntail-devtools for hot class reloading, making TWAD obsolete.
-
-The [`twad.sh`](myapp/twad.sh) script builds and deploys a thin WAR to a running Thorntail server whenever a
-code change is detected. Before watching the source folder, TWAD first starts a server in the background.
-
-Before using TWAD we need to build a server with the deployment-scanner fraction enabled. For this, 
-go to the directory [`thorntail-server`](thorntail-server) and run:
-                                                                              
-    $ mvn clean package -Pscanner,h2,mp-ext
-    
-Now go to the directory [`myapp`](myapp) and run
-
-    $ mvn clean package
-    $ ./twad.sh
         
 # Configuring the application
 
@@ -207,7 +165,7 @@ Configuration profiles are defined in [myapp/src/main/resources/`profile-*.yml`]
 No profile defining a datasource is enabled by default. In this way, it is possible to run a standalone application with 
 an H2 in-memory database on your workstation, or connect to some network database in other environment or Docker.
 
-To run the application, a datasource configuration must be provided, either via a profile, or via an
+To run the application, a datasource configuration must be provided, either via a Thorntail profile, or via an
 external configuration file. Otherwise the application will fail to start.
 Available profiles are: `h2`, `oracle`, `mysql` (untested), `postgres` (untested).
  
@@ -216,13 +174,11 @@ Available profiles are: `h2`, `oracle`, `mysql` (untested), `postgres` (untested
 The Fabric8.io `run-java.sh` script is used for tuning JVM options and running the application in Docker.
 This allows many JVM settings to be configured via environment variables.
 See [https://github.com/fabric8io-images/run-java-sh/blob/master/fish-pepper/run-java-sh/readme.md](https://github.com/fabric8io-images/run-java-sh/blob/master/fish-pepper/run-java-sh/readme.md)
-for configuration options.
+for configuration options. You can add long-living configuration and defaults to the 
+[run-env.sh](myapp/src/main/docker/run-env.sh) script.
 
-When building the container, an exec-style entrypoint must be specified, in order to launch a single process
-that can receive Unix signals. In this way, command line arguments for configuration files can be specified when 
-starting the container. To run the image with a Bash shell as entrypoint:
-
-    $ docker run --rm -it --entrypoint bash my/myapp
+The Docker images are built with an exec-style entrypoint, in order to launch a single process that can receive
+Unix signals. In this way, it is possible to specify command line arguments for the entrypoint. 
 
 # Oracle database
 
@@ -236,16 +192,14 @@ and install it in your local Maven repository:
 
 ## Configure the database connection
 
-Configure the connection details in [project-oracle.yml](myapp/src/main/resources/project-oracle.yml).
-Also configure the JDBC URL in [myapp/om.xml](myapp/pom.xml). See the Thorntail documentation
-for all configuration options.
+Configure the JDBC URL in [myapp/pom.xml](myapp/pom.xml). See the Thorntail documentation for other configuration options.
 
-## Running the application
+## Building and running the application
 
-To run the application from the command line with an Oracle database:
+To build and run the application from the command line with an Oracle database:
 
-    $ mvn package -Poracle,\!h2
-    $ java -jar target/myapp-thorntail.jar -Soracle
+    $ mvn package -Poracle
+    $ java -jar target/myapp-1.0.0-SNAPSHOT-thorntail.jar -Soracle
     
 ## Running from Docker
 
@@ -254,8 +208,8 @@ for service discovery in a Docker network (adapt to your needs).
 
 To run the application from Docker with an Oracle database:
 
-    $ mvn  package -Pdocker,oracle,\!h2
-    $ docker run --rm -it -p 8080:8080 myapp -Soracle
+    $ mvn  package -Pdocker,oracle
+    $ docker run --rm -it -p 8080:8080 myapp
 
 ## Flyway Maven plugin
 

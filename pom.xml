@@ -11,7 +11,7 @@
 
     <modules>
         <module>thorntail-parent</module>
-        <module>thorntail-server</module>
+        <module>thorntail-docker</module>
         <module>myapp</module>
     </modules>
 

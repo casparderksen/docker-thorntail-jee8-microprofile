@@ -148,28 +148,6 @@
             </plugin>
 
             <plugin>
-                <groupId>io.thorntail</groupId>
-                <artifactId>thorntail-maven-plugin</artifactId>
-                <configuration>
-                    <properties>
-                        <java.net.preferIPv4Stack>true</java.net.preferIPv4Stack>
-                    </properties>
-                    <arguments>
-                        <argument>-S${databaseProfile}</argument>
-                        <argument>-Sdebug</argument>
-                    </arguments>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>package</id>
-                        <goals>
-                            <goal>package</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <executions>
                     <execution>
@@ -195,7 +173,6 @@
                 <filtering>true</filtering>
             </testResource>
         </testResources>
-
     </build>
 
     <dependencyManagement>
@@ -222,12 +199,6 @@
             <dependency>
                 <groupId>io.thorntail</groupId>
                 <artifactId>flyway</artifactId>
-                <version>${thorntail.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>io.thorntail</groupId>
-                <artifactId>scanner</artifactId>
                 <version>${thorntail.version}</version>
             </dependency>
 
@@ -426,39 +397,14 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Thorntail & MicroProfile-->
+        <!-- Thorntail MicroProfile-->
 
         <dependency>
             <groupId>io.thorntail</groupId>
             <artifactId>microprofile</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>jaxrs</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>jpa</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>elytron</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>flyway</artifactId>
-        </dependency>
-
         <!-- Generic libraries -->
-
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -585,27 +531,33 @@
         <profile>
             <id>mp-ext</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>!skipMicroProfileExtensions</name>
+                </property>
             </activation>
             <dependencies>
                 <dependency>
                     <groupId>org.microprofile-ext.health-ext</groupId>
                     <artifactId>healthprobe-jvm</artifactId>
+                    <scope>runtime</scope>
                 </dependency>
 
                 <dependency>
                     <groupId>org.microprofile-ext.health-ext</groupId>
                     <artifactId>healthprobe-system</artifactId>
+                    <scope>runtime</scope>
                 </dependency>
 
                 <dependency>
                     <groupId>org.microprofile-ext.health-ext</groupId>
                     <artifactId>health-ui</artifactId>
+                    <scope>runtime</scope>
                 </dependency>
 
                 <dependency>
                     <groupId>org.microprofile-ext.openapi-ext</groupId>
                     <artifactId>swagger-ui</artifactId>
+                    <scope>runtime</scope>
                 </dependency>
             </dependencies>
         </profile>
@@ -613,7 +565,9 @@
         <profile>
             <id>h2</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>!databaseProfile</name>
+                </property>
             </activation>
             <properties>
                 <databaseProfile>h2</databaseProfile>
@@ -686,6 +640,63 @@
                     <version>${postgresql.version}</version>
                 </dependency>
             </dependencies>
+        </profile>
+
+        <profile>
+            <id>docker</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.fabric8</groupId>
+                        <artifactId>docker-maven-plugin</artifactId>
+                        <configuration>
+                            <images>
+                                <image>
+                                    <name>my/%a</name>
+                                    <build>
+                                        <contextDir>${project.basedir}/src/main/docker</contextDir>
+                                        <tags>
+                                            <tag>${project.version}</tag>
+                                        </tags>
+                                        <assembly>
+                                            <inline>
+                                                <file>
+                                                    <source>
+                                                        ${project.build.directory}/${project.build.finalName}-thorntail.jar
+                                                    </source>
+                                                    <destName>${project.artifactId}.war</destName>
+                                                </file>
+                                            </inline>
+                                        </assembly>
+                                    </build>
+                                </image>
+                            </images>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>build</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>pre-integration-test</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>start</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>post-integration-test</id>
+                                <phase>post-integration-test</phase>
+                                <goals>
+                                    <goal>stop</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
 
     </profiles>

@@ -12,9 +12,6 @@ services:
 
   myapp:
     image: my/myapp:latest
-    command:
-      - "myapp.war"
-      - "-s=project-oracle.yml"
     ports:
       - "8080:8080"
 
