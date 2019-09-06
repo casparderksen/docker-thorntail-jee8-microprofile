@@ -275,6 +275,7 @@ Java in Docker:
 
 Testing:
 - [Functional testing using Drone and Graphene](http://arquillian.org/arquillian-graphene/)
+- [ArchUnit architecture testing](https://www.archunit.org)
 
 Oracle:
 - [OJDBC compatibility](https://www.oracle.com/technetwork/database/enterprise-edition/jdbc-faq-090281.html#01_01)
