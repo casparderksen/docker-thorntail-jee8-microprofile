@@ -16,55 +16,197 @@
         <failOnMissingWebXml>false</failOnMissingWebXml>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <!-- Maven plugins -->
+        <!-- Dependencies -->
+        <thorntail-bom.version>${project.version}</thorntail-bom.version>
+        <lombok.version>1.18.8</lombok.version>
+        <mapstruct.version>1.3.0.Final</mapstruct.version>
+        <run-java-sh.version>1.3.4</run-java-sh.version>
+
+        <!-- Maven build plugins -->
+        <thorntail-maven-plugin.version>2.5.0.Final</thorntail-maven-plugin.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <git-commit-id-plugin.version>2.2.5</git-commit-id-plugin.version>
         <docker-maven-plugin.version>0.31.0</docker-maven-plugin.version>
         <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
         <maven-failsafe-plugin.version>3.0.0-M3</maven-failsafe-plugin.version>
         <flyway-maven-plugin.version>5.2.4</flyway-maven-plugin.version>
+    </properties>
 
-        <!-- JEE / Thorntail -->
-        <javaee-api.version>8.0</javaee-api.version>
-        <thorntail.version>2.5.0.Final</thorntail.version>
+    <dependencyManagement>
+        <dependencies>
 
-        <!-- MicroProfile extensions -->
-        <healthprobe-system.version>1.0.5</healthprobe-system.version>
-        <healthprobe-jvm.version>1.0.5</healthprobe-jvm.version>
-        <health-ui.version>1.0.5</health-ui.version>
-        <swagger-ui.version>1.0.2</swagger-ui.version>
+            <dependency>
+                <groupId>org.my</groupId>
+                <artifactId>thorntail-bom</artifactId>
+                <version>${thorntail-bom.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- Not in BOM since same version is also used as annotation processor -->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
+
+            <!-- Not in BOM since same version is also used as annotation processor -->
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>${mapstruct.version}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+
+        <!-- JEE API -->
+
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Thorntail MicroProfile-->
+
+        <dependency>
+            <groupId>io.thorntail</groupId>
+            <artifactId>microprofile</artifactId>
+        </dependency>
+
+        <!-- Thorntail IDE runner -->
+
+        <dependency>
+            <groupId>io.thorntail</groupId>
+            <artifactId>thorntail-runner</artifactId>
+            <scope>runtime</scope>
+        </dependency>
 
         <!-- Generic libraries -->
-        <lombok.version>1.18.8</lombok.version>
-        <mapstruct.version>1.3.0.Final</mapstruct.version>
-        <slf4j.version>1.7.28</slf4j.version>
-        <run-java-sh.version>1.3.4</run-java-sh.version>
 
-        <!-- Databases -->
-        <hibernate.version>5.4.4.Final</hibernate.version>
-        <h2.version>1.4.199</h2.version>
-        <mysql.version>8.0.17</mysql.version>
-        <ojdbc8.version>18.3.0.0</ojdbc8.version>
-        <ojdbc10.version>19.3.0.0</ojdbc10.version>
-        <postgresql.version>42.2.6</postgresql.version>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
-        <!-- Arquillian -->
-        <arquillian-bom.version>1.4.1.Final</arquillian-bom.version>
-        <arquillian-drone-bom.version>2.5.1</arquillian-drone-bom.version>
-        <graphene-webdriver.version>2.3.2</graphene-webdriver.version>
+        <!-- Logging -->
 
-        <!-- Test libraries -->
-        <junit-jupiter.version>5.5.1</junit-jupiter.version>
-        <archunit-junit5.version>0.11.0</archunit-junit5.version>
-        <assertj-core.version>3.13.2</assertj-core.version>
-        <assertj-db.version>1.2.0</assertj-db.version>
-        <mockito.version>3.0.0</mockito.version>
-        <rest-assured.version>4.0.0</rest-assured.version>
-    </properties>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- JUnit -->
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- ArchUnit architecture tests -->
+
+        <dependency>
+            <groupId>com.tngtech.archunit</groupId>
+            <artifactId>archunit-junit5-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.tngtech.archunit</groupId>
+            <artifactId>archunit-junit5-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Arquillian integration tests -->
+
+        <dependency>
+            <groupId>io.thorntail</groupId>
+            <artifactId>arquillian</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.shrinkwrap.resolver</groupId>
+            <artifactId>shrinkwrap-resolver-impl-maven</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.arquillian.extension</groupId>
+            <artifactId>arquillian-drone-webdriver-depchain</artifactId>
+            <type>pom</type>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Mockito -->
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Fluent test assertion libraries -->
+
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-db</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
 
     <build>
         <pluginManagement>
             <plugins>
+
+                <plugin>
+                    <groupId>pl.project13.maven</groupId>
+                    <artifactId>git-commit-id-plugin</artifactId>
+                    <version>${git-commit-id-plugin.version}</version>
+                </plugin>
 
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -87,13 +229,7 @@
                 <plugin>
                     <groupId>io.thorntail</groupId>
                     <artifactId>thorntail-maven-plugin</artifactId>
-                    <version>${thorntail.version}</version>
-                </plugin>
-
-                <plugin>
-                    <groupId>pl.project13.maven</groupId>
-                    <artifactId>git-commit-id-plugin</artifactId>
-                    <version>${git-commit-id-plugin.version}</version>
+                    <version>${thorntail-maven-plugin.version}</version>
                 </plugin>
 
                 <plugin>
@@ -112,6 +248,16 @@
         </pluginManagement>
 
         <plugins>
+            <plugin>
+                <groupId>io.thorntail</groupId>
+                <artifactId>thorntail-maven-plugin</artifactId>
+                <configuration>
+                    <properties>
+                        <java.net.preferIPv4Stack>true</java.net.preferIPv4Stack>
+                    </properties>
+                </configuration>
+            </plugin>
+
             <plugin>
                 <groupId>pl.project13.maven</groupId>
                 <artifactId>git-commit-id-plugin</artifactId>
@@ -174,357 +320,6 @@
             </testResource>
         </testResources>
     </build>
-
-    <dependencyManagement>
-        <dependencies>
-
-            <!-- JEE -->
-
-            <dependency>
-                <groupId>javax</groupId>
-                <artifactId>javaee-api</artifactId>
-                <version>${javaee-api.version}</version>
-            </dependency>
-
-            <!-- Thorntail -->
-
-            <dependency>
-                <groupId>io.thorntail</groupId>
-                <artifactId>bom-stable</artifactId>
-                <version>${thorntail.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>io.thorntail</groupId>
-                <artifactId>flyway</artifactId>
-                <version>${thorntail.version}</version>
-            </dependency>
-
-            <!-- MicroProfile Extensions -->
-
-            <dependency>
-                <groupId>org.microprofile-ext.health-ext</groupId>
-                <artifactId>healthprobe-system</artifactId>
-                <version>${healthprobe-system.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.microprofile-ext.health-ext</groupId>
-                <artifactId>healthprobe-jvm</artifactId>
-                <version>${healthprobe-jvm.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.microprofile-ext.health-ext</groupId>
-                <artifactId>health-ui</artifactId>
-                <version>${health-ui.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.microprofile-ext.openapi-ext</groupId>
-                <artifactId>swagger-ui</artifactId>
-                <version>${swagger-ui.version}</version>
-            </dependency>
-
-            <!-- Generic libraries -->
-
-            <dependency>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>${lombok.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.mapstruct</groupId>
-                <artifactId>mapstruct</artifactId>
-                <version>${mapstruct.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-api</artifactId>
-                <version>${slf4j.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-simple</artifactId>
-                <version>${slf4j.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>io.fabric8</groupId>
-                <artifactId>run-java-sh</artifactId>
-                <version>${run-java-sh.version}</version>
-            </dependency>
-
-            <!-- Databases -->
-
-            <dependency>
-                <groupId>org.hibernate</groupId>
-                <artifactId>hibernate-c3p0</artifactId>
-                <version>${hibernate.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.h2database</groupId>
-                <artifactId>h2</artifactId>
-                <version>${h2.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>mysql</groupId>
-                <artifactId>mysql-connector-java</artifactId>
-                <version>${mysql.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.oracle.jdbc</groupId>
-                <artifactId>ojdbc8</artifactId>
-                <version>${ojdbc8.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.oracle.jdbc</groupId>
-                <artifactId>ojdbc10</artifactId>
-                <version>${ojdbc10.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.postgresql</groupId>
-                <artifactId>postgresql</artifactId>
-                <version>${postgresql.version}</version>
-            </dependency>
-
-            <!-- JUnit -->
-
-            <dependency>
-                <groupId>org.junit.jupiter</groupId>
-                <artifactId>junit-jupiter-api</artifactId>
-                <version>${junit-jupiter.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.junit.jupiter</groupId>
-                <artifactId>junit-jupiter-engine</artifactId>
-                <version>${junit-jupiter.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.junit.vintage</groupId>
-                <artifactId>junit-vintage-engine</artifactId>
-                <version>${junit-jupiter.version}</version>
-            </dependency>
-
-            <!-- ArchUnit -->
-
-            <dependency>
-                <groupId>com.tngtech.archunit</groupId>
-                <artifactId>archunit-junit5-api</artifactId>
-                <version>${archunit-junit5.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.tngtech.archunit</groupId>
-                <artifactId>archunit-junit5-engine</artifactId>
-                <version>${archunit-junit5.version}</version>
-            </dependency>
-
-            <!-- Arquillian -->
-
-            <dependency>
-                <groupId>org.jboss.arquillian</groupId>
-                <artifactId>arquillian-bom</artifactId>
-                <version>${arquillian-bom.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.jboss.arquillian.extension</groupId>
-                <artifactId>arquillian-drone-bom</artifactId>
-                <version>${arquillian-drone-bom.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
-            <!-- Mockito -->
-
-            <dependency>
-                <groupId>org.mockito</groupId>
-                <artifactId>mockito-core</artifactId>
-                <version>${mockito.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.mockito</groupId>
-                <artifactId>mockito-junit-jupiter</artifactId>
-                <version>${mockito.version}</version>
-            </dependency>
-
-            <!-- Test libraries -->
-
-            <dependency>
-                <groupId>org.assertj</groupId>
-                <artifactId>assertj-core</artifactId>
-                <version>${assertj-core.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.assertj</groupId>
-                <artifactId>assertj-db</artifactId>
-                <version>${assertj-db.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>io.rest-assured</groupId>
-                <artifactId>rest-assured</artifactId>
-                <version>${rest-assured.version}</version>
-            </dependency>
-
-        </dependencies>
-    </dependencyManagement>
-
-    <dependencies>
-
-        <!-- JEE API -->
-
-        <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- Thorntail MicroProfile-->
-
-        <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>microprofile</artifactId>
-        </dependency>
-
-        <!-- Generic libraries -->
-
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- Thorntail IDE runner -->
-
-        <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>thorntail-runner</artifactId>
-            <version>${thorntail.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-
-        <!-- Test dependencies -->
-
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- JUnit -->
-
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.junit.vintage</groupId>
-            <artifactId>junit-vintage-engine</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- ArchUnit Architecture Tests -->
-
-        <dependency>
-            <groupId>com.tngtech.archunit</groupId>
-            <artifactId>archunit-junit5-api</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.tngtech.archunit</groupId>
-            <artifactId>archunit-junit5-engine</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- Arquillian Integration Tests -->
-
-        <dependency>
-            <groupId>io.thorntail</groupId>
-            <artifactId>arquillian</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jboss.shrinkwrap.resolver</groupId>
-            <artifactId>shrinkwrap-resolver-impl-maven</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jboss.arquillian.extension</groupId>
-            <artifactId>arquillian-drone-webdriver-depchain</artifactId>
-            <type>pom</type>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- Mockito -->
-
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-junit-jupiter</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- Test libraries -->
-
-        <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-db</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>io.rest-assured</groupId>
-            <artifactId>rest-assured</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-    </dependencies>
 
     <profiles>
 
@@ -589,7 +384,6 @@
                 <dependency>
                     <groupId>mysql</groupId>
                     <artifactId>mysql-connector-java</artifactId>
-                    <version>${mysql.version}</version>
                 </dependency>
             </dependencies>
         </profile>
@@ -637,66 +431,8 @@
                 <dependency>
                     <groupId>org.postgresql</groupId>
                     <artifactId>postgresql</artifactId>
-                    <version>${postgresql.version}</version>
                 </dependency>
             </dependencies>
-        </profile>
-
-        <profile>
-            <id>docker</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>io.fabric8</groupId>
-                        <artifactId>docker-maven-plugin</artifactId>
-                        <configuration>
-                            <images>
-                                <image>
-                                    <name>my/%a</name>
-                                    <build>
-                                        <contextDir>${project.basedir}/src/main/docker</contextDir>
-                                        <tags>
-                                            <tag>${project.version}</tag>
-                                        </tags>
-                                        <assembly>
-                                            <inline>
-                                                <file>
-                                                    <source>
-                                                        ${project.build.directory}/${project.build.finalName}-thorntail.jar
-                                                    </source>
-                                                    <destName>${project.artifactId}.war</destName>
-                                                </file>
-                                            </inline>
-                                        </assembly>
-                                    </build>
-                                </image>
-                            </images>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>build</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>pre-integration-test</id>
-                                <phase>pre-integration-test</phase>
-                                <goals>
-                                    <goal>start</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>post-integration-test</id>
-                                <phase>post-integration-test</phase>
-                                <goals>
-                                    <goal>stop</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
         </profile>
 
     </profiles>

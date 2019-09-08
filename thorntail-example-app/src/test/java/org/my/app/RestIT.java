@@ -159,7 +159,7 @@ public class RestIT {
         given().accept(ContentType.JSON)
                 .when().get(info())
                 .then().statusCode(200)
-                .and().body("projectArtifactId", equalTo("myapp"));
+                .and().body("projectArtifactId", not(is(emptyOrNullString())));
     }
 
     @Test
@@ -167,7 +167,7 @@ public class RestIT {
         given().accept(ContentType.XML)
                 .when().get(info())
                 .then().statusCode(200)
-                .and().body(hasXPath("//projectArtifactId", equalTo("myapp")));
+                .and().body(hasXPath("//projectArtifactId", not(is(emptyOrNullString()))));
     }
 
     @Test
@@ -175,7 +175,7 @@ public class RestIT {
         given().accept(ContentType.TEXT)
                 .when().get(config("project.artifactId"))
                 .then().statusCode(200)
-                .and().body(equalTo("myapp"));
+                .and().body(not(is(emptyOrNullString())));
     }
 
     @Test

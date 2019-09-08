@@ -10,8 +10,8 @@
         <relativePath>../thorntail-parent</relativePath>
     </parent>
 
-    <name>My App</name>
-    <artifactId>myapp</artifactId>
+    <name>My Thorntail Example App</name>
+    <artifactId>thorntail-example-app</artifactId>
     <packaging>war</packaging>
 
     <dependencies>
@@ -33,7 +33,6 @@
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
-            <version>${mapstruct.version}</version>
         </dependency>
     </dependencies>
 
@@ -43,9 +42,6 @@
                 <groupId>io.thorntail</groupId>
                 <artifactId>thorntail-maven-plugin</artifactId>
                 <configuration>
-                    <properties>
-                        <java.net.preferIPv4Stack>true</java.net.preferIPv4Stack>
-                    </properties>
                     <arguments>
                         <argument>-S${databaseProfile}</argument>
                         <argument>-Sdebug</argument>
@@ -75,6 +71,22 @@
                             <images>
                                 <image>
                                     <name>my/%a</name>
+                                    <build>
+                                        <contextDir>${project.basedir}/src/main/docker</contextDir>
+                                        <tags>
+                                            <tag>${project.version}</tag>
+                                        </tags>
+                                        <assembly>
+                                            <inline>
+                                                <file>
+                                                    <source>
+                                                        ${project.build.directory}/${project.build.finalName}-thorntail.jar
+                                                    </source>
+                                                    <destName>${project.artifactId}.war</destName>
+                                                </file>
+                                            </inline>
+                                        </assembly>
+                                    </build>
                                     <run>
                                         <ports>
                                             <port>8080:8080</port>
@@ -91,6 +103,28 @@
                                 </image>
                             </images>
                         </configuration>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>build</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>pre-integration-test</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>start</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>post-integration-test</id>
+                                <phase>post-integration-test</phase>
+                                <goals>
+                                    <goal>stop</goal>
+                                </goals>
+                            </execution>
+                        </executions>
                     </plugin>
                 </plugins>
             </build>

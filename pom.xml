@@ -10,9 +10,10 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>thorntail-bom</module>
         <module>thorntail-parent</module>
         <module>thorntail-docker</module>
-        <module>myapp</module>
+        <module>thorntail-example-app</module>
     </modules>
 
     <build>

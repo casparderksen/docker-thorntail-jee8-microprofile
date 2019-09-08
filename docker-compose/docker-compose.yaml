@@ -10,8 +10,8 @@ services:
     volumes:
       - "oradata:/opt/oracle/oradata"
 
-  myapp:
-    image: my/myapp:latest
+  example-app:
+    image: my/thorntail-example-app:latest
     ports:
       - "8080:8080"
 
