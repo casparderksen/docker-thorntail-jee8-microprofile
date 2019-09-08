@@ -1,5 +1,5 @@
 thorntail:
   logging:
     loggers:
-      nl.casparderksen:
+      org.my:
         level: INFO
