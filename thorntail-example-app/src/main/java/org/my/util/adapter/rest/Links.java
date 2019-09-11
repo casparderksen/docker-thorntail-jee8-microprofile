@@ -1,4 +1,4 @@
-package org.my.util.rest;
+package org.my.util.adapter.rest;
 
 import javax.ws.rs.core.Link;
 import javax.ws.rs.core.UriInfo;

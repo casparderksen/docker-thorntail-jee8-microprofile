@@ -1,4 +1,4 @@
-package org.my.util.arquillian;
+package org.my.util.adapter.arquillian.extension;
 
 import org.jboss.arquillian.container.test.spi.client.deployment.AuxiliaryArchiveAppender;
 import org.jboss.arquillian.core.spi.LoadableExtension;
@@ -6,7 +6,7 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 
 /**
- * Adds util and test libraries to the deployment for in-container tests.
+ * Adds util slice and test libraries to the deployment for in-container tests.
  */
 @SuppressWarnings("WeakerAccess")
 public class ArquillianExtension implements LoadableExtension {

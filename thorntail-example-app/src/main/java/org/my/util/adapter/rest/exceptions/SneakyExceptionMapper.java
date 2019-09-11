@@ -1,4 +1,4 @@
-package org.my.util.rest.exceptions;
+package org.my.util.adapter.rest.exceptions;
 
 import lombok.extern.slf4j.Slf4j;
 

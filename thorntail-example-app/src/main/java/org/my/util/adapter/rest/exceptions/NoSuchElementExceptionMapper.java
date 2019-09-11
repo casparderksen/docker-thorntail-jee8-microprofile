@@ -1,6 +1,6 @@
-package org.my.util.rest.exceptions;
+package org.my.util.adapter.rest.exceptions;
 
-import org.my.util.rest.Headers;
+import org.my.util.adapter.rest.Headers;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;

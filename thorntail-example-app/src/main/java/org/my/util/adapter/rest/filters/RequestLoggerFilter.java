@@ -1,4 +1,4 @@
-package org.my.util.rest.filters;
+package org.my.util.adapter.rest.filters;
 
 import lombok.extern.slf4j.Slf4j;
 

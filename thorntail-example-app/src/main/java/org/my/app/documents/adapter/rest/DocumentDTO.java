@@ -8,8 +8,8 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import org.my.app.documents.domain.model.Document;
-import org.my.util.mappers.UUIDMapper;
-import org.my.util.validation.ValidUUID;
+import org.my.util.domain.service.mappers.UUIDMapper;
+import org.my.util.domain.service.validation.ValidUUID;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;

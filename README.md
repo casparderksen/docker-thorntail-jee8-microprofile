@@ -139,7 +139,7 @@ As a result, only classes in the current package are added to the generated depl
 However, slices may depend on generic utility packages. Furthermore, in-container tests may require additional 
 testing libraries. For this, an Arquillian loadable extension is added via the Java SPI mechanism for adding utility 
 classes and test dependencies to the deployment. If you refactor to different package names or frameworks, do not forget 
-to change the package names in [ArquillianExtension](thorntail-example-app/src/test/java/org/my/util/arquillian/ArquillianExtension.java)
+to change the package names in [ArquillianExtension](thorntail-example-app/src/test/java/org/my/util/adapter/arquillian/extension/ArquillianExtension.java)
 and [org.jboss.arquillian.core.spi.LoadableExtension](thorntail-example-app/src/test/resources/META-INF/services/org.jboss.arquillian.core.spi.LoadableExtension).
 
 ## Running Arquillian tests from the IDE

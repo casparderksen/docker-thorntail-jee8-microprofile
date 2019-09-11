@@ -1,4 +1,4 @@
-package org.my.util.validation;
+package org.my.util.domain.service.validation;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

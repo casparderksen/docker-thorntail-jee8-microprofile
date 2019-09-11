@@ -1,4 +1,4 @@
-package org.my.util.rest.filters;
+package org.my.util.adapter.rest.filters;
 
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerResponseContext;

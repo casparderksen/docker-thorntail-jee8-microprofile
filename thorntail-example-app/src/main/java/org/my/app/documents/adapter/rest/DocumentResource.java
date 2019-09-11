@@ -12,9 +12,9 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.my.app.documents.domain.model.Document;
 import org.my.app.documents.domain.service.DocumentRepository;
-import org.my.util.rest.Links;
-import org.my.util.rest.Responses;
-import org.my.util.validation.ValidUUID;
+import org.my.util.adapter.rest.Links;
+import org.my.util.adapter.rest.Responses;
+import org.my.util.domain.service.validation.ValidUUID;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;

@@ -1,13 +1,13 @@
 package org.my.app;
 
 import io.restassured.http.ContentType;
-import org.my.app.documents.adapter.rest.DocumentDTO;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.junit.InSequence;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.my.app.documents.adapter.rest.DocumentDTO;
 import org.wildfly.swarm.arquillian.DefaultDeployment;
 
 import java.net.MalformedURLException;
@@ -15,9 +15,9 @@ import java.net.URL;
 import java.util.UUID;
 
 import static io.restassured.RestAssured.given;
-import static org.my.util.hamcrest.StoreUuidMatcher.storeUUID;
-import static org.my.util.hamcrest.StoreUuidMatcher.getUUID;
 import static org.hamcrest.Matchers.*;
+import static org.my.util.adapter.hamcrest.matchers.StoreUuidMatcher.getUUID;
+import static org.my.util.adapter.hamcrest.matchers.StoreUuidMatcher.storeUUID;
 
 @SuppressWarnings({"ArquillianDeploymentAbsent", "SameParameterValue"})
 @RunWith(Arquillian.class)

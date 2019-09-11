@@ -1,4 +1,4 @@
-package org.my.util.hamcrest;
+package org.my.util.adapter.hamcrest.matchers;
 
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;

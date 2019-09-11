@@ -1,7 +1,9 @@
-package org.my.util.validation;
+package org.my.util.domain.service.validation;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.my.util.domain.service.validation.UUIDValidator;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -16,11 +18,11 @@ class UUIDValidatorTest {
 
     @Test
     public void shouldBeValidUUID() {
-        assertThat(validator.isValid("3a1757d0-cc9c-44cd-aee4-a5c0fd54d41b", null)).isTrue();
+        Assertions.assertThat(validator.isValid("3a1757d0-cc9c-44cd-aee4-a5c0fd54d41b", null)).isTrue();
     }
 
     @Test
     public void shouldBeInvalidUUID() {
-        assertThat(validator.isValid("3a1757d0", null)).isFalse();
+        Assertions.assertThat(validator.isValid("3a1757d0", null)).isFalse();
     }
 }

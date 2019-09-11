@@ -1,4 +1,4 @@
-package org.my.util.mappers;
+package org.my.util.domain.service.mappers;
 
 import java.util.UUID;
 
