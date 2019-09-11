@@ -39,4 +39,10 @@ public class BrowserIT {
             driver.navigate().to(url("/api/openapi-ui/index.html"));
         assertThat(driver.getPageSource()).contains("MicroProfile - Open API");
     }
+
+    @Test
+    public void shouldDisplayHealthUI() {
+        driver.navigate().to(url("/health-ui/index.html"));
+        assertThat(driver.getPageSource()).contains("MicroProfile Health UI");
+    }
 }
