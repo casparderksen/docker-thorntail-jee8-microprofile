@@ -40,8 +40,8 @@ public class RestIT {
         return url("api/ping");
     }
 
-    private URL info() {
-        return url("api/info");
+    private URL counter() {
+        return url("api/counter");
     }
 
     private URL health() {
@@ -141,31 +141,31 @@ public class RestIT {
     }
 
     @Test
-    public void shouldPingApplication() {
+    public void shouldGetCounterResource() {
+        given().accept(ContentType.JSON)
+                .when().get(counter())
+                .then().statusCode(200);
+    }
+
+    @Test
+    public void shouldGetCounterMetric() {
+        given()
+                .when().get(metric("MyCounter"))
+                .then().statusCode(200);
+    }
+
+    @Test
+    public void shouldPingApplicationAndGetInfoAsJson() {
         given().accept(ContentType.JSON)
                 .when().get(ping())
-                .then().statusCode(200);
-    }
-
-    @Test
-    public void shouldGetPingCounter() {
-        given()
-                .when().get(metric("PingCounter"))
-                .then().statusCode(200);
-    }
-
-    @Test
-    public void shouldGetApplicationInfoAsJson() {
-        given().accept(ContentType.JSON)
-                .when().get(info())
                 .then().statusCode(200)
                 .and().body("projectArtifactId", not(is(emptyOrNullString())));
     }
 
     @Test
-    public void shouldGetApplicationInfoAsXml() {
+    public void shouldPingApplicationAndGetInfoAsXml() {
         given().accept(ContentType.XML)
-                .when().get(info())
+                .when().get(ping())
                 .then().statusCode(200)
                 .and().body(hasXPath("//projectArtifactId", not(is(emptyOrNullString()))));
     }

@@ -13,8 +13,8 @@
         <browser>phantomjs</browser>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <failOnMissingWebXml>false</failOnMissingWebXml>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <failOnMissingWebXml>false</failOnMissingWebXml>
 
         <!-- Dependencies -->
         <thorntail-bom.version>${project.version}</thorntail-bom.version>

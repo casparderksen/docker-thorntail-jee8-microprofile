@@ -1,4 +1,4 @@
-package org.my.app.ping.adapter.rest;
+package org.my.app.counter.adapter.rest;
 
 import org.eclipse.microprofile.metrics.annotation.Counted;
 import org.eclipse.microprofile.openapi.annotations.Operation;
@@ -13,20 +13,20 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @ApplicationScoped
-@Path("/ping")
-@Tag(name = "Ping service", description = "Tests if the API is reachable")
-public class PingResource {
+@Path("/counter")
+@Tag(name = "Counter service", description = "Endpoint for MyCounter counter")
+public class CounterResource {
 
     @GET
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    @Operation(description = "Ping the API")
-    @APIResponse(responseCode = "200", description = "Success, API is reachable")
+    @Operation(description = "Increment the MyCounter counter")
+    @APIResponse(responseCode = "200", description = "Success")
     @Counted(
-            name = "PingCounter",
+            name = "MyCounter",
             absolute = true,
-            displayName = "Number of pings",
-            description = "Metric to show how many times the ping endpoint was called")
-    public Response ping() {
+            displayName = "Number of calls to counter service",
+            description = "Metric to show how many times the counter endpoint was called")
+    public Response counter() {
         return Response.ok().build();
     }
 }

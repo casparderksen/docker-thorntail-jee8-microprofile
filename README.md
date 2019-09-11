@@ -55,9 +55,9 @@ MicroProfile Extension UIs:
 - Swagger UI: [http://localhost:8080/api/openapi-ui](http://localhost:8080/api/openapi-ui)
 
 Resources:
-- Ping [http://localhost:8080/api/ping](http://localhost:8080/api/ping)
-- Ping counter: [http://localhost:8080/metrics/application/PingCounter](http://localhost:8080/metrics/application/PingCounter)
-- Application info [http://localhost:8080/api/info](http://localhost:8080/api/info)
+- Ping with application info [http://localhost:8080/api/ping](http://localhost:8080/api/ping)
+- Counter enpoint: [http://localhost:8080/api/counter](http://localhost:8080/api/counter)
+- Counter metric: [http://localhost:8080/metrics/application/MyCounter](http://localhost:8080/metrics/application/MyCounter)
 - Config: [http://localhost:8080/api/config/{key}](http://localhost:8080/api/config/{key})
 - CRUD resource example: [http://localhost:8080/api/documents](http://localhost:8080/api/documents)
  

@@ -1,7 +1,6 @@
 package org.my.app.application.adapter.rest;
 
 import lombok.NoArgsConstructor;
-import org.my.util.config.ApplicationInfo;
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
@@ -16,9 +15,9 @@ import javax.ws.rs.core.MediaType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @ApplicationScoped
-@Path("/info")
-@Tag(name = "Info service", description = "Provides application info")
-public class ApplicationInfoResource {
+@Path("/ping")
+@Tag(name = "Ping service", description = "Tests if the API is reachable")
+public class PingResource {
 
     @Inject
     private Config config;

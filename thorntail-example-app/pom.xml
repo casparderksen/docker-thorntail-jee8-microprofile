@@ -10,7 +10,7 @@
         <relativePath>../thorntail-parent</relativePath>
     </parent>
 
-    <name>My Thorntail Example App</name>
+    <name>Thorntail Example App</name>
     <artifactId>thorntail-example-app</artifactId>
     <packaging>war</packaging>
 

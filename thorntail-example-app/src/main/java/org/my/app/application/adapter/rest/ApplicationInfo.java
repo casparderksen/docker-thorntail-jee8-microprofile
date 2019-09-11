@@ -1,4 +1,4 @@
-package org.my.util.config;
+package org.my.app.application.adapter.rest;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
