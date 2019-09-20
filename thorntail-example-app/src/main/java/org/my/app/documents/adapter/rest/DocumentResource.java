@@ -62,9 +62,9 @@ public class DocumentResource {
     @Parameter(name = "count", in = ParameterIn.PATH, schema = @Schema(type = SchemaType.INTEGER), description = "Max chunk size of returned values")
     @APIResponse(responseCode = "200",
             description = "Success, returns the collection",
-            content = @Content(mediaType = "application/json", schema = @Schema(type = SchemaType.ARRAY, implementation = DocumentDTO.class)), links = {
-            @Link(name = "prev", description = "previous page", operationId = "getDocuments"),
-            @Link(name = "next", description = "next page", operationId = "getDocuments")})
+            content = @Content(mediaType = "application/json", schema = @Schema(type = SchemaType.ARRAY, implementation = DocumentDTO.class)),
+            links = {@Link(name = "prev", description = "previous page", operationId = "getDocuments"),
+                    @Link(name = "next", description = "next page", operationId = "getDocuments")})
     @APIResponse(responseCode = "400", description = "Bad request (invalid range)")
     public Response getDocuments(
             @QueryParam(Links.START) @DefaultValue("0") @Min(value = 0, message = "parameter 'start' must be at least {value}") int start,
