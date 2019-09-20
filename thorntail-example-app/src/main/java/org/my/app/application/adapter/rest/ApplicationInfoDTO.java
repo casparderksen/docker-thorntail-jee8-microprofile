@@ -4,10 +4,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.eclipse.microprofile.config.Config;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 @SuppressWarnings("WeakerAccess")
 @Data
 @NoArgsConstructor
-public class ApplicationInfo {
+@XmlRootElement(name = "info")
+public class ApplicationInfoDTO {
 
     private String projectGroupId;
     private String projectArtifactId;
@@ -20,7 +23,7 @@ public class ApplicationInfo {
     private boolean gitDirty;
     private String gitTags;
 
-    public ApplicationInfo(Config config) {
+    public ApplicationInfoDTO(Config config) {
         projectGroupId = config.getValue("project.groupId", String.class);
         projectArtifactId = config.getValue("project.artifactId", String.class);
         projectVersion = config.getValue("project.version", String.class);
