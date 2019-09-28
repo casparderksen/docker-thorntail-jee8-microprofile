@@ -41,7 +41,7 @@ public interface Responses {
     }
 
     static <T> GenericEntity<List<T>> toEntity(final List<T> list) {
-        return new GenericEntity<List<T>>(list) {
+        return new GenericEntity<>(list) {
         };
     }
 }
