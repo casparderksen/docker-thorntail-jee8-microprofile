@@ -26,9 +26,9 @@
                         <configuration>
                             <images>
                                 <image>
-                                    <name>my/openjdk8</name>
+                                    <name>my/ubi8-minimal-openjdk11</name>
                                     <build>
-                                        <contextDir>openjdk8</contextDir>
+                                        <contextDir>openjdk11</contextDir>
                                         <tags>
                                             <tag>${project.version}</tag>
                                         </tags>
@@ -42,15 +42,6 @@
                                                 </file>
                                             </inline>
                                         </assembly>
-                                    </build>
-                                </image>
-                                <image>
-                                    <name>my/thorntail-openjdk8</name>
-                                    <build>
-                                        <contextDir>thorntail</contextDir>
-                                        <tags>
-                                            <tag>${project.version}</tag>
-                                        </tags>
                                     </build>
                                 </image>
                             </images>

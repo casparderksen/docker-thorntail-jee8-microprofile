@@ -4,6 +4,7 @@ import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
+import org.my.util.adapter.rest.ApplicationInfoDTO;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -21,7 +22,7 @@ public class PingResource {
     private Config config;
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Gets application info")
     @APIResponse(responseCode = "200", description = "Success, info returned")
     public ApplicationInfoDTO getInfo() {

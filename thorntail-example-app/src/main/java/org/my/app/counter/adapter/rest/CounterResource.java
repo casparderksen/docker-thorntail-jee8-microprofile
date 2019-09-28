@@ -18,7 +18,7 @@ import javax.ws.rs.core.Response;
 public class CounterResource {
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Increment the MyCounter counter")
     @APIResponse(responseCode = "200", description = "Success")
     @Counted(

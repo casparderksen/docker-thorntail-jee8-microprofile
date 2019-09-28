@@ -11,8 +11,6 @@
 
     <properties>
         <browser>phantomjs</browser>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <failOnMissingWebXml>false</failOnMissingWebXml>
 
@@ -25,10 +23,11 @@
         <!-- Maven build plugins -->
         <thorntail-maven-plugin.version>2.5.0.Final</thorntail-maven-plugin.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
-        <git-commit-id-plugin.version>2.2.5</git-commit-id-plugin.version>
-        <docker-maven-plugin.version>0.31.0</docker-maven-plugin.version>
         <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
         <maven-failsafe-plugin.version>3.0.0-M3</maven-failsafe-plugin.version>
+        <maven-war-plugin.version>3.2.3</maven-war-plugin.version>
+        <git-commit-id-plugin.version>2.2.5</git-commit-id-plugin.version>
+        <docker-maven-plugin.version>0.31.0</docker-maven-plugin.version>
         <flyway-maven-plugin.version>5.2.4</flyway-maven-plugin.version>
     </properties>
 
@@ -70,11 +69,13 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Thorntail MicroProfile-->
+        <!-- MicroProfile-->
 
         <dependency>
-            <groupId>io.thorntail</groupId>
+            <groupId>org.eclipse.microprofile</groupId>
             <artifactId>microprofile</artifactId>
+            <type>pom</type>
+            <scope>provided</scope>
         </dependency>
 
         <!-- Thorntail IDE runner -->
@@ -227,6 +228,12 @@
                 </plugin>
 
                 <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>${maven-war-plugin.version}</version>
+                </plugin>
+
+                <plugin>
                     <groupId>io.thorntail</groupId>
                     <artifactId>thorntail-maven-plugin</artifactId>
                     <version>${thorntail-maven-plugin.version}</version>
@@ -278,6 +285,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
+                    <release>11</release>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.mapstruct</groupId>

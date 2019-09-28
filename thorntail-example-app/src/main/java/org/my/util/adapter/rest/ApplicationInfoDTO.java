@@ -1,16 +1,13 @@
-package org.my.app.application.adapter.rest;
+package org.my.util.adapter.rest;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.eclipse.microprofile.config.Config;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
-@SuppressWarnings("WeakerAccess")
 @Data
 @NoArgsConstructor
-@XmlRootElement(name = "info")
-public class ApplicationInfoDTO {
+public
+class ApplicationInfoDTO {
 
     private String projectGroupId;
     private String projectArtifactId;

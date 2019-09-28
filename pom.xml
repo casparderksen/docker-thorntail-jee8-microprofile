@@ -13,7 +13,7 @@
         <module>thorntail-bom</module>
         <module>thorntail-parent</module>
         <module>thorntail-docker</module>
-        <module>thorntail-archetype</module>
+<!--        <module>thorntail-archetype</module>-->
         <module>thorntail-example-app</module>
     </modules>
 

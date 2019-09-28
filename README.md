@@ -7,6 +7,7 @@ integration with an Oracle database and Prometheus for monitoring.
 
 ## Functionality and integrated frameworks
 
+- RedHat UBI8 minimal base image with OpenJDK JRE11
 - Maven BOM and parent POM
 - Docker container built via Fabric8 Docker Maven Plugin
 - Fabric8.io `run-java.sh` entrypoint for JVM tuning and running Java apps in Docker
@@ -56,7 +57,7 @@ MicroProfile Extension UIs:
 
 Resources:
 - Ping with application info [http://localhost:8080/api/ping](http://localhost:8080/api/ping)
-- Counter enpoint: [http://localhost:8080/api/counter](http://localhost:8080/api/counter)
+- Counter endpoint: [http://localhost:8080/api/counter](http://localhost:8080/api/counter)
 - Counter metric: [http://localhost:8080/metrics/application/MyCounter](http://localhost:8080/metrics/application/MyCounter)
 - Config: [http://localhost:8080/api/config/{key}](http://localhost:8080/api/config/{key})
 - CRUD resource example: [http://localhost:8080/api/documents](http://localhost:8080/api/documents)
@@ -186,6 +187,8 @@ The Docker images are built with an exec-style entrypoint, in order to launch a 
 Unix signals. In this way, it is possible to specify command line arguments for the entrypoint. 
 
 # Oracle database
+
+TODO: check if Oracle JDBC driver is compatible with JRE11, upgrade if needed.
 
 ## Install OJDBC driver
 

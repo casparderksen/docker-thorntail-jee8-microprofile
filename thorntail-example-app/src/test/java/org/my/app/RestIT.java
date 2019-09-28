@@ -142,7 +142,7 @@ public class RestIT {
 
     @Test
     public void shouldGetCounterResource() {
-        given().accept(ContentType.JSON)
+        given()
                 .when().get(counter())
                 .then().statusCode(200);
     }
@@ -155,19 +155,11 @@ public class RestIT {
     }
 
     @Test
-    public void shouldPingApplicationAndGetInfoAsJson() {
-        given().accept(ContentType.JSON)
+    public void shouldPingApplication() {
+        given()
                 .when().get(ping())
                 .then().statusCode(200)
                 .and().body("projectArtifactId", not(is(emptyOrNullString())));
-    }
-
-    @Test
-    public void shouldPingApplicationAndGetInfoAsXml() {
-        given().accept(ContentType.XML)
-                .when().get(ping())
-                .then().statusCode(200)
-                .and().body(hasXPath("//projectArtifactId", not(is(emptyOrNullString()))));
     }
 
     @Test

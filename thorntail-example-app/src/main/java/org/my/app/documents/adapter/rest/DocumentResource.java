@@ -43,7 +43,7 @@ public class DocumentResource {
 
     @GET
     @Path("{id}")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Operation(operationId = "getDocument", description = "Gets a document by id")
     @Parameter(name = "id", description = "id of the document", in = ParameterIn.PATH, required = true, schema = @Schema(type = SchemaType.STRING))
     @APIResponse(responseCode = "200",
@@ -56,7 +56,7 @@ public class DocumentResource {
     }
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Operation(operationId = "getDocuments", description = "Gets the collection of document (optionally paginated)")
     @Parameter(name = "start", in = ParameterIn.PATH, schema = @Schema(type = SchemaType.INTEGER), description = "Start offset in collection")
     @Parameter(name = "count", in = ParameterIn.PATH, schema = @Schema(type = SchemaType.INTEGER), description = "Max chunk size of returned values")
@@ -77,7 +77,7 @@ public class DocumentResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Operation(operationId = "createDocument", description = "Creates a new document")
     @APIResponse(responseCode = "201",
             description = "Success, returns the value",
@@ -91,7 +91,7 @@ public class DocumentResource {
     @PUT
     @Path("{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces(MediaType.APPLICATION_JSON)
     @Operation(operationId = "updateDocument", description = "Updates the document with the specified id")
     @Parameter(name = "id", description = "id of the document", in = ParameterIn.PATH, required = true, schema = @Schema(type = SchemaType.STRING))
     @APIResponse(responseCode = "200",
