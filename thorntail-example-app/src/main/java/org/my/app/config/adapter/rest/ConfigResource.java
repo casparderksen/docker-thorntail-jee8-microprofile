@@ -39,7 +39,7 @@ public class ConfigResource {
     }
 
     private boolean isForbidden(String key) {
-        final String lowerCaseKey = key.toLowerCase();
+        final var lowerCaseKey = key.toLowerCase();
         return lowerCaseKey.contains("secret") || lowerCaseKey.contains("password") || lowerCaseKey.contains("private");
     }
 }

@@ -60,7 +60,7 @@ public class PersistenceIT {
     }
 
     public void shouldFindDocument() {
-        Optional<Document> documentOptional = transactional(() -> repository.findById(uuid));
+        var documentOptional = transactional(() -> repository.findById(uuid));
         org.assertj.core.api.Assertions.assertThat(documentOptional).get().extracting("id").isEqualTo(uuid);
     }
 
@@ -86,7 +86,7 @@ public class PersistenceIT {
     @SneakyThrows
     private <T> T transactional(Supplier<T> function) {
         startTransaction();
-        T result = function.get();
+        var result = function.get();
         endTransaction();
         return result;
     }
@@ -103,7 +103,7 @@ public class PersistenceIT {
 
     @SneakyThrows
     private Table getDocumentTable() {
-        DataSource datasource = getDatasource();
+        var datasource = getDatasource();
         return new Table(datasource, "DOCUMENT");
     }
 

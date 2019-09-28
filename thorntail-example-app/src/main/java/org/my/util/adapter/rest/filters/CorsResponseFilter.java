@@ -15,7 +15,7 @@ public class CorsResponseFilter implements ContainerResponseFilter {
      * @param responseContext response context
      */
     public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext) {
-        MultivaluedMap<String, Object> headers = responseContext.getHeaders();
+        var headers = responseContext.getHeaders();
         headers.add("Access-Control-Allow-Origin", "*");
         headers.add("Access-Control-Allow-Headers", "origin, content-type, accept, authorization");
         headers.add("Access-Control-Allow-Credentials", "true");

@@ -14,7 +14,7 @@ import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 public interface Responses {
 
     static <T> Response getOkResponse(T entity, UriInfo uriInfo) {
-        final Link self = Links.getSelfLink(uriInfo);
+        final var self = Links.getSelfLink(uriInfo);
         return Response.ok(entity).links(self).build();
     }
 
@@ -27,12 +27,12 @@ public interface Responses {
     }
 
     static <T> Response getOkResponse(List<T> entities, int start, int count, UriInfo uriInfo) {
-        final Link[] paginationLinks = Links.getPaginationLinks(start, count, entities.size(), uriInfo);
+        final var paginationLinks = Links.getPaginationLinks(start, count, entities.size(), uriInfo);
         return Response.ok(toEntity(entities)).links(paginationLinks).build();
     }
 
     static <T, I> Response getCreatedResponse(T entity, I id, UriInfo uriInfo) {
-        final URI location = Links.getLocation(uriInfo, id);
+        final var location = Links.getLocation(uriInfo, id);
         return Response.created(location).entity(entity).build();
     }
 

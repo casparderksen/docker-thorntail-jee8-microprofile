@@ -51,7 +51,7 @@ public class DocumentResource {
             content = @Content(mediaType = "application/json", schema = @Schema(type = SchemaType.OBJECT, implementation = DocumentDTO.class)))
     @APIResponse(responseCode = "404", description = "Not found")
     public Response getDocument(@PathParam("id") @ValidUUID String id, @Context UriInfo uriInfo) {
-        Optional<Document> documentOptional = documentRepository.findById(UUID.fromString(id));
+        var documentOptional = documentRepository.findById(UUID.fromString(id));
         return Responses.getOkResponse(documentOptional.map(DocumentDTO::fromDocument), uriInfo);
     }
 
@@ -70,8 +70,8 @@ public class DocumentResource {
             @QueryParam(Links.START) @DefaultValue("0") @Min(value = 0, message = "parameter 'start' must be at least {value}") int start,
             @QueryParam(Links.COUNT) @DefaultValue("20") @Min(value = 1, message = "parameter 'count' must be at least {value}") @Max(value = 100, message = "parameter 'count' must be at most {value}") int count,
             @Context UriInfo uriInfo) {
-        final List<Document> documents = documentRepository.findRange(start, count);
-        final List<DocumentDTO> documentDTOs = documents.stream().map(DocumentDTO::fromDocument).collect(toList());
+        final var documents = documentRepository.findRange(start, count);
+        final var documentDTOs = documents.stream().map(DocumentDTO::fromDocument).collect(toList());
         return Responses.getOkResponse(documentDTOs, start, count, uriInfo);
     }
 
@@ -84,7 +84,7 @@ public class DocumentResource {
             content = @Content(mediaType = "application/json", schema = @Schema(type = SchemaType.OBJECT, implementation = DocumentDTO.class)))
     public Response createDocument(@RequestBody(description = "new document") DocumentDTO documentDTO,
                                    @Context UriInfo uriInfo) {
-        final Document document = documentRepository.save(documentDTO.toDocument(UUID.randomUUID()));
+        final var document = documentRepository.save(documentDTO.toDocument(UUID.randomUUID()));
         return Responses.getCreatedResponse(DocumentDTO.fromDocument(document), document.getId(), uriInfo);
     }
 
@@ -101,7 +101,7 @@ public class DocumentResource {
     public Response updateDocument(@PathParam("id") @ValidUUID String id,
                                    @RequestBody(description = "updated document") DocumentDTO documentDTO,
                                    @Context UriInfo uriInfo) {
-        Document document = documentRepository.update(documentDTO.toDocument(UUID.fromString(id)));
+        var document = documentRepository.update(documentDTO.toDocument(UUID.fromString(id)));
         return Responses.getOkResponse(DocumentDTO.fromDocument(document), uriInfo);
     }
 

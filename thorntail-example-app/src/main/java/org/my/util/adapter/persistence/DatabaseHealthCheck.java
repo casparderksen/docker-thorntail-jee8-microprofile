@@ -29,9 +29,9 @@ public class DatabaseHealthCheck implements HealthCheck {
 
     @Override
     public HealthCheckResponse call() {
-        HealthCheckResponseBuilder responseBuilder = HealthCheckResponse.named("database");
-        try (Connection connection = datasource.getConnection()) {
-            DatabaseMetaData metaData = connection.getMetaData();
+        var responseBuilder = HealthCheckResponse.named("database");
+        try (var connection = datasource.getConnection()) {
+            var metaData = connection.getMetaData();
             return responseBuilder
                     .withData("databaseProductName", metaData.getDatabaseProductName())
                     .withData("databaseProductVersion", metaData.getDatabaseProductVersion())

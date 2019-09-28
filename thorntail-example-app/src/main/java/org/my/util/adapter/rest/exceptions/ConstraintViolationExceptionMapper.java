@@ -18,7 +18,7 @@ public class ConstraintViolationExceptionMapper implements ExceptionMapper<Const
     @Override
     public Response toResponse(ConstraintViolationException exception) {
         // Concatenate validation messages with ' and ' in between
-        String reason = exception.getConstraintViolations().stream().map(ConstraintViolation::getMessage).collect(Collectors.joining(" and "));
+        var reason = exception.getConstraintViolations().stream().map(ConstraintViolation::getMessage).collect(Collectors.joining(" and "));
         return Response.status(Response.Status.BAD_REQUEST).header(Headers.REASON, reason).build();
     }
 }
