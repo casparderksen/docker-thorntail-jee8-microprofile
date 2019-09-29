@@ -188,8 +188,6 @@ Unix signals. In this way, it is possible to specify command line arguments for 
 
 # Oracle database
 
-TODO: check if Oracle JDBC driver is compatible with JRE11, upgrade if needed.
-
 ## Install OJDBC driver
 
 Download `ojdbc8.jar` from
