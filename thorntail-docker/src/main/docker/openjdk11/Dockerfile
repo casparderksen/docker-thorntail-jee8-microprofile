@@ -1,6 +1,6 @@
 FROM registry.access.redhat.com/ubi8/ubi-minimal
 
-LABEL org.label-schema.description="Centos7 OpenJDK8 base image" \
+LABEL org.label-schema.description="UBI8-minimal with OpenJDK JRE11 base image" \
       org.label-schema.name=openjdk8 \
       org.label-schema.version=${project.version} \
       org.label-schema.vcs-url=${git.remote.origin.url} \
