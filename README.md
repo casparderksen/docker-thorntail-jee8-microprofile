@@ -85,11 +85,13 @@ Build docker images with
 
 After building the project, go to the directory [`thorntail-example-app`](thorntail-example-app) for running the application.
 
+    $ cd thorntail-example-app
+    
 ##  Running from Maven
 
-To run the application from Maven:
+To run the application from Maven (TODO broken) after Java11 upgrade:
 
-    $ mvn thorntail:run
+    $ mvn thorntail:run -DskipTests
 
 ## Running from the command line
 
@@ -257,8 +259,8 @@ Go to the directory [`docker-compose`](docker-compose). First start the database
 
 Follow the log file and wait for the database to build. Then start the application container:
 
-    $ docker-compose up -d
-    $ docker-compose logs -f thorntail-example-app
+    $ docker-compose up -d  example-app
+    $ docker-compose logs -f example-app
 
 # References
 
