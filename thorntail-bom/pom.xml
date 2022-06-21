@@ -28,7 +28,7 @@
         <!-- Databases -->
         <hibernate.version>5.4.4.Final</hibernate.version>
         <h2.version>1.4.199</h2.version>
-        <mysql.version>8.0.17</mysql.version>
+        <mysql.version>8.0.28</mysql.version>
         <ojdbc8.version>18.3.0.0</ojdbc8.version>
         <ojdbc10.version>19.3.0.0</ojdbc10.version>
         <postgresql.version>42.2.6</postgresql.version>
